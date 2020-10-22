@@ -9,7 +9,7 @@ Download this project by cloning the repository:
 git clone https://github.com/cbliou/dcss-trainer.git
 ```
 
-The trainer is located in the Debug folder. Source code for the trainer is within this project.
+The trainer is the executable located in the Release folder. Source code for the trainer is within this project.
 
 ## Use
 This trainer only supports the `tiles` version of crawl. First run `crawl-tiles.exe` then run the trainer. If everything goes well, the trainer should detect that the tiles version of crawl is currently running.
