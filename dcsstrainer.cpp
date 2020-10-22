@@ -28,7 +28,9 @@ int main()
 
     }
     else {
-        std::cout << "Process not found. Exiting.\n";
+        std::cout << "Process not found. Please start crawl-tiles.exe before starting the trainer.\n";
+        std::cout << "Press Enter to exit.\n";
+        getchar();
         return 0;
     }
 
@@ -47,24 +49,22 @@ int main()
                 std::cout << "Activating godmode.\n";
                 // this function call is moving a certain value to decrement the player health by.
                 // nopping this call sets all damage taken by the player to 0
-                mem::Nop((BYTE*)moduleBase + 0x4A7FB0, 5, process);
+                mem::Nop((BYTE*)moduleBase + 0x4A7FAE, 2, process);
 
             }
 
             else {
 
                 std::cout << "Deactivating godmode.\n";
-                // offset +4A7FB0 
-                // A3 54 BD DA 01 = mov [crawl-tiles.exe+E7BD54], eax
-                mem::Patch((BYTE*)(moduleBase + 0x4A7FB0), (BYTE*)"\xA3\x54\xBD\xDA\x01", 5, process);
+                // offset +4A7FAE
+                // 29 D8 = sub eax, ebx
+                mem::Patch((BYTE*)(moduleBase + 0x4A7FAE), (BYTE*)"\x29\xD8", 2, process);
 
             }
 
         }
 
     }
-
-
 
 }
 
