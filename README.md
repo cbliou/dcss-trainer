@@ -25,4 +25,6 @@ Use: First run `crawl-tiles.exe` then run the trainer. If everything goes well, 
 ## Features
 + Godmode (`F1`): Sets all incoming damage to your player to 0. Includes magic/poison damage. 
 + Infinite mana (`F2`): Does not use mana when casting spells.
-+ more coming soon
++ Change strength value (`F3`): Set strength to a number between 0 and 127.
++ Change intelligence value (`F4`): Set intelligence to a number between 0 and 127.
++ Change dexterity value (`F5`): Set dexterity to a number between 0 and 127.
