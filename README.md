@@ -11,7 +11,7 @@ git clone https://github.com/cbliou/dcss-trainer.git
 
 The trainer is the executable located in the Release folder. Source code for the trainer is within this project.
 
-You may also build the trainer from scratch:
+On my computer, Windows Defender mistakenly believes there's a trojan in the executable. You can also build the trainer from scratch if you don't trust the executable (which I totally understand):
 + Download Microsoft Visual Studio 2019
 + Open the `.sln` file in this repository and all other files
 + Click `Build -> Build Solution` and you should have a new `.exe` file ready to go
