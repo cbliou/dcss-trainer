@@ -11,6 +11,7 @@ int main()
     HANDLE process = 0;
     uintptr_t moduleBase = 0;
     bool godmode = false;
+    bool infinitemana = false;
 
     // get process ID of crawl
     DWORD process_id = GetProcessID(name);
@@ -56,9 +57,34 @@ int main()
             else {
 
                 std::cout << "Deactivating godmode.\n";
-                // offset +4A7FAE
-                // 29 D8 = sub eax, ebx
+                // offset 4A7FAE
+                // 29 D8 - sub eax, ebx
                 mem::Patch((BYTE*)(moduleBase + 0x4A7FAE), (BYTE*)"\x29\xD8", 2, process);
+
+            }
+
+        }
+
+
+        if (GetAsyncKeyState(VK_F2) & 1) {
+
+            infinitemana = !infinitemana;
+
+            if (infinitemana) {
+
+                std::cout << "Activating infinite mana.\n";
+                // this address is the lowest one out of the three that access mana
+                mem::Nop((BYTE*)moduleBase + 0x4A83B9, 5, process);
+
+            }
+
+            else {
+
+                std::cout << "Deactivating infinite mana.\n";
+                // offset 4A83B9
+                // 29 D8 - sub eax, ebx
+                // 0F 48 C2 - cmovs eax, edx
+                mem::Patch((BYTE*)(moduleBase + 0x4A83B9), (BYTE*)"\x29\xD8\x0F\x48\xC2", 5, process);
 
             }
 
