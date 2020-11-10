@@ -18,29 +18,22 @@ namespace dcsstrainer {
 	public ref class MainForm : public System::Windows::Forms::Form
 	{
 
-	private: System::Windows::Forms::TextBox^ intelligence;
-
-	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
 	private: System::Windows::Forms::TextBox^ dexterity;
 	private: System::Windows::Forms::TextBox^ strength;
-
-
-	public: System::Windows::Forms::ListBox^ ConsoleLog;
-
-	public:
-
-		static MainForm^ instance;
-		DWORD process_id;
-		HANDLE process;
+	private: System::Windows::Forms::TextBox^ intelligence;
 	private: System::Windows::Forms::CheckBox^ godmode;
-	public:
 	private: System::Windows::Forms::CheckBox^ infinitemana;
+	public: System::Windows::Forms::ListBox^ ConsoleLog;
+	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel2;
 
 	public:
+		
+		static MainForm^ instance;
+		DWORD process_id;
+		HANDLE process;
 
-
-		   uintptr_t moduleBase;
+		uintptr_t moduleBase;
 
 		MainForm()
 		{
