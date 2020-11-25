@@ -26,44 +26,24 @@ namespace dcsstrainer {
 	public: System::Windows::Forms::ListBox^ ConsoleLog;
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel2;
+	private: System::Windows::Forms::CheckBox^ nohunger;
+	private: System::Windows::Forms::Timer^ GUITimer;
+	private: System::Windows::Forms::Label^ attached;
+
+
+
+
+
+
 
 	public:
-		
 		static MainForm^ instance;
-		DWORD process_id;
-		HANDLE process;
-
-		uintptr_t moduleBase;
 
 		MainForm()
 		{
 			// initialize form
 			InitializeComponent();
 			instance = this;
-
-			// look for crawl
-			wchar_t name[16] = L"crawl-tiles.exe";
-
-			// get process ID of crawl
-			MainForm::process_id = GetProcessID(name);
-
-			// if successful
-			if (MainForm::process_id) {
-
-				logger::WriteLinetoConsole("Found crawl-tiles.exe. Locating base address...");
-
-				// get handle
-				MainForm::process = OpenProcess(PROCESS_ALL_ACCESS, NULL, process_id);
-
-				// get module base address
-				MainForm::moduleBase = ModuleBaseAddress(process_id, name);
-
-			}
-			else {
-				logger::WriteLinetoConsole("Process not found. Please start crawl-tiles.exe before starting the trainer.");
-				return;
-			}
-			logger::WriteLinetoConsole("Located address. Enjoy the trainer.");
 
 		}
 
@@ -78,12 +58,14 @@ namespace dcsstrainer {
 				delete components;
 			}
 		}
+	private: System::ComponentModel::IContainer^ components;
+	protected:
 
 	private:
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container^ components;
+
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -92,6 +74,7 @@ namespace dcsstrainer {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			this->components = (gcnew System::ComponentModel::Container());
 			System::Windows::Forms::Label^ label2;
 			System::Windows::Forms::Label^ label1;
 			System::Windows::Forms::Label^ label3;
@@ -105,6 +88,9 @@ namespace dcsstrainer {
 			this->godmode = (gcnew System::Windows::Forms::CheckBox());
 			this->infinitemana = (gcnew System::Windows::Forms::CheckBox());
 			this->tableLayoutPanel2 = (gcnew System::Windows::Forms::TableLayoutPanel());
+			this->nohunger = (gcnew System::Windows::Forms::CheckBox());
+			this->GUITimer = (gcnew System::Windows::Forms::Timer(this->components));
+			this->attached = (gcnew System::Windows::Forms::Label());
 			label2 = (gcnew System::Windows::Forms::Label());
 			label1 = (gcnew System::Windows::Forms::Label());
 			label3 = (gcnew System::Windows::Forms::Label());
@@ -230,10 +216,10 @@ namespace dcsstrainer {
 			this->godmode->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->godmode->AutoSize = true;
 			this->godmode->ImeMode = System::Windows::Forms::ImeMode::NoControl;
-			this->godmode->Location = System::Drawing::Point(34, 3);
+			this->godmode->Location = System::Drawing::Point(34, 6);
 			this->godmode->Name = L"godmode";
 			this->godmode->RightToLeft = System::Windows::Forms::RightToLeft::Yes;
-			this->godmode->Size = System::Drawing::Size(72, 15);
+			this->godmode->Size = System::Drawing::Size(72, 17);
 			this->godmode->TabIndex = 0;
 			this->godmode->Text = L"Godmode";
 			this->godmode->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -245,10 +231,10 @@ namespace dcsstrainer {
 			this->infinitemana->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->infinitemana->AutoSize = true;
 			this->infinitemana->ImeMode = System::Windows::Forms::ImeMode::NoControl;
-			this->infinitemana->Location = System::Drawing::Point(19, 24);
+			this->infinitemana->Location = System::Drawing::Point(19, 35);
 			this->infinitemana->Name = L"infinitemana";
 			this->infinitemana->RightToLeft = System::Windows::Forms::RightToLeft::Yes;
-			this->infinitemana->Size = System::Drawing::Size(87, 16);
+			this->infinitemana->Size = System::Drawing::Size(87, 17);
 			this->infinitemana->TabIndex = 0;
 			this->infinitemana->Text = L"Infinite Mana";
 			this->infinitemana->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -261,21 +247,51 @@ namespace dcsstrainer {
 			this->tableLayoutPanel2->ColumnCount = 1;
 			this->tableLayoutPanel2->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				50)));
-			this->tableLayoutPanel2->Controls->Add(this->infinitemana, 0, 1);
 			this->tableLayoutPanel2->Controls->Add(this->godmode, 0, 0);
+			this->tableLayoutPanel2->Controls->Add(this->nohunger, 0, 2);
+			this->tableLayoutPanel2->Controls->Add(this->infinitemana, 0, 1);
 			this->tableLayoutPanel2->Location = System::Drawing::Point(12, 59);
 			this->tableLayoutPanel2->Name = L"tableLayoutPanel2";
-			this->tableLayoutPanel2->RowCount = 2;
+			this->tableLayoutPanel2->RowCount = 3;
 			this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
 			this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
-			this->tableLayoutPanel2->Size = System::Drawing::Size(111, 45);
+			this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 20)));
+			this->tableLayoutPanel2->Size = System::Drawing::Size(111, 81);
 			this->tableLayoutPanel2->TabIndex = 3;
+			// 
+			// nohunger
+			// 
+			this->nohunger->Anchor = System::Windows::Forms::AnchorStyles::Right;
+			this->nohunger->AutoSize = true;
+			this->nohunger->Location = System::Drawing::Point(28, 61);
+			this->nohunger->Name = L"nohunger";
+			this->nohunger->RightToLeft = System::Windows::Forms::RightToLeft::Yes;
+			this->nohunger->Size = System::Drawing::Size(78, 15);
+			this->nohunger->TabIndex = 7;
+			this->nohunger->Text = L"No Hunger";
+			this->nohunger->UseVisualStyleBackColor = true;
+			this->nohunger->CheckedChanged += gcnew System::EventHandler(this, &MainForm::nohunger_CheckedChanged);
+			// 
+			// GUITimer
+			// 
+			this->GUITimer->Enabled = true;
+			this->GUITimer->Interval = 200;
+			this->GUITimer->Tick += gcnew System::EventHandler(this, &MainForm::GUITimer_Tick);
+			// 
+			// attached
+			// 
+			this->attached->AutoSize = true;
+			this->attached->Location = System::Drawing::Point(396, 19);
+			this->attached->Name = L"attached";
+			this->attached->Size = System::Drawing::Size(0, 13);
+			this->attached->TabIndex = 7;
 			// 
 			// MainForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(485, 269);
+			this->Controls->Add(this->attached);
 			this->Controls->Add(this->ConsoleLog);
 			this->Controls->Add(label5);
 			this->Controls->Add(customstat);
@@ -303,11 +319,10 @@ namespace dcsstrainer {
 	private: System::Void dexterity_TextChanged(System::Object^ sender, System::EventArgs^ e);
 	private: System::Void strength_TextChanged(System::Object^ sender, System::EventArgs^ e);
 	private: System::Void MainForm_Load(System::Object^ sender, System::EventArgs^ e);
+	private: System::Void nohunger_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
+	//private: System::Void ConsoleLog_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {}
 
-
-
-
-//private: System::Void ConsoleLog_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {}
+	private: System::Void GUITimer_Tick(System::Object^ sender, System::EventArgs^ e);
 };
 
 };
