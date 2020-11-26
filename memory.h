@@ -17,4 +17,9 @@ namespace mem
 	Patches a memory location with bytes representing nop
 	*/
 	void Nop(BYTE* dst, unsigned int size, HANDLE process);
+
+	/*
+	Reads `size` bytes from memory location `dst`. `arr` is a pointer to a buffer holding the read data.
+	*/
+	void Read(BYTE* dst, BYTE* arr, unsigned int size, HANDLE process);
 }
