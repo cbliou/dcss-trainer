@@ -2,6 +2,6 @@
 
 namespace logger {
 	void WriteLinetoConsole(System::String^ s);
-}
+};
 
 

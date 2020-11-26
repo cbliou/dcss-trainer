@@ -5,8 +5,6 @@
 #include "memory.h"
 #include "constants.h"
 #include "logger.h"
-#include "util.h"
-
 
 using namespace dcsstrainer;
 using namespace System;
@@ -56,9 +54,9 @@ void attach_crawl() {
 	// detach crawl
 	if (!GetExitCodeProcess(process, &dcssExit) || !(dcssExit > 0)) {
 		isAttached = false;
-		HANDLE process = 0;
-		uintptr_t moduleBase = 0;
-		DWORD processID = 0;
+		process = 0;
+		moduleBase = 0;
+		processID = 0;
 	}
 
 }
@@ -87,22 +85,34 @@ void MainForm::MainForm_FormClosing(System::Object^ sender, System::Windows::For
 
 //godmode
 void MainForm::godmode_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
-	if (this->godmode->Checked)
+	if (this->godmode->Checked) {
 		mem::Nop((BYTE*)(moduleBase + godModeAddy), 2, process);
-	else
+		logger::WriteLinetoConsole("Activated godmode.");
+	}
+		
+	else {
 		// sub eax, ebx
-		mem::Patch((BYTE*)(moduleBase + godModeAddy), (BYTE*)"\x29\xD8", 2, process); 
+		mem::Patch((BYTE*)(moduleBase + godModeAddy), (BYTE*)"\x29\xD8", 2, process);
+		logger::WriteLinetoConsole("Deactivated godmode.");
+	}
+		
 
 }
 
 // infinite mana
 void MainForm::infinitemana_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
-	if (this->infinitemana->Checked)
+	if (this->infinitemana->Checked) {
 		mem::Nop((BYTE*)(moduleBase + infiniteManaAddy), 5, process);
-	else
+		logger::WriteLinetoConsole("Activated infinite mana.");
+	}
+		
+	else {
 		// 29 D8 - sub eax, ebx
 		// 0F 48 C2 - cmovs eax, edx
 		mem::Patch((BYTE*)(moduleBase + infiniteManaAddy), (BYTE*)"\x29\xD8\x0F\x48\xC2", 5, process);
+		logger::WriteLinetoConsole("Deactivated infinite mana.");
+	}
+
 
 }
 
@@ -111,12 +121,20 @@ void MainForm::nohunger_CheckedChanged(System::Object^ sender, System::EventArgs
 	// 29 D8 - sub eax, ebx
 	// 0F48 C2 - cmovs eax, edx 
 	// this is moving the subtracted value only if the hunger value was subtracted (cmovs is move if sign, 48 is the negative flavor)
-	if (this->nohunger->Checked)
+	if (this->nohunger->Checked) {
 		mem::Nop((BYTE*)(moduleBase + noHungerAddy), 5, process);
-	else
+		logger::WriteLinetoConsole("Activated no hunger.");
+	}
+		
+	else {
 		mem::Patch((BYTE*)(moduleBase + noHungerAddy), (BYTE*)"\x29\xD8\x0F\x48\xC2", 5, process);
+		logger::WriteLinetoConsole("Deactivated no hunger.");
+	}
+		
 
 }
+
+
 
 void MainForm::set_stat(BYTE stat, Windows::Forms::TextBox^ param, uintptr_t addy) {
 
@@ -126,7 +144,6 @@ void MainForm::set_stat(BYTE stat, Windows::Forms::TextBox^ param, uintptr_t add
 		
 		mem::Read((BYTE*)(moduleBase + addy), chr, 1, process);
 		param->Text = Convert::ToString(Convert::ToByte(*chr));
-		logger::WriteLinetoConsole("bad" + param->Text);
 		return;
 	}
 	// if not, check if converts
@@ -153,54 +170,24 @@ void MainForm::button1_Click(System::Object^ sender, System::EventArgs^ e) {
 	set_stat(sdexterity, this->dexterity, dexAddy);
 	set_stat(sstrength, this->strength, strAddy);
 
-	logger::WriteLinetoConsole("Updated/Refreshed stat values.");
+	logger::WriteLinetoConsole("Refreshed/Updated stat values.");
 
 }
 
 
-void MainForm::intelligence_TextChanged(System::Object^ sender, System::EventArgs^ e) {
-	/*
-	try {
-		sintelligence = System::Convert::ToByte(this->intelligence->Text);
-		if (sintelligence < 0 || sintelligence > 127)
-			throw;
-		else
-			mem::Patch((BYTE*)(moduleBase + intAddy), (BYTE*)static_cast<char*>(static_cast<void*>(&sintelligence)), 1, process);
-	}
-	catch (Exception^) {
-		logger::WriteLinetoConsole("Please enter an integer from 0 to 127.");
-	}
-	*/
+void MainForm::intelligence_TextChanged(System::Object^ sender, System::EventArgs^ e) {}
+void MainForm::dexterity_TextChanged(System::Object^ sender, System::EventArgs^ e) {}
+void MainForm::strength_TextChanged(System::Object^ sender, System::EventArgs^ e) {}
+void MainForm::MainForm_Load(System::Object^ sender, System::EventArgs^ e) {}
 
-}
+/* testing section
 
-void MainForm::dexterity_TextChanged(System::Object^ sender, System::EventArgs^ e) {
-	/*
-	try {
-		sdexterity = System::Convert::ToByte(this->dexterity->Text);
-		if (sdexterity < 0 || sdexterity > 127)
-			throw;
-		else
-			mem::Patch((BYTE*)(moduleBase + dexAddy), (BYTE*) static_cast<char*>(static_cast<void*>(&sdexterity)), 1, process);
-	}
-	catch (Exception^) {
-		logger::WriteLinetoConsole("Please enter an integer from 0 to 127.");
-	}*/
-}
-void MainForm::strength_TextChanged(System::Object^ sender, System::EventArgs^ e) {
-	/*
-	try {
-		sstrength = System::Convert::ToByte(this->strength->Text);
-		if (sstrength < 0 || sstrength > 127)
-			throw;
-		else
-			mem::Patch((BYTE*)(moduleBase + strAddy), (BYTE*) static_cast<char*>(static_cast<void*>(&sstrength)), 1, process);
-	}
-	catch (Exception^) {
-		logger::WriteLinetoConsole("Please enter an integer from 0 to 127.");
-	}
-	*/
-}
-void MainForm::MainForm_Load(System::Object^ sender, System::EventArgs^ e) {
-}
+this is the actual fighting addy
+crawl - tiles.exe + 522752 - 8B 04 85 2CE60E01 - mov eax, [eax * 4 + crawl - tiles.exe + E7E62C]
+crawl - tiles.exe + 522759 - 89 44 24 08 - mov[esp + 08], eax
+crawl - tiles.exe + 52275D - 8B 45 08 - mov eax, [ebp + 08]
+this is the fighting addy used in the attack calculation?
+crawl - tiles.exe + 522760 - 0FB6 80 74E40E01 - movzx eax, byte ptr[eax + crawl - tiles.exe + E7E474]*/
+
+
 
