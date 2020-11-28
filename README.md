@@ -14,15 +14,28 @@ The trainer is the executable located in the Release folder. Source code for the
 ## Use
 This trainer only supports the `tiles` version of crawl. It only supports version 0.25.0; the trainer will most likely not work on other versions of crawl.
 
-Use: First run `crawl-tiles.exe` then run the trainer. If everything goes well, the trainer should detect that the tiles version of crawl is currently running.
+Use: The trainer will automatically detect `crawl-tiles.exe` is running and attach to it.
 
 ## Features
 
 ### Hacks
 + Godmode: Sets all incoming damage to your player to 0. Includes magic/poison damage. 
-+ Infinite mana : Does not use mana when casting spells.
++ Infinite mana: Does not use mana when casting spells.
++ No Hunger: Your hunger does not decrease.
++ Auto-identify items: Items in your inventory and environment will be automatically identified. Currently does not include shop items.
 
 ### Custom stats
-+ Change strength value : Set strength to a number between 0 and 127.
-+ Change intelligence value : Set intelligence to a number between 0 and 127.
-+ Change dexterity value: Set dexterity to a number between 0 and 127.
++ Change strength, intelligence, dex values: Set them to values between 0 and 127. Missing/invalid values are set to your current values.
++ Change skill levels: Set them to skill levels between 0.0 and 27.0. Missing/invalid values are set to your current values.
+
+### Incoming features
++ Tile-based kill aura
++ One-shot monsters (to learn about function hooking)
++ Item spawning
++ Gold hacks
++ No negative status effects
++ Remove negative mutations
++ Unlock all spells
++ Account for race aptitudes in skill levels
++ Hook tick function to learn about function hooking
++ See if you can hook Shaft Self
