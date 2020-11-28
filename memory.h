@@ -23,6 +23,13 @@ namespace mem
 	void PatchItemFlag(uintptr_t* start, const uintptr_t* flag, HANDLE process);
 
 	/*
+	Patches 4 bytes given an address to the first entity struct in the entity vector.
+	start : pointer to the memory location
+	process : handle to the process you are patching
+	*/
+	void EntityPatch(uintptr_t* start, uintptr_t* bytes, uintptr_t addr, HANDLE process);
+
+	/*
 	Patches a memory location with bytes representing nop
 	*/
 	void Nop(uintptr_t* dst, unsigned int size, HANDLE process);

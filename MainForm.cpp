@@ -17,7 +17,7 @@ void set_stat(Windows::Forms::TextBox^ text, uintptr_t addy);
 void set_skill(Windows::Forms::TextBox^ param, uintptr_t addy);
 
 // globals
-static bool isAttached = false, autoIdentify = false;
+static bool isAttached = false, autoIdentify = false, oneHP = false, freeze = false;
 DWORD processID = 0, dcssExit = 0;
 HANDLE process = 0;
 uintptr_t moduleBase = 0;
@@ -81,6 +81,16 @@ void MainForm::GUITimer_Tick(System::Object^ sender, System::EventArgs^ e) {
 	if (autoIdentify) {
 		mem::PatchItemFlag((uintptr_t*) moduleBase, &itemFlags::identMask, process);
 	}
+
+	if (oneHP) {
+		uintptr_t hp = 1;
+		mem::EntityPatch((uintptr_t*)moduleBase, &hp, envAddrs::hpOffset, process);
+	}
+
+	if (freeze) {
+		uintptr_t speed = 0;
+		mem::EntityPatch((uintptr_t*)moduleBase, &speed, envAddrs::speedOffset, process);
+	}
 		
 		 
 }
@@ -98,11 +108,30 @@ void MainForm::idinven_CheckedChanged(System::Object^ sender, System::EventArgs^
 	}
 }
 
+// set to 1 hp
+void MainForm::onehp_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	if (this->onehp->Checked) {
+		oneHP = true;
+		logger::WriteLinetoConsole("Activated One HP monsters.");
+	}
+	else {
+		oneHP = false;
+		logger::WriteLinetoConsole("Deactivated One HP monsters.");
+	}
+}
 
-// on close
-void MainForm::MainForm_FormClosing(System::Object^ sender, System::Windows::Forms::FormClosingEventArgs^ e) {
-
-	Application::Exit();
+// monster freeze
+// resets when you change map
+// should keep track of old speeds 
+void MainForm::mfreeze_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	if (this->mfreeze->Checked) {
+		freeze = true;
+		logger::WriteLinetoConsole("Activated monster freeze.");
+	}
+	else {
+		freeze = false;
+		logger::WriteLinetoConsole("Deactivated monster freeze.");
+	}
 }
 
 //godmode
@@ -156,8 +185,6 @@ void MainForm::nohunger_CheckedChanged(System::Object^ sender, System::EventArgs
 
 }
 
-
-
 void set_stat(Windows::Forms::TextBox^ param, uintptr_t addy) {
 
 	// check if empty
@@ -206,11 +233,8 @@ void set_empty_skill(Windows::Forms::TextBox^ param, uintptr_t addy) {
 	closestLevel = closestLevel - 1;
 
 	// find difference
-	// logger::WriteLinetoConsole(gcnew String(Convert::ToString(leveltoEXP.at(closestLevel))));
 	short normalizer = leveltoEXP.at(closestLevel + 1) - leveltoEXP.at(closestLevel);
-	// logger::WriteLinetoConsole(gcnew String(Convert::ToString((float) (read_exp - leveltoEXP.at((int)closestLevel)) / normalizer)));
 	closestLevel += round((float)(read_exp - leveltoEXP.at(closestLevel)) / normalizer, 1);
-
 	param->Text = Convert::ToString(closestLevel);
 
 }
@@ -244,16 +268,10 @@ void set_skill(Windows::Forms::TextBox^ param, uintptr_t addy) {
 		else {
 			mem::Patch((uintptr_t*)(moduleBase + addy), (uintptr_t*) &leveltoEXP.at(27), 2, process);
 		}
-
-
-		
-
 	}
 	catch (Exception^) {
 		set_empty_skill(param, addy);
 	}
-
-
 
 }
 
@@ -303,6 +321,11 @@ void MainForm::button1_Click(System::Object^ sender, System::EventArgs^ e) {
 
 }
 
+// on close
+void MainForm::MainForm_FormClosing(System::Object^ sender, System::Windows::Forms::FormClosingEventArgs^ e) {
+
+	Application::Exit();
+}
 
 void MainForm::intelligence_TextChanged(System::Object^ sender, System::EventArgs^ e) {}
 void MainForm::dexterity_TextChanged(System::Object^ sender, System::EventArgs^ e) {}

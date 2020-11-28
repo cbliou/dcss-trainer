@@ -132,6 +132,10 @@ namespace dcsstrainer {
 private: System::Windows::Forms::CheckBox^ idinven;
 private: System::Windows::Forms::TextBox^ armour;
 private: System::Windows::Forms::Label^ armor;
+private: System::Windows::Forms::CheckBox^ onehp;
+private: System::Windows::Forms::Panel^ panel3;
+private: System::Windows::Forms::CheckBox^ mfreeze;
+
 
 
 
@@ -182,6 +186,7 @@ private: System::Windows::Forms::Label^ armor;
 			System::Windows::Forms::Label^ label3;
 			System::Windows::Forms::Label^ customstat;
 			System::Windows::Forms::Label^ label5;
+			System::Windows::Forms::Label^ label4;
 			this->dexterity = (gcnew System::Windows::Forms::TextBox());
 			this->strength = (gcnew System::Windows::Forms::TextBox());
 			this->intelligence = (gcnew System::Windows::Forms::TextBox());
@@ -195,8 +200,11 @@ private: System::Windows::Forms::Label^ armor;
 			this->applystats = (gcnew System::Windows::Forms::Button());
 			this->statusStrip1 = (gcnew System::Windows::Forms::StatusStrip());
 			this->panel2 = (gcnew System::Windows::Forms::Panel());
+			this->onehp = (gcnew System::Windows::Forms::CheckBox());
 			this->idinven = (gcnew System::Windows::Forms::CheckBox());
 			this->panel1 = (gcnew System::Windows::Forms::Panel());
+			this->armour = (gcnew System::Windows::Forms::TextBox());
+			this->armor = (gcnew System::Windows::Forms::Label());
 			this->stealth = (gcnew System::Windows::Forms::TextBox());
 			this->label60 = (gcnew System::Windows::Forms::Label());
 			this->evocations = (gcnew System::Windows::Forms::TextBox());
@@ -257,15 +265,17 @@ private: System::Windows::Forms::Label^ armor;
 			this->label57 = (gcnew System::Windows::Forms::Label());
 			this->label58 = (gcnew System::Windows::Forms::Label());
 			this->maces = (gcnew System::Windows::Forms::TextBox());
-			this->armour = (gcnew System::Windows::Forms::TextBox());
-			this->armor = (gcnew System::Windows::Forms::Label());
+			this->panel3 = (gcnew System::Windows::Forms::Panel());
+			this->mfreeze = (gcnew System::Windows::Forms::CheckBox());
 			label2 = (gcnew System::Windows::Forms::Label());
 			label1 = (gcnew System::Windows::Forms::Label());
 			label3 = (gcnew System::Windows::Forms::Label());
 			customstat = (gcnew System::Windows::Forms::Label());
 			label5 = (gcnew System::Windows::Forms::Label());
+			label4 = (gcnew System::Windows::Forms::Label());
 			this->panel2->SuspendLayout();
 			this->panel1->SuspendLayout();
+			this->panel3->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// label2
@@ -309,9 +319,9 @@ private: System::Windows::Forms::Label^ armor;
 			label5->AutoSize = true;
 			label5->Location = System::Drawing::Point(8, 20);
 			label5->Name = L"label5";
-			label5->Size = System::Drawing::Size(39, 15);
+			label5->Size = System::Drawing::Size(74, 15);
 			label5->TabIndex = 0;
-			label5->Text = L"Hacks";
+			label5->Text = L"Player Hacks";
 			// 
 			// dexterity
 			// 
@@ -381,7 +391,7 @@ private: System::Windows::Forms::Label^ armor;
 			// 
 			this->infinitemana->AutoSize = true;
 			this->infinitemana->ImeMode = System::Windows::Forms::ImeMode::NoControl;
-			this->infinitemana->Location = System::Drawing::Point(5, 29);
+			this->infinitemana->Location = System::Drawing::Point(5, 30);
 			this->infinitemana->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->infinitemana->Name = L"infinitemana";
 			this->infinitemana->RightToLeft = System::Windows::Forms::RightToLeft::No;
@@ -395,7 +405,7 @@ private: System::Windows::Forms::Label^ armor;
 			// nohunger
 			// 
 			this->nohunger->AutoSize = true;
-			this->nohunger->Location = System::Drawing::Point(5, 52);
+			this->nohunger->Location = System::Drawing::Point(5, 54);
 			this->nohunger->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->nohunger->Name = L"nohunger";
 			this->nohunger->RightToLeft = System::Windows::Forms::RightToLeft::No;
@@ -459,10 +469,21 @@ private: System::Windows::Forms::Label^ armor;
 			this->panel2->Size = System::Drawing::Size(188, 195);
 			this->panel2->TabIndex = 15;
 			// 
+			// onehp
+			// 
+			this->onehp->AutoSize = true;
+			this->onehp->Location = System::Drawing::Point(5, 6);
+			this->onehp->Name = L"onehp";
+			this->onehp->Size = System::Drawing::Size(67, 19);
+			this->onehp->TabIndex = 85;
+			this->onehp->Text = L"One HP";
+			this->onehp->UseVisualStyleBackColor = true;
+			this->onehp->CheckedChanged += gcnew System::EventHandler(this, &MainForm::onehp_CheckedChanged);
+			// 
 			// idinven
 			// 
 			this->idinven->AutoSize = true;
-			this->idinven->Location = System::Drawing::Point(5, 76);
+			this->idinven->Location = System::Drawing::Point(5, 78);
 			this->idinven->Name = L"idinven";
 			this->idinven->Size = System::Drawing::Size(154, 19);
 			this->idinven->TabIndex = 79;
@@ -546,6 +567,24 @@ private: System::Windows::Forms::Label^ armor;
 			this->panel1->Name = L"panel1";
 			this->panel1->Size = System::Drawing::Size(524, 517);
 			this->panel1->TabIndex = 71;
+			// 
+			// armour
+			// 
+			this->armour->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->armour->Location = System::Drawing::Point(118, 428);
+			this->armour->MaxLength = 4;
+			this->armour->Name = L"armour";
+			this->armour->Size = System::Drawing::Size(37, 22);
+			this->armour->TabIndex = 41;
+			// 
+			// armor
+			// 
+			this->armor->AutoSize = true;
+			this->armor->Location = System::Drawing::Point(12, 430);
+			this->armor->Name = L"armor";
+			this->armor->Size = System::Drawing::Size(49, 15);
+			this->armor->TabIndex = 84;
+			this->armor->Text = L"Armour";
 			// 
 			// stealth
 			// 
@@ -1087,23 +1126,35 @@ private: System::Windows::Forms::Label^ armor;
 			this->maces->Size = System::Drawing::Size(37, 22);
 			this->maces->TabIndex = 24;
 			// 
-			// armour
+			// panel3
 			// 
-			this->armour->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
-			this->armour->Location = System::Drawing::Point(118, 428);
-			this->armour->MaxLength = 4;
-			this->armour->Name = L"armour";
-			this->armour->Size = System::Drawing::Size(37, 22);
-			this->armour->TabIndex = 41;
+			this->panel3->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->panel3->Controls->Add(this->mfreeze);
+			this->panel3->Controls->Add(this->onehp);
+			this->panel3->Location = System::Drawing::Point(11, 278);
+			this->panel3->Name = L"panel3";
+			this->panel3->Size = System::Drawing::Size(188, 195);
+			this->panel3->TabIndex = 86;
 			// 
-			// armor
+			// label4
 			// 
-			this->armor->AutoSize = true;
-			this->armor->Location = System::Drawing::Point(12, 430);
-			this->armor->Name = L"armor";
-			this->armor->Size = System::Drawing::Size(49, 15);
-			this->armor->TabIndex = 84;
-			this->armor->Text = L"Armour";
+			label4->AutoSize = true;
+			label4->Location = System::Drawing::Point(8, 260);
+			label4->Name = L"label4";
+			label4->Size = System::Drawing::Size(86, 15);
+			label4->TabIndex = 87;
+			label4->Text = L"Monster Hacks";
+			// 
+			// mfreeze
+			// 
+			this->mfreeze->AutoSize = true;
+			this->mfreeze->Location = System::Drawing::Point(5, 30);
+			this->mfreeze->Name = L"mfreeze";
+			this->mfreeze->Size = System::Drawing::Size(62, 19);
+			this->mfreeze->TabIndex = 85;
+			this->mfreeze->Text = L"Freeze";
+			this->mfreeze->UseVisualStyleBackColor = true;
+			this->mfreeze->CheckedChanged += gcnew System::EventHandler(this, &MainForm::mfreeze_CheckedChanged);
 			// 
 			// MainForm
 			// 
@@ -1111,6 +1162,8 @@ private: System::Windows::Forms::Label^ armor;
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::Control;
 			this->ClientSize = System::Drawing::Size(752, 597);
+			this->Controls->Add(label4);
+			this->Controls->Add(this->panel3);
 			this->Controls->Add(this->panel1);
 			this->Controls->Add(this->panel2);
 			this->Controls->Add(this->attachedtext);
@@ -1133,6 +1186,8 @@ private: System::Windows::Forms::Label^ armor;
 			this->panel2->PerformLayout();
 			this->panel1->ResumeLayout(false);
 			this->panel1->PerformLayout();
+			this->panel3->ResumeLayout(false);
+			this->panel3->PerformLayout();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -1150,6 +1205,8 @@ private: System::Windows::Forms::Label^ armor;
 	private: System::Void GUITimer_Tick(System::Object^ sender, System::EventArgs^ e);
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e);
 	private: System::Void idinven_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
+	private: System::Void onehp_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
+	private: System::Void mfreeze_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 };
 
 };

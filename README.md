@@ -19,23 +19,31 @@ Use: The trainer will automatically detect `crawl-tiles.exe` is running and atta
 ## Features
 
 ### Hacks
+
+#### Player
 + Godmode: Sets all incoming damage to your player to 0. Includes magic/poison damage. 
 + Infinite mana: Does not use mana when casting spells.
 + No Hunger: Your hunger does not decrease.
 + Auto-identify items: Items in your inventory and environment will be automatically identified. Currently does not include shop items.
 
+#### Monster
++ Monster freeze: Freeze all monsters in place; they will not attack you.
++ One HP: Sets all monster HP to one.
+
 ### Custom stats
 + Change strength, intelligence, dex values: Set them to values between 0 and 127. Missing/invalid values are set to your current values.
 + Change skill levels: Set them to skill levels between 0.0 and 27.0. Missing/invalid values are set to your current values.
 
-### Incoming features
+### Possible incoming features
 + Tile-based kill aura
++ Gold/piety/item stat modifying
 + One-shot monsters (to learn about function hooking)
 + Item spawning
-+ Gold hacks
++ Click to blink? (seems like a good fcn hook lesson)
 + No negative status effects
 + Remove negative mutations
 + Unlock all spells
++ uncurse/curse all items (for Ashenzari)
 + Account for race aptitudes in skill levels
 + Hook tick function to learn about function hooking
 + See if you can hook Shaft Self

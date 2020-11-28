@@ -78,6 +78,11 @@ struct envAddrs {
 	static const uintptr_t numItemsOffset			= 0x4E;
 	static const uintptr_t idStatusFlagOffset		= 0x50;
 	static const uintptr_t curseStatusFlagOffset	= 0x51;
+	
+	static const uintptr_t firstEntityAddr			= 0xEAE108;
+	static const uintptr_t hpOffset					= 0x54;  // weird method, 1000 is dead
+	static const uintptr_t speedOffset				= 0x5C;
+	static const uintptr_t entityOffset				= 0x138;
 };
 
 
@@ -127,5 +132,17 @@ scrolls: 5
 
 05 10 is acquirement
 0A 00 is orb of zot lmfao
+
+
+
+entities
+- they're 0x138 or 312 apart
+172 from the 4 byte -1 on the right
+- cannot just set hp to 0, they need to clean up pointers for items held and stuff
+- can easily stasis monsters
+
+seems like in memory:
+- environment items
+- environment entities
 
 */

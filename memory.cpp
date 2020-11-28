@@ -29,6 +29,26 @@ void mem::PatchItemFlag(uintptr_t* start, const uintptr_t* flag, HANDLE process)
 	
 }
 
+void mem::EntityPatch(uintptr_t* start, uintptr_t* bytes, uintptr_t addr, HANDLE process) {
+
+	DWORD oldprotect;
+
+	// change the read/write permissions of the inventory location
+	// yo check if this is doing ptr arith lmao
+	VirtualProtectEx(process, start + envAddrs::firstEntityAddr, 701 * envAddrs::firstEntityAddr, PAGE_EXECUTE_READWRITE, &oldprotect);
+	// intptr_t hp[4] = { 0xFF, 0xFF, 0xFF, 0xFF };
+	// loop through entity list, set hp to 0
+	for (unsigned int i = 0; i <= 701; ++i) {
+		WriteProcessMemory(process,
+			start + (envAddrs::firstEntityAddr + addr + i * envAddrs::entityOffset) / sizeof(addr),
+			bytes, 4, nullptr);
+	}
+
+	VirtualProtectEx(process, start + envAddrs::firstEntityAddr, 701 * envAddrs::firstEntityAddr, oldprotect, &oldprotect);
+
+}
+
+
 void mem::Patch(uintptr_t* dst, uintptr_t* src, unsigned int size, HANDLE process){
 	DWORD oldprotect;
 	// change the read/write permissions of the memory location
