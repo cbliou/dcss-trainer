@@ -130,6 +130,8 @@ namespace dcsstrainer {
 	private: System::Windows::Forms::Label^ label58;
 	private: System::Windows::Forms::TextBox^ maces;
 private: System::Windows::Forms::CheckBox^ idinven;
+private: System::Windows::Forms::TextBox^ armour;
+private: System::Windows::Forms::Label^ armor;
 
 
 
@@ -255,6 +257,8 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			this->label57 = (gcnew System::Windows::Forms::Label());
 			this->label58 = (gcnew System::Windows::Forms::Label());
 			this->maces = (gcnew System::Windows::Forms::TextBox());
+			this->armour = (gcnew System::Windows::Forms::TextBox());
+			this->armor = (gcnew System::Windows::Forms::Label());
 			label2 = (gcnew System::Windows::Forms::Label());
 			label1 = (gcnew System::Windows::Forms::Label());
 			label3 = (gcnew System::Windows::Forms::Label());
@@ -317,7 +321,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			this->dexterity->MaxLength = 3;
 			this->dexterity->Name = L"dexterity";
 			this->dexterity->Size = System::Drawing::Size(37, 22);
-			this->dexterity->TabIndex = 2;
+			this->dexterity->TabIndex = 82;
 			this->dexterity->TextChanged += gcnew System::EventHandler(this, &MainForm::dexterity_TextChanged);
 			// 
 			// strength
@@ -329,7 +333,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			this->strength->MaxLength = 3;
 			this->strength->Name = L"strength";
 			this->strength->Size = System::Drawing::Size(37, 22);
-			this->strength->TabIndex = 0;
+			this->strength->TabIndex = 80;
 			this->strength->TextChanged += gcnew System::EventHandler(this, &MainForm::strength_TextChanged);
 			// 
 			// intelligence
@@ -340,7 +344,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			this->intelligence->MaxLength = 3;
 			this->intelligence->Name = L"intelligence";
 			this->intelligence->Size = System::Drawing::Size(37, 22);
-			this->intelligence->TabIndex = 1;
+			this->intelligence->TabIndex = 81;
 			this->intelligence->TextChanged += gcnew System::EventHandler(this, &MainForm::intelligence_TextChanged);
 			// 
 			// ConsoleLog
@@ -430,7 +434,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			this->applystats->Location = System::Drawing::Point(371, 470);
 			this->applystats->Name = L"applystats";
 			this->applystats->Size = System::Drawing::Size(127, 26);
-			this->applystats->TabIndex = 11;
+			this->applystats->TabIndex = 83;
 			this->applystats->Text = L"Refresh + Apply Stats";
 			this->applystats->UseVisualStyleBackColor = true;
 			this->applystats->Click += gcnew System::EventHandler(this, &MainForm::button1_Click);
@@ -469,6 +473,8 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// panel1
 			// 
 			this->panel1->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->panel1->Controls->Add(this->armour);
+			this->panel1->Controls->Add(this->armor);
 			this->panel1->Controls->Add(this->stealth);
 			this->panel1->Controls->Add(this->applystats);
 			this->panel1->Controls->Add(this->label60);
@@ -545,7 +551,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->stealth->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->stealth->Location = System::Drawing::Point(295, 488);
-			this->stealth->MaxLength = 2;
+			this->stealth->MaxLength = 4;
 			this->stealth->Name = L"stealth";
 			this->stealth->Size = System::Drawing::Size(37, 22);
 			this->stealth->TabIndex = 78;
@@ -563,7 +569,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->evocations->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->evocations->Location = System::Drawing::Point(295, 458);
-			this->evocations->MaxLength = 2;
+			this->evocations->MaxLength = 4;
 			this->evocations->Name = L"evocations";
 			this->evocations->Size = System::Drawing::Size(37, 22);
 			this->evocations->TabIndex = 76;
@@ -581,7 +587,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->invocations->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->invocations->Location = System::Drawing::Point(295, 428);
-			this->invocations->MaxLength = 2;
+			this->invocations->MaxLength = 4;
 			this->invocations->Name = L"invocations";
 			this->invocations->Size = System::Drawing::Size(37, 22);
 			this->invocations->TabIndex = 74;
@@ -599,10 +605,10 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->transmutations->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->transmutations->Location = System::Drawing::Point(295, 218);
-			this->transmutations->MaxLength = 2;
+			this->transmutations->MaxLength = 4;
 			this->transmutations->Name = L"transmutations";
 			this->transmutations->Size = System::Drawing::Size(37, 22);
-			this->transmutations->TabIndex = 70;
+			this->transmutations->TabIndex = 60;
 			// 
 			// label33
 			// 
@@ -617,7 +623,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->poisonmagic->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->poisonmagic->Location = System::Drawing::Point(295, 368);
-			this->poisonmagic->MaxLength = 2;
+			this->poisonmagic->MaxLength = 4;
 			this->poisonmagic->Name = L"poisonmagic";
 			this->poisonmagic->Size = System::Drawing::Size(37, 22);
 			this->poisonmagic->TabIndex = 68;
@@ -635,7 +641,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->earthmagic->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->earthmagic->Location = System::Drawing::Point(295, 338);
-			this->earthmagic->MaxLength = 2;
+			this->earthmagic->MaxLength = 4;
 			this->earthmagic->Name = L"earthmagic";
 			this->earthmagic->Size = System::Drawing::Size(37, 22);
 			this->earthmagic->TabIndex = 66;
@@ -653,7 +659,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->airmagic->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->airmagic->Location = System::Drawing::Point(295, 308);
-			this->airmagic->MaxLength = 2;
+			this->airmagic->MaxLength = 4;
 			this->airmagic->Name = L"airmagic";
 			this->airmagic->Size = System::Drawing::Size(37, 22);
 			this->airmagic->TabIndex = 64;
@@ -671,10 +677,10 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->icemagic->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->icemagic->Location = System::Drawing::Point(295, 278);
-			this->icemagic->MaxLength = 2;
+			this->icemagic->MaxLength = 4;
 			this->icemagic->Name = L"icemagic";
 			this->icemagic->Size = System::Drawing::Size(37, 22);
-			this->icemagic->TabIndex = 62;
+			this->icemagic->TabIndex = 63;
 			// 
 			// label37
 			// 
@@ -689,10 +695,10 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->firemagic->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->firemagic->Location = System::Drawing::Point(295, 248);
-			this->firemagic->MaxLength = 2;
+			this->firemagic->MaxLength = 4;
 			this->firemagic->Name = L"firemagic";
 			this->firemagic->Size = System::Drawing::Size(37, 22);
-			this->firemagic->TabIndex = 60;
+			this->firemagic->TabIndex = 62;
 			// 
 			// label38
 			// 
@@ -707,7 +713,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->translocations->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->translocations->Location = System::Drawing::Point(295, 188);
-			this->translocations->MaxLength = 2;
+			this->translocations->MaxLength = 4;
 			this->translocations->Name = L"translocations";
 			this->translocations->Size = System::Drawing::Size(37, 22);
 			this->translocations->TabIndex = 58;
@@ -725,7 +731,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->necromancy->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->necromancy->Location = System::Drawing::Point(295, 158);
-			this->necromancy->MaxLength = 2;
+			this->necromancy->MaxLength = 4;
 			this->necromancy->Name = L"necromancy";
 			this->necromancy->Size = System::Drawing::Size(37, 22);
 			this->necromancy->TabIndex = 56;
@@ -743,7 +749,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->summonings->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->summonings->Location = System::Drawing::Point(295, 128);
-			this->summonings->MaxLength = 2;
+			this->summonings->MaxLength = 4;
 			this->summonings->Name = L"summonings";
 			this->summonings->Size = System::Drawing::Size(37, 22);
 			this->summonings->TabIndex = 54;
@@ -761,7 +767,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->charms->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->charms->Location = System::Drawing::Point(295, 98);
-			this->charms->MaxLength = 2;
+			this->charms->MaxLength = 4;
 			this->charms->Name = L"charms";
 			this->charms->Size = System::Drawing::Size(37, 22);
 			this->charms->TabIndex = 52;
@@ -779,7 +785,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->hexes->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->hexes->Location = System::Drawing::Point(295, 68);
-			this->hexes->MaxLength = 2;
+			this->hexes->MaxLength = 4;
 			this->hexes->Name = L"hexes";
 			this->hexes->Size = System::Drawing::Size(37, 22);
 			this->hexes->TabIndex = 50;
@@ -806,7 +812,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->conjurations->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->conjurations->Location = System::Drawing::Point(295, 38);
-			this->conjurations->MaxLength = 2;
+			this->conjurations->MaxLength = 4;
 			this->conjurations->Name = L"conjurations";
 			this->conjurations->Size = System::Drawing::Size(37, 22);
 			this->conjurations->TabIndex = 48;
@@ -815,7 +821,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->fighting->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->fighting->Location = System::Drawing::Point(118, 8);
-			this->fighting->MaxLength = 2;
+			this->fighting->MaxLength = 4;
 			this->fighting->Name = L"fighting";
 			this->fighting->Size = System::Drawing::Size(37, 22);
 			this->fighting->TabIndex = 18;
@@ -833,7 +839,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->spellcasting->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->spellcasting->Location = System::Drawing::Point(295, 8);
-			this->spellcasting->MaxLength = 2;
+			this->spellcasting->MaxLength = 4;
 			this->spellcasting->Name = L"spellcasting";
 			this->spellcasting->Size = System::Drawing::Size(37, 22);
 			this->spellcasting->TabIndex = 46;
@@ -860,7 +866,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->shortblades->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->shortblades->Location = System::Drawing::Point(118, 38);
-			this->shortblades->MaxLength = 2;
+			this->shortblades->MaxLength = 4;
 			this->shortblades->Name = L"shortblades";
 			this->shortblades->Size = System::Drawing::Size(37, 22);
 			this->shortblades->TabIndex = 20;
@@ -869,7 +875,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->shields->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->shields->Location = System::Drawing::Point(118, 488);
-			this->shields->MaxLength = 2;
+			this->shields->MaxLength = 4;
 			this->shields->Name = L"shields";
 			this->shields->Size = System::Drawing::Size(37, 22);
 			this->shields->TabIndex = 44;
@@ -878,7 +884,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->unarmedcombat->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->unarmedcombat->Location = System::Drawing::Point(118, 218);
-			this->unarmedcombat->MaxLength = 2;
+			this->unarmedcombat->MaxLength = 4;
 			this->unarmedcombat->Name = L"unarmedcombat";
 			this->unarmedcombat->Size = System::Drawing::Size(37, 22);
 			this->unarmedcombat->TabIndex = 32;
@@ -905,7 +911,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->dodging->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->dodging->Location = System::Drawing::Point(118, 458);
-			this->dodging->MaxLength = 2;
+			this->dodging->MaxLength = 4;
 			this->dodging->Name = L"dodging";
 			this->dodging->Size = System::Drawing::Size(37, 22);
 			this->dodging->TabIndex = 42;
@@ -932,7 +938,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->staves->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->staves->Location = System::Drawing::Point(118, 188);
-			this->staves->MaxLength = 2;
+			this->staves->MaxLength = 4;
 			this->staves->Name = L"staves";
 			this->staves->Size = System::Drawing::Size(37, 22);
 			this->staves->TabIndex = 30;
@@ -950,7 +956,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->slings->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->slings->Location = System::Drawing::Point(118, 368);
-			this->slings->MaxLength = 2;
+			this->slings->MaxLength = 4;
 			this->slings->Name = L"slings";
 			this->slings->Size = System::Drawing::Size(37, 22);
 			this->slings->TabIndex = 40;
@@ -959,7 +965,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->longblades->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->longblades->Location = System::Drawing::Point(118, 68);
-			this->longblades->MaxLength = 2;
+			this->longblades->MaxLength = 4;
 			this->longblades->Name = L"longblades";
 			this->longblades->Size = System::Drawing::Size(37, 22);
 			this->longblades->TabIndex = 22;
@@ -977,7 +983,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->throwing->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->throwing->Location = System::Drawing::Point(118, 338);
-			this->throwing->MaxLength = 2;
+			this->throwing->MaxLength = 4;
 			this->throwing->Name = L"throwing";
 			this->throwing->Size = System::Drawing::Size(37, 22);
 			this->throwing->TabIndex = 38;
@@ -986,7 +992,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->polearms->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->polearms->Location = System::Drawing::Point(118, 158);
-			this->polearms->MaxLength = 2;
+			this->polearms->MaxLength = 4;
 			this->polearms->Name = L"polearms";
 			this->polearms->Size = System::Drawing::Size(37, 22);
 			this->polearms->TabIndex = 28;
@@ -1013,7 +1019,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->crossbows->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->crossbows->Location = System::Drawing::Point(118, 308);
-			this->crossbows->MaxLength = 2;
+			this->crossbows->MaxLength = 4;
 			this->crossbows->Name = L"crossbows";
 			this->crossbows->Size = System::Drawing::Size(37, 22);
 			this->crossbows->TabIndex = 36;
@@ -1040,7 +1046,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->axes->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->axes->Location = System::Drawing::Point(118, 128);
-			this->axes->MaxLength = 2;
+			this->axes->MaxLength = 4;
 			this->axes->Name = L"axes";
 			this->axes->Size = System::Drawing::Size(37, 22);
 			this->axes->TabIndex = 26;
@@ -1049,7 +1055,7 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->bows->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->bows->Location = System::Drawing::Point(118, 278);
-			this->bows->MaxLength = 2;
+			this->bows->MaxLength = 4;
 			this->bows->Name = L"bows";
 			this->bows->Size = System::Drawing::Size(37, 22);
 			this->bows->TabIndex = 34;
@@ -1076,10 +1082,28 @@ private: System::Windows::Forms::CheckBox^ idinven;
 			// 
 			this->maces->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->maces->Location = System::Drawing::Point(118, 98);
-			this->maces->MaxLength = 2;
+			this->maces->MaxLength = 4;
 			this->maces->Name = L"maces";
 			this->maces->Size = System::Drawing::Size(37, 22);
 			this->maces->TabIndex = 24;
+			// 
+			// armour
+			// 
+			this->armour->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->armour->Location = System::Drawing::Point(118, 428);
+			this->armour->MaxLength = 4;
+			this->armour->Name = L"armour";
+			this->armour->Size = System::Drawing::Size(37, 22);
+			this->armour->TabIndex = 41;
+			// 
+			// armor
+			// 
+			this->armor->AutoSize = true;
+			this->armor->Location = System::Drawing::Point(12, 430);
+			this->armor->Name = L"armor";
+			this->armor->Size = System::Drawing::Size(49, 15);
+			this->armor->TabIndex = 84;
+			this->armor->Text = L"Armour";
 			// 
 			// MainForm
 			// 
@@ -1114,7 +1138,6 @@ private: System::Windows::Forms::CheckBox^ idinven;
 
 		}
 #pragma endregion
-	private: System::Void set_stat(BYTE stat, Windows::Forms::TextBox^ text, uintptr_t addy);
 	private: System::Void MainForm_FormClosing(System::Object^ sender, System::Windows::Forms::FormClosingEventArgs^ e);
 	private: System::Void godmode_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 	private: System::Void infinitemana_CheckedChanged(System::Object^ sender, System::EventArgs^ e);

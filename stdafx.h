@@ -1,6 +1,6 @@
 // standard imports across the program
 #pragma once
-#include <stdio.h>
+#include <stdlib.h>
 #include <tchar.h>
 #include <Windows.h>
 #include <vector>

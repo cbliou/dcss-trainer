@@ -1,19 +1,22 @@
 #pragma once
+#include <math.h>
 #include "stdafx.h"
 #include "MainForm.h"
 #include "process.h"
 #include "memory.h"
 #include "constants.h"
 #include "logger.h"
+#include "util.h"
 
 using namespace dcsstrainer;
 using namespace System;
 
 // forward declarations
 void attach_crawl();
+void set_stat(Windows::Forms::TextBox^ text, uintptr_t addy);
+void set_skill(Windows::Forms::TextBox^ param, uintptr_t addy);
 
 // globals
-static BYTE sdexterity, sintelligence, sstrength;
 static bool isAttached = false, autoIdentify = false;
 DWORD processID = 0, dcssExit = 0;
 HANDLE process = 0;
@@ -155,7 +158,7 @@ void MainForm::nohunger_CheckedChanged(System::Object^ sender, System::EventArgs
 
 
 
-void MainForm::set_stat(BYTE stat, Windows::Forms::TextBox^ param, uintptr_t addy) {
+void set_stat(Windows::Forms::TextBox^ param, uintptr_t addy) {
 
 	// check if empty
 	if (param->Text == "") {
@@ -167,9 +170,9 @@ void MainForm::set_stat(BYTE stat, Windows::Forms::TextBox^ param, uintptr_t add
 	}
 	// if not, check if converts
 	try {
-		stat = Convert::ToByte(param->Text);
+		BYTE stat = Convert::ToByte(param->Text);
 		// setting global to the new value
-		mem::Patch((uintptr_t*) (moduleBase + addy), (uintptr_t*)static_cast<char*>(static_cast<void*>(&stat)), 1, process);
+		mem::Patch((uintptr_t*) (moduleBase + addy), (uintptr_t*) &stat, 1, process);
 	
 	}
 	catch (Exception^) {
@@ -180,14 +183,123 @@ void MainForm::set_stat(BYTE stat, Windows::Forms::TextBox^ param, uintptr_t add
 	
 }
 
+// called when skill is empty or an exception occured.
+// sets value of skill to one found in memory.
+void set_empty_skill(Windows::Forms::TextBox^ param, uintptr_t addy) {
+
+	float closestLevel = 27;
+	uintptr_t chr[2] = { 0, 0 };
+	short read_exp;
+
+	mem::Read((uintptr_t*)(moduleBase + addy), chr, 2, process);
+	read_exp = Convert::ToInt16(*chr);
+
+	// get level rounded up
+	for (const auto& exp : exptoLevel) {
+		short expdiff = exp.first - read_exp;
+		if (expdiff > 0 && exp.second < closestLevel) {
+			closestLevel = exp.second;
+		}
+	}
+
+	// round down
+	closestLevel = closestLevel - 1;
+
+	// find difference
+	// logger::WriteLinetoConsole(gcnew String(Convert::ToString(leveltoEXP.at(closestLevel))));
+	short normalizer = leveltoEXP.at(closestLevel + 1) - leveltoEXP.at(closestLevel);
+	// logger::WriteLinetoConsole(gcnew String(Convert::ToString((float) (read_exp - leveltoEXP.at((int)closestLevel)) / normalizer)));
+	closestLevel += round((float)(read_exp - leveltoEXP.at(closestLevel)) / normalizer, 1);
+
+	param->Text = Convert::ToString(closestLevel);
+
+}
+
+// set skill values
+void set_skill(Windows::Forms::TextBox^ param, uintptr_t addy) {
+	// user will enter a float from 0.0 to 27.0
+	// convert to exp, then patch a short
+	// todo: deal with class skill modifiers
+
+	// if empty
+	if (param->Text == "") {
+
+		set_empty_skill(param, addy);
+		return;
+	}
+
+	// else apply user input
+	try {
+		float rawLevel = (float)Convert::ToDecimal(param->Text);
+		short roundedLevel = trunc(rawLevel);
+		if (roundedLevel < 27) {
+			// if negative, just ignore the user
+			if (roundedLevel < 0) {
+				throw;
+			}
+			// add remaining exp
+			short actualEXP = leveltoEXP.at((int)roundedLevel) + (rawLevel - roundedLevel) * (leveltoEXP.at(roundedLevel + 1) - leveltoEXP.at(roundedLevel));
+			mem::Patch((uintptr_t*)(moduleBase + addy), (uintptr_t*) &actualEXP, 2, process);
+		}
+		else {
+			mem::Patch((uintptr_t*)(moduleBase + addy), (uintptr_t*) &leveltoEXP.at(27), 2, process);
+		}
+
+
+		
+
+	}
+	catch (Exception^) {
+		set_empty_skill(param, addy);
+	}
+
+
+
+}
+
+
+
 void MainForm::button1_Click(System::Object^ sender, System::EventArgs^ e) {
 
 	// Apply stats
-	set_stat(sintelligence, this->intelligence, intAddy);
-	set_stat(sdexterity, this->dexterity, dexAddy);
-	set_stat(sstrength, this->strength, strAddy);
+	set_stat(this->intelligence, intAddy);
+	set_stat(this->dexterity, dexAddy);
+	set_stat(this->strength, strAddy);
+	
+	// apply skills
+	set_skill(this->fighting, fightingAddy);
+	set_skill(this->shortblades, sBladeAddy);
+	set_skill(this->longblades, lBladeAddy);
+	set_skill(this->maces, maceAddy);
+	set_skill(this->axes, axeAddy);
+	set_skill(this->polearms, polearmAddy);
+	set_skill(this->staves, stavesAddy);
+	set_skill(this->unarmedcombat, unarmedAddy);
+	set_skill(this->bows, bowsAddy);
+	set_skill(this->crossbows, xbowAddy);
+	set_skill(this->throwing, throwingAddy);
+	set_skill(this->slings, slingsAddy);
+	set_skill(this->armour, armourAddy);
+	set_skill(this->dodging, dodgingAddy);
+	set_skill(this->shields, shieldsAddy);
+	set_skill(this->spellcasting, spellcastingAddy);
+	set_skill(this->conjurations, conjurationAddy);
+	set_skill(this->hexes, hexesAddy);
+	set_skill(this->charms, charmsAddy);
+	set_skill(this->summonings, summoningAddy);
+	set_skill(this->necromancy, necromancyAddy);
+	set_skill(this->translocations, translocationsAddy);
+	set_skill(this->transmutations, transmmutationAddy);
+	set_skill(this->firemagic, fireMagicAddy);
+	set_skill(this->icemagic, iceMagicAddy);
+	set_skill(this->airmagic, airMagicAddy);
+	set_skill(this->earthmagic, earthMagicAddy);
+	set_skill(this->poisonmagic, poisonMagicAddy);
+	set_skill(this->invocations, invocationsAddy);
+	set_skill(this->evocations, evocationsAddy);
+	set_skill(this->stealth, stealthAddy);
 
-	logger::WriteLinetoConsole("Refreshed/Updated stat values.");
+	logger::WriteLinetoConsole("Refreshed/Updated stat and skill values.");
 
 }
 

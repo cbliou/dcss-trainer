@@ -27,8 +27,9 @@ static const uintptr_t bowsAddy						= fightingAddy + 0x20;
 static const uintptr_t xbowAddy						= fightingAddy + 0x24;
 static const uintptr_t throwingAddy					= fightingAddy + 0x28;
 
-//not sure about offset 0x2C, 0x38, 0x40
+//not sure about offset 0x38, 0x40
 
+static const uintptr_t armourAddy					= fightingAddy + 0x2C;
 static const uintptr_t dodgingAddy					= fightingAddy + 0x30;
 static const uintptr_t shieldsAddy					= fightingAddy + 0x3C;
 
@@ -81,13 +82,22 @@ struct envAddrs {
 
 
 // the displayed level follows a linear relationship between exp for level n and n + 1
-static std::unordered_map<int, int> level_to_exp = {
+static std::unordered_map<int, int> leveltoEXP = {
 	{0, 0}, {1, 50}, {2, 150}, {3, 300}, {4, 500}, {5, 750},			// 0-5
 	{6, 1050}, {7, 1400}, {8, 1800}, {9, 2250}, {10, 2800},				// 6-10
 	{11, 3450}, {12, 4200}, {13, 5050}, {14, 6000}, {15, 7050},			// 11-15
 	{16, 8200}, {17, 9450}, {18, 10800}, {19, 12300}, {20, 13950},		// 16-20
 	{21, 15750}, {22, 17700}, {23, 19800}, {24, 22050}, {25, 24450},	// 21-25
 	{26, 27000}, {27, 29750}
+};
+
+static std::unordered_map<int, int> exptoLevel = {
+	{0, 0}, {50, 1}, {150, 2}, {300, 3}, {500, 4}, {750, 5},			// 0-5
+	{1050, 6}, {1400, 7}, {1800, 8}, {2250, 9}, {2800, 10},				// 6-10
+	{3450, 11}, {4200, 12}, {5050, 13}, {6000, 14}, {7050, 15},			// 11-15
+	{8200, 16}, {9450, 17}, {10800, 18}, {12300, 19}, {13950, 20},		// 16-20
+	{15750, 21}, {17700, 22}, {19800, 23}, {22050, 24}, {24450, 25},	// 21-25
+	{27000, 26}, {29750, 27}
 };
 
 /*
