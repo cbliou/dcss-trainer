@@ -129,6 +129,10 @@ namespace dcsstrainer {
 	private: System::Windows::Forms::Label^ label57;
 	private: System::Windows::Forms::Label^ label58;
 	private: System::Windows::Forms::TextBox^ maces;
+private: System::Windows::Forms::CheckBox^ idinven;
+
+
+
 
 
 
@@ -189,6 +193,7 @@ namespace dcsstrainer {
 			this->applystats = (gcnew System::Windows::Forms::Button());
 			this->statusStrip1 = (gcnew System::Windows::Forms::StatusStrip());
 			this->panel2 = (gcnew System::Windows::Forms::Panel());
+			this->idinven = (gcnew System::Windows::Forms::CheckBox());
 			this->panel1 = (gcnew System::Windows::Forms::Panel());
 			this->stealth = (gcnew System::Windows::Forms::TextBox());
 			this->label60 = (gcnew System::Windows::Forms::Label());
@@ -289,7 +294,7 @@ namespace dcsstrainer {
 			// customstat
 			// 
 			customstat->AutoSize = true;
-			customstat->Location = System::Drawing::Point(149, 20);
+			customstat->Location = System::Drawing::Point(202, 20);
 			customstat->Name = L"customstat";
 			customstat->Size = System::Drawing::Size(75, 15);
 			customstat->TabIndex = 4;
@@ -441,13 +446,25 @@ namespace dcsstrainer {
 			// panel2
 			// 
 			this->panel2->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->panel2->Controls->Add(this->idinven);
 			this->panel2->Controls->Add(this->nohunger);
 			this->panel2->Controls->Add(this->godmode);
 			this->panel2->Controls->Add(this->infinitemana);
 			this->panel2->Location = System::Drawing::Point(11, 38);
 			this->panel2->Name = L"panel2";
-			this->panel2->Size = System::Drawing::Size(116, 160);
+			this->panel2->Size = System::Drawing::Size(188, 195);
 			this->panel2->TabIndex = 15;
+			// 
+			// idinven
+			// 
+			this->idinven->AutoSize = true;
+			this->idinven->Location = System::Drawing::Point(5, 76);
+			this->idinven->Name = L"idinven";
+			this->idinven->Size = System::Drawing::Size(154, 19);
+			this->idinven->TabIndex = 79;
+			this->idinven->Text = L"Auto-identify most items";
+			this->idinven->UseVisualStyleBackColor = true;
+			this->idinven->CheckedChanged += gcnew System::EventHandler(this, &MainForm::idinven_CheckedChanged);
 			// 
 			// panel1
 			// 
@@ -519,7 +536,7 @@ namespace dcsstrainer {
 			this->panel1->Controls->Add(this->label57);
 			this->panel1->Controls->Add(this->label58);
 			this->panel1->Controls->Add(this->maces);
-			this->panel1->Location = System::Drawing::Point(152, 38);
+			this->panel1->Location = System::Drawing::Point(205, 38);
 			this->panel1->Name = L"panel1";
 			this->panel1->Size = System::Drawing::Size(524, 517);
 			this->panel1->TabIndex = 71;
@@ -1109,7 +1126,7 @@ namespace dcsstrainer {
 	//private: System::Void ConsoleLog_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {}
 	private: System::Void GUITimer_Tick(System::Object^ sender, System::EventArgs^ e);
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e);
-
+	private: System::Void idinven_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 };
 
 };

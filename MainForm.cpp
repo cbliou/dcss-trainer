@@ -14,7 +14,7 @@ void attach_crawl();
 
 // globals
 static BYTE sdexterity, sintelligence, sstrength;
-static bool isAttached = false;
+static bool isAttached = false, autoIdentify = false;
 DWORD processID = 0, dcssExit = 0;
 HANDLE process = 0;
 uintptr_t moduleBase = 0;
@@ -61,6 +61,7 @@ void attach_crawl() {
 
 }
 
+// every 200ms, do this
 void MainForm::GUITimer_Tick(System::Object^ sender, System::EventArgs^ e) {
 
 	attach_crawl();
@@ -73,9 +74,27 @@ void MainForm::GUITimer_Tick(System::Object^ sender, System::EventArgs^ e) {
 		attached->Text = "Game not running!";
 		attached->ForeColor = System::Drawing::Color::DarkRed;
 	}
+
+	if (autoIdentify) {
+		mem::PatchItemFlag((uintptr_t*) moduleBase, &itemFlags::identMask, process);
+	}
 		
 		 
 }
+
+// start setting flags
+void MainForm::idinven_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	if (this->idinven->Checked) {
+		autoIdentify = true;
+		logger::WriteLinetoConsole("Activated automatic inventory item identification.");
+	}
+		
+	else {
+		autoIdentify = false;
+		logger::WriteLinetoConsole("Deactivated automatic inventory item identification.");
+	}
+}
+
 
 // on close
 void MainForm::MainForm_FormClosing(System::Object^ sender, System::Windows::Forms::FormClosingEventArgs^ e) {
@@ -86,13 +105,13 @@ void MainForm::MainForm_FormClosing(System::Object^ sender, System::Windows::For
 //godmode
 void MainForm::godmode_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
 	if (this->godmode->Checked) {
-		mem::Nop((BYTE*)(moduleBase + godModeAddy), 2, process);
+		mem::Nop((uintptr_t*) (moduleBase + godModeAddy), 2, process);
 		logger::WriteLinetoConsole("Activated godmode.");
 	}
 		
 	else {
 		// sub eax, ebx
-		mem::Patch((BYTE*)(moduleBase + godModeAddy), (BYTE*)"\x29\xD8", 2, process);
+		mem::Patch((uintptr_t*) (moduleBase + godModeAddy), (uintptr_t*)"\x29\xD8", 2, process);
 		logger::WriteLinetoConsole("Deactivated godmode.");
 	}
 		
@@ -102,14 +121,14 @@ void MainForm::godmode_CheckedChanged(System::Object^ sender, System::EventArgs^
 // infinite mana
 void MainForm::infinitemana_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
 	if (this->infinitemana->Checked) {
-		mem::Nop((BYTE*)(moduleBase + infiniteManaAddy), 5, process);
+		mem::Nop((uintptr_t*) (moduleBase + infiniteManaAddy), 5, process);
 		logger::WriteLinetoConsole("Activated infinite mana.");
 	}
 		
 	else {
 		// 29 D8 - sub eax, ebx
 		// 0F 48 C2 - cmovs eax, edx
-		mem::Patch((BYTE*)(moduleBase + infiniteManaAddy), (BYTE*)"\x29\xD8\x0F\x48\xC2", 5, process);
+		mem::Patch((uintptr_t*) (moduleBase + infiniteManaAddy), (uintptr_t*)"\x29\xD8\x0F\x48\xC2", 5, process);
 		logger::WriteLinetoConsole("Deactivated infinite mana.");
 	}
 
@@ -122,12 +141,12 @@ void MainForm::nohunger_CheckedChanged(System::Object^ sender, System::EventArgs
 	// 0F48 C2 - cmovs eax, edx 
 	// this is moving the subtracted value only if the hunger value was subtracted (cmovs is move if sign, 48 is the negative flavor)
 	if (this->nohunger->Checked) {
-		mem::Nop((BYTE*)(moduleBase + noHungerAddy), 5, process);
+		mem::Nop((uintptr_t*) (moduleBase + noHungerAddy), 5, process);
 		logger::WriteLinetoConsole("Activated no hunger.");
 	}
 		
 	else {
-		mem::Patch((BYTE*)(moduleBase + noHungerAddy), (BYTE*)"\x29\xD8\x0F\x48\xC2", 5, process);
+		mem::Patch((uintptr_t*) (moduleBase + noHungerAddy), (uintptr_t*)"\x29\xD8\x0F\x48\xC2", 5, process);
 		logger::WriteLinetoConsole("Deactivated no hunger.");
 	}
 		
@@ -140,9 +159,9 @@ void MainForm::set_stat(BYTE stat, Windows::Forms::TextBox^ param, uintptr_t add
 
 	// check if empty
 	if (param->Text == "") {
-		BYTE chr[1] = { 0 };
+		uintptr_t chr[1] = { 0 };
 		
-		mem::Read((BYTE*)(moduleBase + addy), chr, 1, process);
+		mem::Read((uintptr_t*) (moduleBase + addy), chr, 1, process);
 		param->Text = Convert::ToString(Convert::ToByte(*chr));
 		return;
 	}
@@ -150,18 +169,16 @@ void MainForm::set_stat(BYTE stat, Windows::Forms::TextBox^ param, uintptr_t add
 	try {
 		stat = Convert::ToByte(param->Text);
 		// setting global to the new value
-		mem::Patch((BYTE*)(moduleBase + addy), (BYTE*)static_cast<char*>(static_cast<void*>(&stat)), 1, process);
+		mem::Patch((uintptr_t*) (moduleBase + addy), (uintptr_t*)static_cast<char*>(static_cast<void*>(&stat)), 1, process);
 	
 	}
 	catch (Exception^) {
-		BYTE chr[1] = { 0 };
-		mem::Read((BYTE*)(moduleBase + addy), chr, 1, process);
+		uintptr_t chr[1] = { 0 };
+		mem::Read((uintptr_t*) (moduleBase + addy), chr, 1, process);
 		param->Text = Convert::ToString(Convert::ToByte(*chr));
 	}
 	
 }
-
-
 
 void MainForm::button1_Click(System::Object^ sender, System::EventArgs^ e) {
 
