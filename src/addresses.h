@@ -60,6 +60,8 @@ static uintptr_t disablexAddy							= 0xA53BB9;
 static uintptr_t disablexRetAddy						= moduleBase + disablexAddy + 8;
 static uintptr_t disableyAddy							= 0xA53BC4;
 static uintptr_t disableyRetAddy						= moduleBase + disableyAddy + 6;
+static uintptr_t instakillAddy							= 0x43FE3B;
+static uintptr_t instakillRetAddy						= moduleBase + instakillAddy + 7;
 
 // inventory
 // items are either in the inventory or in the environment
@@ -94,6 +96,7 @@ struct envAddrs {
 	static const uintptr_t speedOffset				= 0x5C;
 	static const uintptr_t entityOffset				= 0x138;
 	static const uintptr_t statusOffset				= 0xE0;
+	static const uintptr_t sleepOffset				= 0xDC;
 };
 
 struct statusMasks { // little endian

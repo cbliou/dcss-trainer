@@ -136,6 +136,9 @@ private: System::Windows::Forms::CheckBox^ onehp;
 private: System::Windows::Forms::Panel^ panel3;
 private: System::Windows::Forms::CheckBox^ mfreeze;
 private: System::Windows::Forms::CheckBox^ disablemovement;
+private: System::Windows::Forms::CheckBox^ instakill;
+private: System::Windows::Forms::CheckBox^ permasleep;
+
 
 
 
@@ -267,6 +270,8 @@ private: System::Windows::Forms::CheckBox^ disablemovement;
 			this->label58 = (gcnew System::Windows::Forms::Label());
 			this->maces = (gcnew System::Windows::Forms::TextBox());
 			this->panel3 = (gcnew System::Windows::Forms::Panel());
+			this->permasleep = (gcnew System::Windows::Forms::CheckBox());
+			this->instakill = (gcnew System::Windows::Forms::CheckBox());
 			this->disablemovement = (gcnew System::Windows::Forms::CheckBox());
 			this->mfreeze = (gcnew System::Windows::Forms::CheckBox());
 			label2 = (gcnew System::Windows::Forms::Label());
@@ -494,7 +499,7 @@ private: System::Windows::Forms::CheckBox^ disablemovement;
 			// onehp
 			// 
 			this->onehp->AutoSize = true;
-			this->onehp->Location = System::Drawing::Point(5, 6);
+			this->onehp->Location = System::Drawing::Point(5, 104);
 			this->onehp->Name = L"onehp";
 			this->onehp->Size = System::Drawing::Size(67, 19);
 			this->onehp->TabIndex = 85;
@@ -1140,6 +1145,8 @@ private: System::Windows::Forms::CheckBox^ disablemovement;
 			// panel3
 			// 
 			this->panel3->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->panel3->Controls->Add(this->permasleep);
+			this->panel3->Controls->Add(this->instakill);
 			this->panel3->Controls->Add(this->disablemovement);
 			this->panel3->Controls->Add(this->mfreeze);
 			this->panel3->Controls->Add(this->onehp);
@@ -1147,6 +1154,28 @@ private: System::Windows::Forms::CheckBox^ disablemovement;
 			this->panel3->Name = L"panel3";
 			this->panel3->Size = System::Drawing::Size(188, 195);
 			this->panel3->TabIndex = 86;
+			// 
+			// permasleep
+			// 
+			this->permasleep->AutoSize = true;
+			this->permasleep->Location = System::Drawing::Point(5, 80);
+			this->permasleep->Name = L"permasleep";
+			this->permasleep->Size = System::Drawing::Size(87, 19);
+			this->permasleep->TabIndex = 88;
+			this->permasleep->Text = L"Permasleep";
+			this->permasleep->UseVisualStyleBackColor = true;
+			this->permasleep->CheckedChanged += gcnew System::EventHandler(this, &MainForm::checkBox1_CheckedChanged);
+			// 
+			// instakill
+			// 
+			this->instakill->AutoSize = true;
+			this->instakill->Location = System::Drawing::Point(5, 4);
+			this->instakill->Name = L"instakill";
+			this->instakill->Size = System::Drawing::Size(67, 19);
+			this->instakill->TabIndex = 87;
+			this->instakill->Text = L"Instakill";
+			this->instakill->UseVisualStyleBackColor = true;
+			this->instakill->CheckedChanged += gcnew System::EventHandler(this, &MainForm::instakill_CheckedChanged);
 			// 
 			// disablemovement
 			// 
@@ -1222,6 +1251,8 @@ private: System::Windows::Forms::CheckBox^ disablemovement;
 	private: System::Void onehp_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 	private: System::Void mfreeze_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 	private: System::Void disablemovement_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
+	private: System::Void instakill_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
+	private: System::Void checkBox1_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 };
 
 };

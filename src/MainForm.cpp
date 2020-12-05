@@ -91,6 +91,35 @@ void MainForm::GUITimer_Tick(System::Object^ sender, System::EventArgs^ e) {
 	}
 }
 
+
+// permasleep
+void MainForm::checkBox1_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	if (this->permasleep->Checked) {
+		mem::EntityPatch((uintptr_t*)moduleBase, (uintptr_t*)0x02, 1, envAddrs::sleepOffset);
+		logger::WriteLinetoConsole("Putting monsters to sleep.");
+	}
+	else {
+		mem::EntityPatch((uintptr_t*)moduleBase, (uintptr_t*)0x00, 1, envAddrs::sleepOffset);
+		logger::WriteLinetoConsole("Waking monsters up.");
+	}
+}
+
+void MainForm::instakill_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	if (this->instakill->Checked) {
+		instakillRetAddy = moduleBase + instakillAddy + 7;
+		hooks::Hook(moduleBase, instakillAddy, hooks::instakill, 7);
+		logger::WriteLinetoConsole("Enabled instakill.");
+	}
+	else {
+		//crawl - tiles.exe + 43FE3B - 29 F0 - sub eax, esi
+		//crawl - tiles.exe + 43FE3D - 39 D0 - cmp eax, edx
+		//crawl - tiles.exe + 43FE3F - 89 43 54 - mov[ebx + 54], eax
+
+		mem::Patch((uintptr_t*)(moduleBase + instakillAddy), (uintptr_t*)"\x29\xF0\x39\xD0\x89\x43\x54", 7);
+		logger::WriteLinetoConsole("Disabled instakill.");
+	}
+}
+
 // hook the x and y moves, disable them
 void MainForm::disablemovement_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
 	if (this->disablemovement->Checked) {

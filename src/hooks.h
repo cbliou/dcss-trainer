@@ -1,11 +1,7 @@
 #pragma once
 #include "stdafx.h"
 
-using namespace System;
-
-
 namespace hooks {
-	//void __declspec(naked) disableX(void);
 
 	/*
 	Inserts a hook at `hookAddress` to jump to jumpAddress. Fails if size if < 5.
@@ -20,7 +16,6 @@ namespace hooks {
 		VirtualProtect((LPVOID*)(moduleBase + hookAddress), size, PAGE_EXECUTE_READWRITE, &oldprotect);
 		// jmp jumpAddress
 		// write jmp first
-		logger::WriteLinetoConsole(Convert::ToString(moduleBase + hookAddress));
 		memset((uintptr_t*)(moduleBase + hookAddress), 0xE9, 1);
 		// calculate relative offset as the PC increments then jumps
 		uintptr_t relativeAddress = (uintptr_t)jumpAddress - hookAddress - moduleBase - 5;
@@ -39,7 +34,7 @@ namespace hooks {
 	void __declspec(naked) disableX(void) {
 		__asm {
 			add edx, 0x0
-			mov eax, [ebp - 0x000000A0]
+			mov eax, [ebp - 0xA0]
 			jmp [disablexRetAddy]
 		}
 	}
@@ -49,7 +44,16 @@ namespace hooks {
 		__asm {
 			add eax, 0x0
 			lea ecx, [edx - 0x01]
-			jmp[disableyRetAddy]
+			jmp [disableyRetAddy]
+		}
+	}
+
+	void __declspec(naked) instakill(void) {
+		__asm {
+			sub eax, esi
+			cmp eax, edx
+			mov [ebx + 0x54], 0x0
+			jmp [instakillRetAddy]
 		}
 	}
 
