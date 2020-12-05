@@ -4,9 +4,10 @@
 #include "MainForm.h"
 #include "process.h"
 #include "memory.h"
-#include "constants.h"
+#include "addresses.h"
 #include "logger.h"
 #include "util.h"
+#include "hooks.h"
 
 using namespace dcsstrainer;
 using namespace System;
@@ -18,7 +19,7 @@ void set_skill(Windows::Forms::TextBox^ param, uintptr_t addy);
 
 // globals
 static bool isAttached = false, autoIdentify = false, oneHP = false, freeze = false;
-uintptr_t moduleBase = NULL;// = (uintptr_t)GetModuleHandle(L"crawl_tiles.exe");
+//uintptr_t moduleBase = NULL;
 
 [STAThread]
 DWORD APIENTRY Main() {
@@ -57,7 +58,6 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpvReserved) {
 void MainForm::GUITimer_Tick(System::Object^ sender, System::EventArgs^ e) {
 	// figure out how to just do this once lmfao
 	moduleBase = (uintptr_t)GetModuleHandle(NULL);
-
 	/*
 	attach_crawl();
 
@@ -77,19 +77,44 @@ void MainForm::GUITimer_Tick(System::Object^ sender, System::EventArgs^ e) {
 
 	if (oneHP) {
 		uintptr_t hp = 1;
-		mem::EntityPatch((uintptr_t*)moduleBase, &hp, 4, envAddrs::hpOffset);//, process);
+		mem::EntityPatch((uintptr_t*)moduleBase, &hp, 4, envAddrs::hpOffset);
 	}
 
 	if (freeze) {
-		//uintptr_t speed = 0;
+		// uintptr_t speed = 0;
 		// this works but to undo it, you need to keep pointers to alive enemies
-		//mem::EntityPatch((uintptr_t*)moduleBase, &speed, 4, envAddrs::speedOffset, process);
+		// mem::EntityPatch((uintptr_t*)moduleBase, &speed, 4, envAddrs::speedOffset, process);
 		mem::EntityPatch((uintptr_t*)moduleBase, &statusMasks::petrify, 4, envAddrs::statusOffset);
 	}
 	else {
 		mem::EntityPatch((uintptr_t*)moduleBase, &statusMasks::nomask, 4, envAddrs::statusOffset);
 	}
 }
+
+// hook the x and y moves, disable them
+void MainForm::disablemovement_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	if (this->disablemovement->Checked) {
+		// we somehow need to update the ret addy relative to module. why not do it here?
+		disablexRetAddy = moduleBase + disablexAddy + 8;
+		disableyRetAddy = moduleBase + disableyAddy + 6;
+		// overwriting 8 bytes
+		hooks::Hook(moduleBase, disablexAddy, hooks::disableX, 8);
+		hooks::Hook(moduleBase, disableyAddy, hooks::disableY, 6);
+		logger::WriteLinetoConsole("Disabled enemy movement. They can still attack you tho!");
+	}
+	else {
+		//crawl - tiles.exe + A53BB9 - 03 10 - add edx, [eax]
+		//crawl - tiles.exe + A53BBB - 8B 85 60FFFFFF - mov eax, [ebp - 000000A0]
+		mem::Patch((uintptr_t*) (moduleBase + disablexAddy), (uintptr_t*)"\x03\x10\x8B\x85\x60\xFF\xFF\xFF", 8);
+		//crawl - tiles.exe + A53BC4 - 03 43 04 - add eax, [ebx + 04]
+		//crawl - tiles.exe + A53BC7 - 8D 4A FF - lea ecx, [edx - 01]
+		mem::Patch((uintptr_t*) (moduleBase + disableyAddy), (uintptr_t*)"\x03\x43\x04\x8D\x4A\xFF", 6);
+		logger::WriteLinetoConsole("Enabled enemy movement.");
+
+	}
+}
+
+
 
 // start setting flags
 void MainForm::idinven_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
@@ -139,7 +164,7 @@ void MainForm::godmode_CheckedChanged(System::Object^ sender, System::EventArgs^
 		
 	else {
 		// sub eax, ebx
-		mem::Patch((uintptr_t*) (moduleBase + godModeAddy), (uintptr_t*)"\x29\xD8", 2);//, process);
+		mem::Patch((uintptr_t*) (moduleBase + godModeAddy), (uintptr_t*)"\x29\xD8", 2);
 		logger::WriteLinetoConsole("Deactivated godmode.");
 	}
 		
@@ -156,7 +181,7 @@ void MainForm::infinitemana_CheckedChanged(System::Object^ sender, System::Event
 	else {
 		// 29 D8 - sub eax, ebx
 		// 0F 48 C2 - cmovs eax, edx
-		mem::Patch((uintptr_t*) (moduleBase + infiniteManaAddy), (uintptr_t*)"\x29\xD8\x0F\x48\xC2", 5);//, process);
+		mem::Patch((uintptr_t*) (moduleBase + infiniteManaAddy), (uintptr_t*)"\x29\xD8\x0F\x48\xC2", 5);
 		logger::WriteLinetoConsole("Deactivated infinite mana.");
 	}
 
@@ -174,11 +199,10 @@ void MainForm::nohunger_CheckedChanged(System::Object^ sender, System::EventArgs
 	}
 		
 	else {
-		mem::Patch((uintptr_t*) (moduleBase + noHungerAddy), (uintptr_t*)"\x29\xD8\x0F\x48\xC2", 5);//, process);
+		mem::Patch((uintptr_t*) (moduleBase + noHungerAddy), (uintptr_t*)"\x29\xD8\x0F\x48\xC2", 5);
 		logger::WriteLinetoConsole("Deactivated no hunger.");
 	}
 		
-
 }
 
 void set_stat(Windows::Forms::TextBox^ param, uintptr_t addy) {
@@ -187,7 +211,7 @@ void set_stat(Windows::Forms::TextBox^ param, uintptr_t addy) {
 	if (param->Text == "") {
 		uintptr_t chr[1] = { 0 };
 		
-		mem::Read((uintptr_t*)(moduleBase + addy), chr, 1);//, process);
+		mem::Read((uintptr_t*)(moduleBase + addy), chr, 1);
 		param->Text = Convert::ToString(Convert::ToByte(*chr));
 		return;
 	}
@@ -195,12 +219,12 @@ void set_stat(Windows::Forms::TextBox^ param, uintptr_t addy) {
 	try {
 		BYTE stat = Convert::ToByte(param->Text);
 		// setting global to the new value
-		mem::Patch((uintptr_t*) (moduleBase + addy), (uintptr_t*) &stat, 1);//, process);
+		mem::Patch((uintptr_t*) (moduleBase + addy), (uintptr_t*) &stat, 1);
 	
 	}
 	catch (Exception^) {
 		uintptr_t chr[1] = { 0 };
-		mem::Read((uintptr_t*) (moduleBase + addy), chr, 1);//, process);
+		mem::Read((uintptr_t*) (moduleBase + addy), chr, 1);
 		param->Text = Convert::ToString(Convert::ToByte(*chr));
 	}
 	
@@ -214,7 +238,7 @@ void set_empty_skill(Windows::Forms::TextBox^ param, uintptr_t addy) {
 	uintptr_t chr[2] = { 0, 0 };
 	short read_exp;
 
-	mem::Read((uintptr_t*)(moduleBase + addy), chr, 2);//, process);
+	mem::Read((uintptr_t*)(moduleBase + addy), chr, 2);
 	read_exp = Convert::ToInt16(*chr);
 
 	// get level rounded up

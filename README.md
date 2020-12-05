@@ -9,12 +9,11 @@ Download this project by cloning the repository:
 git clone https://github.com/cbliou/dcss-trainer.git
 ```
 
-The trainer is the executable located in the Release folder. Source code for the trainer is within this project.
-
 ## Use
 This trainer only supports the `tiles` version of crawl. It only supports version 0.25.0; the trainer will most likely not work on other versions of crawl.
 
-Use: The trainer will automatically detect `crawl-tiles.exe` is running and attach to it.
+Use: Run the executable `dcsstrainer.exe`. It will attempt to inject the src.dll, which is the actual trainer itself. If successful, the trainer will appear and the console will close.
+TODO: add dll ejecting + auto inject process
 
 ## Features
 

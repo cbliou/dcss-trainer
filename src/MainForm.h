@@ -135,6 +135,7 @@ private: System::Windows::Forms::Label^ armor;
 private: System::Windows::Forms::CheckBox^ onehp;
 private: System::Windows::Forms::Panel^ panel3;
 private: System::Windows::Forms::CheckBox^ mfreeze;
+private: System::Windows::Forms::CheckBox^ disablemovement;
 
 
 
@@ -266,6 +267,7 @@ private: System::Windows::Forms::CheckBox^ mfreeze;
 			this->label58 = (gcnew System::Windows::Forms::Label());
 			this->maces = (gcnew System::Windows::Forms::TextBox());
 			this->panel3 = (gcnew System::Windows::Forms::Panel());
+			this->disablemovement = (gcnew System::Windows::Forms::CheckBox());
 			this->mfreeze = (gcnew System::Windows::Forms::CheckBox());
 			label2 = (gcnew System::Windows::Forms::Label());
 			label1 = (gcnew System::Windows::Forms::Label());
@@ -1138,12 +1140,24 @@ private: System::Windows::Forms::CheckBox^ mfreeze;
 			// panel3
 			// 
 			this->panel3->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->panel3->Controls->Add(this->disablemovement);
 			this->panel3->Controls->Add(this->mfreeze);
 			this->panel3->Controls->Add(this->onehp);
 			this->panel3->Location = System::Drawing::Point(11, 278);
 			this->panel3->Name = L"panel3";
 			this->panel3->Size = System::Drawing::Size(188, 195);
 			this->panel3->TabIndex = 86;
+			// 
+			// disablemovement
+			// 
+			this->disablemovement->AutoSize = true;
+			this->disablemovement->Location = System::Drawing::Point(5, 54);
+			this->disablemovement->Name = L"disablemovement";
+			this->disablemovement->Size = System::Drawing::Size(124, 19);
+			this->disablemovement->TabIndex = 86;
+			this->disablemovement->Text = L"Disable Movement";
+			this->disablemovement->UseVisualStyleBackColor = true;
+			this->disablemovement->CheckedChanged += gcnew System::EventHandler(this, &MainForm::disablemovement_CheckedChanged);
 			// 
 			// mfreeze
 			// 
@@ -1207,6 +1221,7 @@ private: System::Windows::Forms::CheckBox^ mfreeze;
 	private: System::Void idinven_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 	private: System::Void onehp_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 	private: System::Void mfreeze_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
+	private: System::Void disablemovement_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 };
 
 };

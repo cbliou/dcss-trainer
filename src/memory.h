@@ -38,4 +38,5 @@ namespace mem
 	Reads `size` bytes from memory location `dst`. `arr` is a pointer to a buffer holding the read data.
 	*/
 	void Read(uintptr_t* dst, uintptr_t* arr, unsigned int size);
+
 }

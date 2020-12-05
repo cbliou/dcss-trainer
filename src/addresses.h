@@ -1,6 +1,10 @@
 #pragma once
 #include <unordered_map>
 
+// we need this in order to jmp [moduleBase + offset]
+// there's gotta be a better way to do this.
+static uintptr_t moduleBase							= 0;
+
 // in a function call
 static const uintptr_t godModeAddy					= 0x4A7FAE;
 static const uintptr_t infiniteManaAddy				= 0x4A83B9;
@@ -52,6 +56,11 @@ static const uintptr_t airMagicAddy					= fightingAddy + 0x70;
 static const uintptr_t earthMagicAddy				= fightingAddy + 0x74;
 static const uintptr_t poisonMagicAddy				= fightingAddy + 0x78;
 
+static uintptr_t disablexAddy							= 0xA53BB9;
+static uintptr_t disablexRetAddy						= moduleBase + disablexAddy + 8;
+static uintptr_t disableyAddy							= 0xA53BC4;
+static uintptr_t disableyRetAddy						= moduleBase + disableyAddy + 6;
+
 // inventory
 // items are either in the inventory or in the environment
 
@@ -94,6 +103,11 @@ struct statusMasks { // little endian
 	static const uintptr_t ally						= 0x00002000;
 	static const uintptr_t petrify					= 0x00008000;
 };
+
+// maybe write an aob scanner?
+//struct hookAddrs {
+	// struct initialized members needs to be const??? i must be missing something
+//};
 
 
 

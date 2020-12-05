@@ -152,6 +152,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="hooks.cpp" />
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="memory.cpp" />
     <ClCompile Include="MainForm.cpp" />
@@ -159,7 +160,8 @@
     <ClCompile Include="util.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="constants.h" />
+    <ClInclude Include="addresses.h" />
+    <ClInclude Include="hooks.h" />
     <ClInclude Include="logger.h" />
     <ClInclude Include="MainForm.h">
       <FileType>CppForm</FileType>
@@ -170,9 +172,6 @@
     <ClInclude Include="memory.h" />
     <ClInclude Include="process.h" />
     <ClInclude Include="util.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
