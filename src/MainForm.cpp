@@ -18,7 +18,8 @@ void set_stat(Windows::Forms::TextBox^ text, uintptr_t addy);
 void set_skill(Windows::Forms::TextBox^ param, uintptr_t addy);
 
 // globals
-static bool isAttached = false, autoIdentify = false, oneHP = false, freeze = false;
+static bool isAttached = false, autoIdentify = false, oneHP = false, freeze = false, sleep = false;
+static bool maxItems = false;
 //uintptr_t moduleBase = NULL;
 
 [STAThread]
@@ -89,17 +90,38 @@ void MainForm::GUITimer_Tick(System::Object^ sender, System::EventArgs^ e) {
 	else {
 		mem::EntityPatch((uintptr_t*)moduleBase, &statusMasks::nomask, 4, envAddrs::statusOffset);
 	}
+
+	if (sleep) {
+		uintptr_t mask = 0x02;
+		mem::EntityPatch((uintptr_t*)moduleBase, &mask, 1, envAddrs::sleepOffset);
+	}
+	else {
+		uintptr_t mask = 0x00;
+		mem::EntityPatch((uintptr_t*)moduleBase, &mask, 1, envAddrs::sleepOffset);
+	}
+
 }
 
+//change this to a button
+void MainForm::maxitems_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	if (this->maxitems->Checked) {
+		uintptr_t arr[1] = {0xFF};
+		mem::InventoryPatch((uintptr_t*)moduleBase, arr, 1, inventoryAddrs::numItemsOffset);
+		logger::WriteLinetoConsole("Setting items to max amount.");
+	}
+	else {
+		logger::WriteLinetoConsole("not sure what to do yet.");
+	}
+}
 
 // permasleep
 void MainForm::checkBox1_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
 	if (this->permasleep->Checked) {
-		mem::EntityPatch((uintptr_t*)moduleBase, (uintptr_t*)0x02, 1, envAddrs::sleepOffset);
+		sleep = true;
 		logger::WriteLinetoConsole("Putting monsters to sleep.");
 	}
 	else {
-		mem::EntityPatch((uintptr_t*)moduleBase, (uintptr_t*)0x00, 1, envAddrs::sleepOffset);
+		sleep = false;
 		logger::WriteLinetoConsole("Waking monsters up.");
 	}
 }

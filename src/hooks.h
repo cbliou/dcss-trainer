@@ -27,7 +27,7 @@ namespace hooks {
 		memset((uintptr_t*)(moduleBase + hookAddress + 5), 0x90, size - 5);
 		VirtualProtect((LPVOID*)(moduleBase + hookAddress), size, oldprotect, &oldprotect);
 		return true;
-
+		
 	}
 	
 	// edx stores change in x

@@ -105,6 +105,7 @@ struct statusMasks { // little endian
 	static const uintptr_t neutral					= 0x00001000;
 	static const uintptr_t ally						= 0x00002000;
 	static const uintptr_t petrify					= 0x00008000;
+	static const uintptr_t maxItems					= 0x00007FFF;
 };
 
 // maybe write an aob scanner?
@@ -134,72 +135,3 @@ static std::unordered_map<int, int> exptoLevel = {
 	{27000, 26}, {29750, 27}
 };
 
-/*
-notes:
-
-- casts come before addition
-- item ID is 2 byte value, 100 means empty
- - first byte is something
- - second represent something else
-
-- for environment items, flags comes before (x, y)
-- for inventory, flags also comes before (x, y) but is -1, -1
-
-items
-- kept track of either in the env or inventory
-- there is one item in the player struct but it's also the first item in the inventory ???? wdf
-- seems like items are generated once you enter. possible autoid hack
-- if you have n items in your inventory, there are n+1 contiguous blocks of memory ready to recieve the inventory items
-- there is no deallocation if you drop items
-- thus you must look for reliable inventory slot id, which is always +1 from the last if the spot has been allocated before
-   - technically you don't need to, the env items seem to be laid out right after the inventory ones
-   - ID all env ones so items will stack properly
-
-primary id's
-potion: 7
-scrolls: 5
-
-05 10 is acquirement
-0A 00 is orb of zot lmfao
-
-
-
-entities
-- they're 0x138 or 312 apart
-172 from the 4 byte -1 on the right
-- cannot just set hp to 0, they need to clean up pointers for items held and stuff
-- can easily stasis monsters
-
-seems like in memory:
-- environment items
-- environment entities
-
-
-
-
-
-crawl-tiles.exe+23D40
-looks to be updateXandY function
-- it is the global update x and y, affects player too
-
-
-01B8C350 013252A0
-
-E7BCA0
-01CEBCA0 player struct
-+C x
-+10 y
-
-
-B5 -> 6660
-
-after monster type is found, this function is called
-looks like its checking for a treshold
-crawl-tiles.exe+4051E0 - 69 04 85 E0C5BD01 A8000000 - imul eax,[eax*4+crawl-tiles.exe+E1C5E0],000000A8 { 168 }
-crawl-tiles.exe+4051EB - 8B 80 0CDE9101        - mov eax,[eax+crawl-tiles.exe+B5DE0C]
-crawl-tiles.exe+4051F1 - C1 E8 13              - shr eax,13 { 19 }
-crawl-tiles.exe+4051F4 - 83 E0 01              - and eax,01 { 1 }
-
-
-
-*/

@@ -30,6 +30,11 @@ namespace mem
 	void EntityPatch(uintptr_t* start, const uintptr_t* bytes, int numBytes, uintptr_t offset);
 
 	/*
+	Patches a memory location in the inventory. Really should have several overrides
+	*/
+	void InventoryPatch(uintptr_t* start, uintptr_t* bytes, int numBytes, uintptr_t offset);
+
+	/*
 	Patches a memory location with bytes representing nop
 	*/
 	void Nop(uintptr_t* dst, unsigned int size);

@@ -138,6 +138,8 @@ private: System::Windows::Forms::CheckBox^ mfreeze;
 private: System::Windows::Forms::CheckBox^ disablemovement;
 private: System::Windows::Forms::CheckBox^ instakill;
 private: System::Windows::Forms::CheckBox^ permasleep;
+private: System::Windows::Forms::CheckBox^ maxitems;
+
 
 
 
@@ -204,6 +206,7 @@ private: System::Windows::Forms::CheckBox^ permasleep;
 			this->applystats = (gcnew System::Windows::Forms::Button());
 			this->statusStrip1 = (gcnew System::Windows::Forms::StatusStrip());
 			this->panel2 = (gcnew System::Windows::Forms::Panel());
+			this->maxitems = (gcnew System::Windows::Forms::CheckBox());
 			this->idinven = (gcnew System::Windows::Forms::CheckBox());
 			this->onehp = (gcnew System::Windows::Forms::CheckBox());
 			this->panel1 = (gcnew System::Windows::Forms::Panel());
@@ -381,11 +384,11 @@ private: System::Windows::Forms::CheckBox^ permasleep;
 			this->ConsoleLog->ForeColor = System::Drawing::SystemColors::ControlText;
 			this->ConsoleLog->FormattingEnabled = true;
 			this->ConsoleLog->ItemHeight = 15;
-			this->ConsoleLog->Location = System::Drawing::Point(0, 582);
+			this->ConsoleLog->Location = System::Drawing::Point(0, 507);
 			this->ConsoleLog->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->ConsoleLog->Name = L"ConsoleLog";
 			this->ConsoleLog->SelectionMode = System::Windows::Forms::SelectionMode::None;
-			this->ConsoleLog->Size = System::Drawing::Size(597, 15);
+			this->ConsoleLog->Size = System::Drawing::Size(597, 90);
 			this->ConsoleLog->TabIndex = 6;
 			// 
 			// godmode
@@ -476,6 +479,7 @@ private: System::Windows::Forms::CheckBox^ permasleep;
 			// panel2
 			// 
 			this->panel2->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->panel2->Controls->Add(this->maxitems);
 			this->panel2->Controls->Add(this->idinven);
 			this->panel2->Controls->Add(this->nohunger);
 			this->panel2->Controls->Add(this->godmode);
@@ -484,6 +488,17 @@ private: System::Windows::Forms::CheckBox^ permasleep;
 			this->panel2->Name = L"panel2";
 			this->panel2->Size = System::Drawing::Size(188, 195);
 			this->panel2->TabIndex = 15;
+			// 
+			// maxitems
+			// 
+			this->maxitems->AutoSize = true;
+			this->maxitems->Location = System::Drawing::Point(5, 102);
+			this->maxitems->Name = L"maxitems";
+			this->maxitems->Size = System::Drawing::Size(110, 19);
+			this->maxitems->TabIndex = 80;
+			this->maxitems->Text = L"Maximum Items";
+			this->maxitems->UseVisualStyleBackColor = true;
+			this->maxitems->CheckedChanged += gcnew System::EventHandler(this, &MainForm::maxitems_CheckedChanged);
 			// 
 			// idinven
 			// 
@@ -1253,6 +1268,7 @@ private: System::Windows::Forms::CheckBox^ permasleep;
 	private: System::Void disablemovement_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 	private: System::Void instakill_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 	private: System::Void checkBox1_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
+	private: System::Void maxitems_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 };
 
 };

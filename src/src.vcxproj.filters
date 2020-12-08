@@ -55,4 +55,7 @@
       <UniqueIdentifier>{3e769e09-e32f-433f-a8f6-047259670843}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="notes to self.txt" />
+  </ItemGroup>
 </Project>
