@@ -44,13 +44,32 @@ void mem::InventoryPatch(uintptr_t* start, uintptr_t* bytes, int numBytes, uintp
 	for (unsigned int i = 0; i <= 52; ++i) {
 		
 		// doesn't work for writing # items as that is a short
-		// check if the inventory slot has been filled yet
+		// check if item ID is jewellery, armor, weapon, or the chunks of flesh (flesh was causing crashes)
+		BYTE* itemID = (BYTE*)((uintptr_t)start + inventoryAddrs::firstInventorySlot + inventoryAddrs::itemTypeOffset + i * inventoryAddrs::inventoryOffset);
 		
+		// 0 weapon, 2 armor, 6 jewellery,
+		// 4, 21 chunks of flesh
+		if (*itemID == 0 || *itemID == 2 || *itemID == 6) {
+			logger::WriteLinetoConsole("Skipping location " + i);
+			continue;
+		}
+			
+
+		BYTE* itemSubID = (BYTE*)((uintptr_t)start + inventoryAddrs::firstInventorySlot + inventoryAddrs::subItemTypeOffset + i * inventoryAddrs::inventoryOffset);
+
+		if (*itemID == 4 && *itemSubID == 21) {
+			logger::WriteLinetoConsole("Location " + i + " is chunks of flesh.");
+			continue;
+		}
+
+
+		// check if the inventory slot has been filled yet
 		uintptr_t* memLoc = (uintptr_t*)((uintptr_t)start + inventoryAddrs::firstInventorySlot + offset + i * inventoryAddrs::inventoryOffset);
 		uintptr_t arr[2] = { 0, 0 };
 		memcpy(arr, memLoc, numBytes);
 		if (Convert::ToInt16(*arr) == 0) {
-			return;
+			logger::WriteLinetoConsole("Location " + i + " failed");
+			continue;
 		}
 		memcpy(memLoc, bytes, numBytes);
 			//start + (inventoryAddrs::firstInventorySlot + (unsigned short)offset + i * inventoryAddrs::inventoryOffset) / sizeof(offset),

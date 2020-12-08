@@ -59,6 +59,8 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpvReserved) {
 void MainForm::GUITimer_Tick(System::Object^ sender, System::EventArgs^ e) {
 	// figure out how to just do this once lmfao
 	moduleBase = (uintptr_t)GetModuleHandle(NULL);
+	attached->Text = "Active!";
+	attached->ForeColor = System::Drawing::Color::DarkGreen;
 	/*
 	attach_crawl();
 
@@ -71,6 +73,8 @@ void MainForm::GUITimer_Tick(System::Object^ sender, System::EventArgs^ e) {
 		attached->ForeColor = System::Drawing::Color::DarkRed;
 	}
 	*/
+
+	// each call requires two virtualprotect calls. can be sped up if we just called once for all hacks
 	if (autoIdentify) {
 		mem::PatchItemFlag((uintptr_t*)moduleBase, &itemFlags::identMask);
 	}
@@ -100,17 +104,25 @@ void MainForm::GUITimer_Tick(System::Object^ sender, System::EventArgs^ e) {
 		mem::EntityPatch((uintptr_t*)moduleBase, &mask, 1, envAddrs::sleepOffset);
 	}
 
+	if (maxItems) {
+		uintptr_t arr[1] = { 0xFF };
+		mem::InventoryPatch((uintptr_t*)moduleBase, arr, 1, inventoryAddrs::numItemsOffset);
+	}
+	else {
+		;
+	}
+
 }
 
 //change this to a button
 void MainForm::maxitems_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
 	if (this->maxitems->Checked) {
-		uintptr_t arr[1] = {0xFF};
-		mem::InventoryPatch((uintptr_t*)moduleBase, arr, 1, inventoryAddrs::numItemsOffset);
-		logger::WriteLinetoConsole("Setting items to max amount.");
+		maxItems = true;
+		logger::WriteLinetoConsole("Setting items to 256.");
 	}
 	else {
-		logger::WriteLinetoConsole("not sure what to do yet.");
+		maxItems = false;
+		logger::WriteLinetoConsole("Might undo in the future. Not now tho...");
 	}
 }
 

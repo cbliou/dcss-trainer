@@ -384,11 +384,11 @@ private: System::Windows::Forms::CheckBox^ maxitems;
 			this->ConsoleLog->ForeColor = System::Drawing::SystemColors::ControlText;
 			this->ConsoleLog->FormattingEnabled = true;
 			this->ConsoleLog->ItemHeight = 15;
-			this->ConsoleLog->Location = System::Drawing::Point(0, 507);
+			this->ConsoleLog->Location = System::Drawing::Point(0, 582);
 			this->ConsoleLog->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->ConsoleLog->Name = L"ConsoleLog";
 			this->ConsoleLog->SelectionMode = System::Windows::Forms::SelectionMode::None;
-			this->ConsoleLog->Size = System::Drawing::Size(597, 90);
+			this->ConsoleLog->Size = System::Drawing::Size(597, 15);
 			this->ConsoleLog->TabIndex = 6;
 			// 
 			// godmode
@@ -1228,8 +1228,8 @@ private: System::Windows::Forms::CheckBox^ maxitems;
 			this->Controls->Add(customstat);
 			this->Controls->Add(label5);
 			this->Controls->Add(this->attached);
-			this->Controls->Add(this->ConsoleLog);
 			this->Controls->Add(this->statusStrip1);
+			this->Controls->Add(this->ConsoleLog);
 			this->Font = (gcnew System::Drawing::Font(L"Lato", 8.999999F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->ForeColor = System::Drawing::SystemColors::Desktop;
