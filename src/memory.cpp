@@ -33,35 +33,22 @@ void mem::PatchItemFlag(uintptr_t* start, const uintptr_t* flag) {
 
 void mem::InventoryPatch(uintptr_t* start, uintptr_t* bytes, int numBytes, uintptr_t offset) {
 
-	logger::WriteLinetoConsole("Start:" + Convert::ToString((int) start));
-	logger::WriteLinetoConsole("First item loc:" + Convert::ToString((int)(start + (inventoryAddrs::firstInventorySlot + offset))));
-	logger::WriteLinetoConsole("First item loc correct:" + Convert::ToString((int)(start + (inventoryAddrs::firstInventorySlot + offset) / sizeof(offset))));
-
-	// the issue with 
 	DWORD oldprotect;
 	// change the read/write permissions of the inventory location
 	VirtualProtect(start + inventoryAddrs::firstInventorySlot, 52 * inventoryAddrs::inventoryOffset, PAGE_EXECUTE_READWRITE, &oldprotect);
 	for (unsigned int i = 0; i <= 52; ++i) {
 		
-		// doesn't work for writing # items as that is a short
 		// check if item ID is jewellery, armor, weapon, or the chunks of flesh (flesh was causing crashes)
 		BYTE* itemID = (BYTE*)((uintptr_t)start + inventoryAddrs::firstInventorySlot + inventoryAddrs::itemTypeOffset + i * inventoryAddrs::inventoryOffset);
-		
 		// 0 weapon, 2 armor, 6 jewellery,
-		// 4, 21 chunks of flesh
 		if (*itemID == 0 || *itemID == 2 || *itemID == 6) {
-			logger::WriteLinetoConsole("Skipping location " + i);
 			continue;
 		}
-			
-
+		// 4, 21 chunks of flesh
 		BYTE* itemSubID = (BYTE*)((uintptr_t)start + inventoryAddrs::firstInventorySlot + inventoryAddrs::subItemTypeOffset + i * inventoryAddrs::inventoryOffset);
-
 		if (*itemID == 4 && *itemSubID == 21) {
-			logger::WriteLinetoConsole("Location " + i + " is chunks of flesh.");
 			continue;
 		}
-
 
 		// check if the inventory slot has been filled yet
 		uintptr_t* memLoc = (uintptr_t*)((uintptr_t)start + inventoryAddrs::firstInventorySlot + offset + i * inventoryAddrs::inventoryOffset);
@@ -71,9 +58,9 @@ void mem::InventoryPatch(uintptr_t* start, uintptr_t* bytes, int numBytes, uintp
 			logger::WriteLinetoConsole("Location " + i + " failed");
 			continue;
 		}
+
+		// if not, we good
 		memcpy(memLoc, bytes, numBytes);
-			//start + (inventoryAddrs::firstInventorySlot + (unsigned short)offset + i * inventoryAddrs::inventoryOffset) / sizeof(offset),
-			//bytes, numBytes//);
 	}
 	VirtualProtect(start + inventoryAddrs::firstInventorySlot, 52 * inventoryAddrs::inventoryOffset, oldprotect, &oldprotect);
 
@@ -123,6 +110,5 @@ void mem::Nop(uintptr_t* dst, unsigned int size) {
 	memset(dst, 0x90, size);
 	VirtualProtect(dst, size, oldprotect, &oldprotect);
 }
-
 
 

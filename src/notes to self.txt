@@ -63,3 +63,8 @@ looks to be updateXandY function
 - it is the global update x and y, affects player too
 
 given an empty "enemy" in the environment, you can force an enemy to spawn by setting x, y, health, maxhealth, speed and the 27001 thing
+
+
+
+address crawl-tiles.exe + BE1C20 stores a bunch of item dealing offsets:
+for example, scroll is crawl-tiles.exe + 5E2E55 + BE1C20

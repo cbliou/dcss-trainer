@@ -139,6 +139,21 @@ private: System::Windows::Forms::CheckBox^ disablemovement;
 private: System::Windows::Forms::CheckBox^ instakill;
 private: System::Windows::Forms::CheckBox^ permasleep;
 private: System::Windows::Forms::CheckBox^ maxitems;
+private: System::Windows::Forms::CheckBox^ mmapping;
+private: System::Windows::Forms::TabControl^ tabboxthing;
+
+
+private: System::Windows::Forms::TabPage^ tabpage1;
+
+
+
+private: System::Windows::Forms::TabPage^ tabPage2;
+private: System::Windows::Forms::Panel^ panel4;
+
+
+
+
+
 
 
 
@@ -193,6 +208,7 @@ private: System::Windows::Forms::CheckBox^ maxitems;
 			System::Windows::Forms::Label^ customstat;
 			System::Windows::Forms::Label^ label5;
 			System::Windows::Forms::Label^ label4;
+			System::Windows::Forms::Label^ label6;
 			this->dexterity = (gcnew System::Windows::Forms::TextBox());
 			this->strength = (gcnew System::Windows::Forms::TextBox());
 			this->intelligence = (gcnew System::Windows::Forms::TextBox());
@@ -277,15 +293,25 @@ private: System::Windows::Forms::CheckBox^ maxitems;
 			this->instakill = (gcnew System::Windows::Forms::CheckBox());
 			this->disablemovement = (gcnew System::Windows::Forms::CheckBox());
 			this->mfreeze = (gcnew System::Windows::Forms::CheckBox());
+			this->mmapping = (gcnew System::Windows::Forms::CheckBox());
+			this->tabboxthing = (gcnew System::Windows::Forms::TabControl());
+			this->tabpage1 = (gcnew System::Windows::Forms::TabPage());
+			this->panel4 = (gcnew System::Windows::Forms::Panel());
+			this->tabPage2 = (gcnew System::Windows::Forms::TabPage());
 			label2 = (gcnew System::Windows::Forms::Label());
 			label1 = (gcnew System::Windows::Forms::Label());
 			label3 = (gcnew System::Windows::Forms::Label());
 			customstat = (gcnew System::Windows::Forms::Label());
 			label5 = (gcnew System::Windows::Forms::Label());
 			label4 = (gcnew System::Windows::Forms::Label());
+			label6 = (gcnew System::Windows::Forms::Label());
 			this->panel2->SuspendLayout();
 			this->panel1->SuspendLayout();
 			this->panel3->SuspendLayout();
+			this->tabboxthing->SuspendLayout();
+			this->tabpage1->SuspendLayout();
+			this->panel4->SuspendLayout();
+			this->tabPage2->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// label2
@@ -318,7 +344,8 @@ private: System::Windows::Forms::CheckBox^ maxitems;
 			// customstat
 			// 
 			customstat->AutoSize = true;
-			customstat->Location = System::Drawing::Point(202, 20);
+			customstat->BackColor = System::Drawing::Color::Transparent;
+			customstat->Location = System::Drawing::Point(6, 4);
 			customstat->Name = L"customstat";
 			customstat->Size = System::Drawing::Size(75, 15);
 			customstat->TabIndex = 4;
@@ -327,7 +354,7 @@ private: System::Windows::Forms::CheckBox^ maxitems;
 			// label5
 			// 
 			label5->AutoSize = true;
-			label5->Location = System::Drawing::Point(8, 20);
+			label5->Location = System::Drawing::Point(6, 4);
 			label5->Name = L"label5";
 			label5->Size = System::Drawing::Size(74, 15);
 			label5->TabIndex = 0;
@@ -336,11 +363,20 @@ private: System::Windows::Forms::CheckBox^ maxitems;
 			// label4
 			// 
 			label4->AutoSize = true;
-			label4->Location = System::Drawing::Point(8, 260);
+			label4->Location = System::Drawing::Point(177, 3);
 			label4->Name = L"label4";
 			label4->Size = System::Drawing::Size(86, 15);
 			label4->TabIndex = 87;
 			label4->Text = L"Monster Hacks";
+			// 
+			// label6
+			// 
+			label6->AutoSize = true;
+			label6->Location = System::Drawing::Point(354, 3);
+			label6->Name = L"label6";
+			label6->Size = System::Drawing::Size(82, 15);
+			label6->TabIndex = 89;
+			label6->Text = L"Miscellaneous";
 			// 
 			// dexterity
 			// 
@@ -384,18 +420,18 @@ private: System::Windows::Forms::CheckBox^ maxitems;
 			this->ConsoleLog->ForeColor = System::Drawing::SystemColors::ControlText;
 			this->ConsoleLog->FormattingEnabled = true;
 			this->ConsoleLog->ItemHeight = 15;
-			this->ConsoleLog->Location = System::Drawing::Point(0, 582);
+			this->ConsoleLog->Location = System::Drawing::Point(0, 622);
 			this->ConsoleLog->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->ConsoleLog->Name = L"ConsoleLog";
 			this->ConsoleLog->SelectionMode = System::Windows::Forms::SelectionMode::None;
-			this->ConsoleLog->Size = System::Drawing::Size(597, 15);
+			this->ConsoleLog->Size = System::Drawing::Size(476, 15);
 			this->ConsoleLog->TabIndex = 6;
 			// 
 			// godmode
 			// 
 			this->godmode->AutoSize = true;
 			this->godmode->ImeMode = System::Windows::Forms::ImeMode::NoControl;
-			this->godmode->Location = System::Drawing::Point(5, 6);
+			this->godmode->Location = System::Drawing::Point(5, 4);
 			this->godmode->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->godmode->Name = L"godmode";
 			this->godmode->RightToLeft = System::Windows::Forms::RightToLeft::No;
@@ -424,7 +460,7 @@ private: System::Windows::Forms::CheckBox^ maxitems;
 			// nohunger
 			// 
 			this->nohunger->AutoSize = true;
-			this->nohunger->Location = System::Drawing::Point(5, 54);
+			this->nohunger->Location = System::Drawing::Point(5, 56);
 			this->nohunger->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->nohunger->Name = L"nohunger";
 			this->nohunger->RightToLeft = System::Windows::Forms::RightToLeft::No;
@@ -443,7 +479,7 @@ private: System::Windows::Forms::CheckBox^ maxitems;
 			// attached
 			// 
 			this->attached->AutoSize = true;
-			this->attached->Location = System::Drawing::Point(614, 582);
+			this->attached->Location = System::Drawing::Point(482, 622);
 			this->attached->Name = L"attached";
 			this->attached->Size = System::Drawing::Size(0, 15);
 			this->attached->TabIndex = 7;
@@ -452,7 +488,7 @@ private: System::Windows::Forms::CheckBox^ maxitems;
 			// 
 			this->attachedtext->AutoSize = true;
 			this->attachedtext->ForeColor = System::Drawing::SystemColors::ControlText;
-			this->attachedtext->Location = System::Drawing::Point(570, 582);
+			this->attachedtext->Location = System::Drawing::Point(432, 620);
 			this->attachedtext->Name = L"attachedtext";
 			this->attachedtext->Size = System::Drawing::Size(44, 15);
 			this->attachedtext->TabIndex = 8;
@@ -470,29 +506,27 @@ private: System::Windows::Forms::CheckBox^ maxitems;
 			// 
 			// statusStrip1
 			// 
-			this->statusStrip1->Location = System::Drawing::Point(0, 575);
+			this->statusStrip1->Location = System::Drawing::Point(0, 615);
 			this->statusStrip1->Name = L"statusStrip1";
-			this->statusStrip1->Size = System::Drawing::Size(752, 22);
+			this->statusStrip1->Size = System::Drawing::Size(562, 22);
 			this->statusStrip1->TabIndex = 13;
 			this->statusStrip1->Text = L"statusStrip1";
 			// 
 			// panel2
 			// 
 			this->panel2->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
-			this->panel2->Controls->Add(this->maxitems);
-			this->panel2->Controls->Add(this->idinven);
 			this->panel2->Controls->Add(this->nohunger);
 			this->panel2->Controls->Add(this->godmode);
 			this->panel2->Controls->Add(this->infinitemana);
-			this->panel2->Location = System::Drawing::Point(11, 38);
+			this->panel2->Location = System::Drawing::Point(9, 21);
 			this->panel2->Name = L"panel2";
-			this->panel2->Size = System::Drawing::Size(188, 195);
+			this->panel2->Size = System::Drawing::Size(165, 195);
 			this->panel2->TabIndex = 15;
 			// 
 			// maxitems
 			// 
 			this->maxitems->AutoSize = true;
-			this->maxitems->Location = System::Drawing::Point(5, 102);
+			this->maxitems->Location = System::Drawing::Point(5, 56);
 			this->maxitems->Name = L"maxitems";
 			this->maxitems->Size = System::Drawing::Size(110, 19);
 			this->maxitems->TabIndex = 80;
@@ -503,7 +537,7 @@ private: System::Windows::Forms::CheckBox^ maxitems;
 			// idinven
 			// 
 			this->idinven->AutoSize = true;
-			this->idinven->Location = System::Drawing::Point(5, 78);
+			this->idinven->Location = System::Drawing::Point(5, 30);
 			this->idinven->Name = L"idinven";
 			this->idinven->Size = System::Drawing::Size(154, 19);
 			this->idinven->TabIndex = 79;
@@ -514,7 +548,7 @@ private: System::Windows::Forms::CheckBox^ maxitems;
 			// onehp
 			// 
 			this->onehp->AutoSize = true;
-			this->onehp->Location = System::Drawing::Point(5, 104);
+			this->onehp->Location = System::Drawing::Point(5, 108);
 			this->onehp->Name = L"onehp";
 			this->onehp->Size = System::Drawing::Size(67, 19);
 			this->onehp->TabIndex = 85;
@@ -594,7 +628,7 @@ private: System::Windows::Forms::CheckBox^ maxitems;
 			this->panel1->Controls->Add(this->label57);
 			this->panel1->Controls->Add(this->label58);
 			this->panel1->Controls->Add(this->maces);
-			this->panel1->Location = System::Drawing::Point(205, 38);
+			this->panel1->Location = System::Drawing::Point(6, 22);
 			this->panel1->Name = L"panel1";
 			this->panel1->Size = System::Drawing::Size(524, 517);
 			this->panel1->TabIndex = 71;
@@ -1165,15 +1199,15 @@ private: System::Windows::Forms::CheckBox^ maxitems;
 			this->panel3->Controls->Add(this->disablemovement);
 			this->panel3->Controls->Add(this->mfreeze);
 			this->panel3->Controls->Add(this->onehp);
-			this->panel3->Location = System::Drawing::Point(11, 278);
+			this->panel3->Location = System::Drawing::Point(180, 21);
 			this->panel3->Name = L"panel3";
-			this->panel3->Size = System::Drawing::Size(188, 195);
+			this->panel3->Size = System::Drawing::Size(165, 195);
 			this->panel3->TabIndex = 86;
 			// 
 			// permasleep
 			// 
 			this->permasleep->AutoSize = true;
-			this->permasleep->Location = System::Drawing::Point(5, 80);
+			this->permasleep->Location = System::Drawing::Point(5, 82);
 			this->permasleep->Name = L"permasleep";
 			this->permasleep->Size = System::Drawing::Size(87, 19);
 			this->permasleep->TabIndex = 88;
@@ -1195,7 +1229,7 @@ private: System::Windows::Forms::CheckBox^ maxitems;
 			// disablemovement
 			// 
 			this->disablemovement->AutoSize = true;
-			this->disablemovement->Location = System::Drawing::Point(5, 54);
+			this->disablemovement->Location = System::Drawing::Point(5, 56);
 			this->disablemovement->Name = L"disablemovement";
 			this->disablemovement->Size = System::Drawing::Size(124, 19);
 			this->disablemovement->TabIndex = 86;
@@ -1214,22 +1248,80 @@ private: System::Windows::Forms::CheckBox^ maxitems;
 			this->mfreeze->UseVisualStyleBackColor = true;
 			this->mfreeze->CheckedChanged += gcnew System::EventHandler(this, &MainForm::mfreeze_CheckedChanged);
 			// 
+			// mmapping
+			// 
+			this->mmapping->AutoSize = true;
+			this->mmapping->Location = System::Drawing::Point(5, 4);
+			this->mmapping->Name = L"mmapping";
+			this->mmapping->Size = System::Drawing::Size(110, 19);
+			this->mmapping->TabIndex = 88;
+			this->mmapping->Text = L"Auto MagicMap";
+			this->mmapping->UseVisualStyleBackColor = true;
+			this->mmapping->CheckedChanged += gcnew System::EventHandler(this, &MainForm::mmapping_CheckedChanged);
+			// 
+			// tabboxthing
+			// 
+			this->tabboxthing->AccessibleDescription = L"";
+			this->tabboxthing->AccessibleName = L"";
+			this->tabboxthing->Controls->Add(this->tabpage1);
+			this->tabboxthing->Controls->Add(this->tabPage2);
+			this->tabboxthing->Location = System::Drawing::Point(9, 17);
+			this->tabboxthing->Margin = System::Windows::Forms::Padding(0);
+			this->tabboxthing->Name = L"tabboxthing";
+			this->tabboxthing->SelectedIndex = 0;
+			this->tabboxthing->Size = System::Drawing::Size(544, 576);
+			this->tabboxthing->SizeMode = System::Windows::Forms::TabSizeMode::Fixed;
+			this->tabboxthing->TabIndex = 85;
+			// 
+			// tabpage1
+			// 
+			this->tabpage1->BackColor = System::Drawing::SystemColors::Control;
+			this->tabpage1->Controls->Add(label6);
+			this->tabpage1->Controls->Add(this->panel4);
+			this->tabpage1->Controls->Add(label5);
+			this->tabpage1->Controls->Add(this->panel2);
+			this->tabpage1->Controls->Add(this->panel3);
+			this->tabpage1->Controls->Add(label4);
+			this->tabpage1->Location = System::Drawing::Point(4, 24);
+			this->tabpage1->Name = L"tabpage1";
+			this->tabpage1->Size = System::Drawing::Size(536, 548);
+			this->tabpage1->TabIndex = 0;
+			this->tabpage1->Text = L"Hacks";
+			// 
+			// panel4
+			// 
+			this->panel4->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->panel4->Controls->Add(this->maxitems);
+			this->panel4->Controls->Add(this->mmapping);
+			this->panel4->Controls->Add(this->idinven);
+			this->panel4->Location = System::Drawing::Point(353, 21);
+			this->panel4->Name = L"panel4";
+			this->panel4->Size = System::Drawing::Size(165, 195);
+			this->panel4->TabIndex = 81;
+			// 
+			// tabPage2
+			// 
+			this->tabPage2->BackColor = System::Drawing::SystemColors::Control;
+			this->tabPage2->Controls->Add(this->panel1);
+			this->tabPage2->Controls->Add(customstat);
+			this->tabPage2->Location = System::Drawing::Point(4, 24);
+			this->tabPage2->Margin = System::Windows::Forms::Padding(0);
+			this->tabPage2->Name = L"tabPage2";
+			this->tabPage2->Size = System::Drawing::Size(536, 548);
+			this->tabPage2->TabIndex = 1;
+			this->tabPage2->Text = L"Stats";
+			// 
 			// MainForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(7, 15);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::Control;
-			this->ClientSize = System::Drawing::Size(752, 597);
-			this->Controls->Add(label4);
-			this->Controls->Add(this->panel3);
-			this->Controls->Add(this->panel1);
-			this->Controls->Add(this->panel2);
+			this->ClientSize = System::Drawing::Size(562, 637);
+			this->Controls->Add(this->tabboxthing);
 			this->Controls->Add(this->attachedtext);
-			this->Controls->Add(customstat);
-			this->Controls->Add(label5);
 			this->Controls->Add(this->attached);
-			this->Controls->Add(this->statusStrip1);
 			this->Controls->Add(this->ConsoleLog);
+			this->Controls->Add(this->statusStrip1);
 			this->Font = (gcnew System::Drawing::Font(L"Lato", 8.999999F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->ForeColor = System::Drawing::SystemColors::Desktop;
@@ -1246,6 +1338,13 @@ private: System::Windows::Forms::CheckBox^ maxitems;
 			this->panel1->PerformLayout();
 			this->panel3->ResumeLayout(false);
 			this->panel3->PerformLayout();
+			this->tabboxthing->ResumeLayout(false);
+			this->tabpage1->ResumeLayout(false);
+			this->tabpage1->PerformLayout();
+			this->panel4->ResumeLayout(false);
+			this->panel4->PerformLayout();
+			this->tabPage2->ResumeLayout(false);
+			this->tabPage2->PerformLayout();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -1269,6 +1368,7 @@ private: System::Windows::Forms::CheckBox^ maxitems;
 	private: System::Void instakill_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 	private: System::Void checkBox1_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 	private: System::Void maxitems_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
+	private: System::Void mmapping_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 };
 
 };

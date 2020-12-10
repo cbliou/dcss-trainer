@@ -23,13 +23,17 @@ TODO: add dll ejecting + auto inject process
 + Godmode: Sets all incoming damage to your player to 0. Includes magic/poison damage. 
 + Infinite mana: Does not use mana when casting spells.
 + No Hunger: Your hunger does not decrease.
-+ Auto-identify items: Items in your inventory and environment will be automatically identified. Currently does not include shop items.
 
 #### Monster
 + One HP: Sets all monster HP to one.
 + Monster freeze: Freeze all monsters in place; they will not attack you.
 + Disable movement: Disables monster movement. However, they will still attack. Enemies will physical attacks only will attack themselves. Enemies with ranged and magic attacks can attack you/summon monsters/etc.
 + Instakill: all attacks will instantly kill any monster. Works for ranged/magic/physical.
+
+#### Misc
++ Auto-identify items: Items in your inventory and environment will be automatically identified. Currently does not include shop items.
++ Maximum items: Sets all useable items to 256.
++ Auto-Magic Map: will magic map your level one second after you enter a new level. Will miss levels that take more than one second to generate.
 
 ### Custom stats
 + Change strength, intelligence, dex values: Set them to values between 0 and 127. Missing/invalid values are set to your current values.

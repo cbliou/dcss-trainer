@@ -8,6 +8,7 @@
 #include "logger.h"
 #include "util.h"
 #include "hooks.h"
+#include "internalfuncs.h"
 
 using namespace dcsstrainer;
 using namespace System;
@@ -19,12 +20,12 @@ void set_skill(Windows::Forms::TextBox^ param, uintptr_t addy);
 
 // globals
 static bool isAttached = false, autoIdentify = false, oneHP = false, freeze = false, sleep = false;
-static bool maxItems = false;
+static bool maxItems = false, magicMap = false;
 //uintptr_t moduleBase = NULL;
 
 [STAThread]
 DWORD APIENTRY Main() {
-	moduleBase = (uintptr_t)GetModuleHandle(L"crawl_tiles.exe");
+	moduleBase = (uintptr_t)GetModuleHandle(NULL);
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
 	Application::Run(gcnew MainForm());
@@ -112,6 +113,33 @@ void MainForm::GUITimer_Tick(System::Object^ sender, System::EventArgs^ e) {
 		;
 	}
 
+	if (magicMap) {
+
+		//hook will deal with updating the need to magic map
+		if (needsMagicMap) {
+			Sleep(1000);
+			coord_def a = coord_def{ 20, 20 };
+			magic_mapping(1000, 500, false, false, false, a);
+			needsMagicMap = false;
+		}
+
+	}
+
+
+}
+
+void MainForm::mmapping_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	if (this->mmapping->Checked) {
+		magicMap = true;
+		hooks::Hook(moduleBase, hookMapChangeAddy, hooks::MapChange, 6);
+		logger::WriteLinetoConsole("Activated auto-magic mapping.");
+	}
+	else {
+		// crawl-tiles.exe+58B7DC - 8B 85 A4FEFFFF        - mov eax,[ebp-0000015C]
+		magicMap = false;
+		mem::Patch((uintptr_t*)(moduleBase + hookMapChangeAddy), (uintptr_t*)"\x8B\x85\xA4\xFE\xFF\xFF", 6);
+		logger::WriteLinetoConsole("Deactivated auto-magic mapping.");
+	}
 }
 
 //change this to a button
@@ -140,7 +168,7 @@ void MainForm::checkBox1_CheckedChanged(System::Object^ sender, System::EventArg
 
 void MainForm::instakill_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
 	if (this->instakill->Checked) {
-		instakillRetAddy = moduleBase + instakillAddy + 7;
+		//instakillRetAddy = moduleBase + instakillAddy + 7;
 		hooks::Hook(moduleBase, instakillAddy, hooks::instakill, 7);
 		logger::WriteLinetoConsole("Enabled instakill.");
 	}
@@ -157,9 +185,6 @@ void MainForm::instakill_CheckedChanged(System::Object^ sender, System::EventArg
 // hook the x and y moves, disable them
 void MainForm::disablemovement_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
 	if (this->disablemovement->Checked) {
-		// we somehow need to update the ret addy relative to module. why not do it here?
-		disablexRetAddy = moduleBase + disablexAddy + 8;
-		disableyRetAddy = moduleBase + disableyAddy + 6;
 		// overwriting 8 bytes
 		hooks::Hook(moduleBase, disablexAddy, hooks::disableX, 8);
 		hooks::Hook(moduleBase, disableyAddy, hooks::disableY, 6);

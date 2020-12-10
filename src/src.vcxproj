@@ -153,6 +153,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="hooks.cpp" />
+    <ClCompile Include="internalfuncs.cpp" />
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="memory.cpp" />
     <ClCompile Include="MainForm.cpp" />
@@ -162,6 +163,7 @@
   <ItemGroup>
     <ClInclude Include="addresses.h" />
     <ClInclude Include="hooks.h" />
+    <ClInclude Include="internalfuncs.h" />
     <ClInclude Include="logger.h" />
     <ClInclude Include="MainForm.h">
       <FileType>CppForm</FileType>

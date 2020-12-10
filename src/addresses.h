@@ -3,7 +3,19 @@
 
 // we need this in order to jmp [moduleBase + offset]
 // there's gotta be a better way to do this.
-static uintptr_t moduleBase							= 0;
+static uintptr_t moduleBase							= (uintptr_t)GetModuleHandle(NULL);
+
+static uintptr_t hookMapChangeAddy					= 0x58B7DC;
+// :(
+static bool needsMagicMap = true;
+static uintptr_t hookMapChangeRetAddy				= moduleBase + hookMapChangeAddy + 6;
+static uintptr_t magicMappingAddy					= moduleBase + 0x635580;
+static uintptr_t disablexAddy						= 0xA53BB9;
+static uintptr_t disablexRetAddy					= moduleBase + disablexAddy + 8;
+static uintptr_t disableyAddy						= 0xA53BC4;
+static uintptr_t disableyRetAddy					= moduleBase + disableyAddy + 6;
+static uintptr_t instakillAddy						= 0x43FE3B;
+static uintptr_t instakillRetAddy					= moduleBase + instakillAddy + 7;
 
 // in a function call
 static const uintptr_t godModeAddy					= 0x4A7FAE;
@@ -56,12 +68,7 @@ static const uintptr_t airMagicAddy					= fightingAddy + 0x70;
 static const uintptr_t earthMagicAddy				= fightingAddy + 0x74;
 static const uintptr_t poisonMagicAddy				= fightingAddy + 0x78;
 
-static uintptr_t disablexAddy							= 0xA53BB9;
-static uintptr_t disablexRetAddy						= moduleBase + disablexAddy + 8;
-static uintptr_t disableyAddy							= 0xA53BC4;
-static uintptr_t disableyRetAddy						= moduleBase + disableyAddy + 6;
-static uintptr_t instakillAddy							= 0x43FE3B;
-static uintptr_t instakillRetAddy						= moduleBase + instakillAddy + 7;
+
 
 // inventory
 // items are either in the inventory or in the environment
