@@ -149,6 +149,7 @@ private: System::Windows::Forms::TabPage^ tabpage1;
 
 private: System::Windows::Forms::TabPage^ tabPage2;
 private: System::Windows::Forms::Panel^ panel4;
+private: System::Windows::Forms::CheckBox^ acqui;
 
 
 
@@ -297,6 +298,7 @@ private: System::Windows::Forms::Panel^ panel4;
 			this->tabboxthing = (gcnew System::Windows::Forms::TabControl());
 			this->tabpage1 = (gcnew System::Windows::Forms::TabPage());
 			this->panel4 = (gcnew System::Windows::Forms::Panel());
+			this->acqui = (gcnew System::Windows::Forms::CheckBox());
 			this->tabPage2 = (gcnew System::Windows::Forms::TabPage());
 			label2 = (gcnew System::Windows::Forms::Label());
 			label1 = (gcnew System::Windows::Forms::Label());
@@ -1291,6 +1293,7 @@ private: System::Windows::Forms::Panel^ panel4;
 			// panel4
 			// 
 			this->panel4->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->panel4->Controls->Add(this->acqui);
 			this->panel4->Controls->Add(this->maxitems);
 			this->panel4->Controls->Add(this->mmapping);
 			this->panel4->Controls->Add(this->idinven);
@@ -1298,6 +1301,18 @@ private: System::Windows::Forms::Panel^ panel4;
 			this->panel4->Name = L"panel4";
 			this->panel4->Size = System::Drawing::Size(165, 195);
 			this->panel4->TabIndex = 81;
+			// 
+			// acqui
+			// 
+			this->acqui->AutoSize = true;
+			this->acqui->Enabled = true;
+			this->acqui->Location = System::Drawing::Point(5, 82);
+			this->acqui->Name = L"acqui";
+			this->acqui->Size = System::Drawing::Size(95, 19);
+			this->acqui->TabIndex = 89;
+			this->acqui->Text = L"Acquirement";
+			this->acqui->UseVisualStyleBackColor = true;
+			this->acqui->CheckedChanged += gcnew System::EventHandler(this, &MainForm::acqui_CheckedChanged);
 			// 
 			// tabPage2
 			// 
@@ -1369,6 +1384,7 @@ private: System::Windows::Forms::Panel^ panel4;
 	private: System::Void checkBox1_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 	private: System::Void maxitems_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 	private: System::Void mmapping_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
+	private: System::Void acqui_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 };
 
 };

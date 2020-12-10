@@ -38,11 +38,11 @@ void inject_trainer() {
 			return;
 		}
 	
-		// find address of LoadLibraryA
+		// find address of LoadLibraryW
 		PTHREAD_START_ROUTINE loadlibraryAddy = (PTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "LoadLibraryW");
 		// this is a function ptr
 		if (loadlibraryAddy == NULL) {
-			printf("Unable to retrieve address for LoadLibraryA. Exiting...\n");
+			printf("Unable to retrieve address for LoadLibraryW. Exiting...\n");
 			return;
 		}
 

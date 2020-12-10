@@ -87,8 +87,8 @@ void MainForm::GUITimer_Tick(System::Object^ sender, System::EventArgs^ e) {
 	}
 
 	if (freeze) {
-		// uintptr_t speed = 0;
 		// this works but to undo it, you need to keep pointers to alive enemies
+		// uintptr_t speed = 0;
 		// mem::EntityPatch((uintptr_t*)moduleBase, &speed, 4, envAddrs::speedOffset, process);
 		mem::EntityPatch((uintptr_t*)moduleBase, &statusMasks::petrify, 4, envAddrs::statusOffset);
 	}
@@ -109,9 +109,6 @@ void MainForm::GUITimer_Tick(System::Object^ sender, System::EventArgs^ e) {
 		uintptr_t arr[1] = { 0xFF };
 		mem::InventoryPatch((uintptr_t*)moduleBase, arr, 1, inventoryAddrs::numItemsOffset);
 	}
-	else {
-		;
-	}
 
 	if (magicMap) {
 
@@ -125,7 +122,22 @@ void MainForm::GUITimer_Tick(System::Object^ sender, System::EventArgs^ e) {
 
 	}
 
+	
 
+}
+
+void MainForm::acqui_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	if (this->acqui->Checked) {
+		
+		// at 50, 32
+		//ok, the function calls, but the gui is fucked up
+		Sleep(2000);
+		acquirement();
+		//acquirement();
+		//acquirement_screen(0x21);
+		//acquirement(moduleBase + inventoryAddrs::firstInventorySlot + inventoryAddrs::itemTypeOffset);
+		
+	}
 }
 
 void MainForm::mmapping_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
@@ -143,6 +155,7 @@ void MainForm::mmapping_CheckedChanged(System::Object^ sender, System::EventArgs
 }
 
 //change this to a button
+// 
 void MainForm::maxitems_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
 	if (this->maxitems->Checked) {
 		maxItems = true;

@@ -105,7 +105,7 @@ namespace hooks {
 			esp is 01DFF170
 		
 		*/
-		// this corrupts the stack. also, it only applies mmap on the level you just existed. 
+		// this corrupts the stack (bc u forgot that hooked instruction). also, it only applies mmap on the level you just existed so useless af
 		__asm {
 			mov seax, eax
 			mov sebx, ebx

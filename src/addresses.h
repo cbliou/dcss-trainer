@@ -6,15 +6,18 @@
 static uintptr_t moduleBase							= (uintptr_t)GetModuleHandle(NULL);
 
 static uintptr_t hookMapChangeAddy					= 0x58B7DC;
-// :(
-static bool needsMagicMap = true;
-static uintptr_t hookMapChangeRetAddy				= moduleBase + hookMapChangeAddy + 6;
-static uintptr_t magicMappingAddy					= moduleBase + 0x635580;
 static uintptr_t disablexAddy						= 0xA53BB9;
-static uintptr_t disablexRetAddy					= moduleBase + disablexAddy + 8;
 static uintptr_t disableyAddy						= 0xA53BC4;
-static uintptr_t disableyRetAddy					= moduleBase + disableyAddy + 6;
 static uintptr_t instakillAddy						= 0x43FE3B;
+static uintptr_t acqCheck1Addy						= moduleBase + 0x2619A0;
+static uintptr_t acqScreenAddy						= moduleBase + 0x5EAFF0;
+static uintptr_t acquirementAddy					= moduleBase + 0x21F30;
+
+static bool needsMagicMap							= true;
+static uintptr_t magicMappingAddy					= moduleBase + 0x635580;
+static uintptr_t hookMapChangeRetAddy				= moduleBase + hookMapChangeAddy + 6;
+static uintptr_t disablexRetAddy					= moduleBase + disablexAddy + 8;
+static uintptr_t disableyRetAddy					= moduleBase + disableyAddy + 6;
 static uintptr_t instakillRetAddy					= moduleBase + instakillAddy + 7;
 
 // in a function call
@@ -23,7 +26,8 @@ static const uintptr_t infiniteManaAddy				= 0x4A83B9;
 static const uintptr_t noHungerAddy					= 0x198008;
 
 // player 
-static const uintptr_t playerAddy					= 0xE7BCA0;
+static const uintptr_t playerAddy					= 0xE7BD24;
+static const uintptr_t goldAddy						= 0xE7BD9C;
 static const uintptr_t strAddy						= 0xE7BD73;
 static const uintptr_t intAddy						= 0xE7BD74;
 static const uintptr_t dexAddy						= 0xE7BD75;

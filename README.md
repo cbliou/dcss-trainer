@@ -40,6 +40,7 @@ TODO: add dll ejecting + auto inject process
 + Change skill levels: Set them to skill levels between 0.0 and 27.0. Missing/invalid values are set to your current values.
 
 ### Possible incoming features
++ acquirement on command; opengl calls are failing tho
 + turn trainer on and off
 + Tile-based kill aura
 + Gold/piety/item stat modifying
