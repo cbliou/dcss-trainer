@@ -109,7 +109,7 @@ void MainForm::GUITimer_Tick(System::Object^ sender, System::EventArgs^ e) {
 		uintptr_t arr[1] = { 0xFF };
 		mem::InventoryPatch((uintptr_t*)moduleBase, arr, 1, inventoryAddrs::numItemsOffset);
 	}
-
+	/*
 	if (magicMap) {
 
 		//hook will deal with updating the need to magic map
@@ -121,6 +121,7 @@ void MainForm::GUITimer_Tick(System::Object^ sender, System::EventArgs^ e) {
 		}
 
 	}
+	*/
 
 	
 
@@ -130,26 +131,27 @@ void MainForm::acqui_CheckedChanged(System::Object^ sender, System::EventArgs^ e
 	if (this->acqui->Checked) {
 		
 		// at 50, 32
-		//ok, the function calls, but the gui is fucked up
+		// ok, the function calls, but the gui is fucked up
+		// gonna disable this for now until i can figure out the TIB discrepancies between this thread and crawl's
 		Sleep(2000);
 		acquirement();
-		//acquirement();
-		//acquirement_screen(0x21);
-		//acquirement(moduleBase + inventoryAddrs::firstInventorySlot + inventoryAddrs::itemTypeOffset);
 		
 	}
 }
 
 void MainForm::mmapping_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
 	if (this->mmapping->Checked) {
-		magicMap = true;
+		//magicMap = true;
 		hooks::Hook(moduleBase, hookMapChangeAddy, hooks::MapChange, 6);
+		hooks::Hook(moduleBase, updateTickAddy, hooks::ApplyMapChange, 7);
 		logger::WriteLinetoConsole("Activated auto-magic mapping.");
 	}
 	else {
+		// magicMap = false;
 		// crawl-tiles.exe+58B7DC - 8B 85 A4FEFFFF        - mov eax,[ebp-0000015C]
-		magicMap = false;
 		mem::Patch((uintptr_t*)(moduleBase + hookMapChangeAddy), (uintptr_t*)"\x8B\x85\xA4\xFE\xFF\xFF", 6);
+		// crawl - tiles.exe + 6D60E9 - C7 04 24  01000000 - mov[esp], 00000001 { 1 }
+		mem::Patch((uintptr_t*)(moduleBase + updateTickAddy), (uintptr_t*)"\xC7\x04\x24\x01\x00\x00\x00", 7);
 		logger::WriteLinetoConsole("Deactivated auto-magic mapping.");
 	}
 }

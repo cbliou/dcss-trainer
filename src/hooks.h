@@ -79,6 +79,56 @@ namespace hooks {
 		}
 	}
 
+	// after needsmapchange has been set to true, after one tick on the new level, apply magic mapping
+	void __declspec(naked) ApplyMapChange(void) {
+		/*
+		couple of tasks:
+		- save all registers
+		- set needtomap to false
+		- if needsmagicmap == true:
+			- magic_map();
+		- mov [esp], 0x00000001
+		- restore all registers
+		jump
+		*/
+		
+
+		__asm {
+			mov seax, eax
+			mov sebx, ebx
+			mov secx, ecx
+			mov sedx, edx
+			mov sesi, esi
+			mov sedi, edi
+			mov sebp, ebp
+			mov sesp, esp
+			mov eax, dword ptr needsMagicMap
+			test al, al							// if needsmagicmap == true:
+			mov [needsMagicMap], 0x0
+			je skip				// take branch if you don't need to map, in which zf = 1
+			mov dword ptr [esp + 0x14],  0x0000001A			// in bounds
+			mov dword ptr [esp + 0x18], 0x0000001A
+			mov dword ptr [esp + 0x10], 0x00000000
+			mov dword ptr [esp + 0xC], 0x00000000
+			mov dword ptr [esp + 0x08], 0x00000000
+			mov dword ptr [esp + 0x04], 0x00000064
+			mov dword ptr [esp], 0x000001F4
+			call magicMappingAddy
+skip:		mov eax, seax
+			mov ebx, sebx
+			mov ecx, secx
+			mov edx, sedx
+			mov esi, sesi
+			mov edi, sedi
+			mov ebp, sebp
+			mov esp, sesp
+			
+			mov [esp], 0x00000001 // execute stolen bytes
+			jmp [updateTickRetAddy]
+		}
+
+	}
+
 	void __declspec(naked) hookMapChange(void) {
 
 		/*
@@ -128,6 +178,7 @@ namespace hooks {
 			mov ecx, secx
 			mov edx, sedx
 			mov esi, sesi
+			mov edi, sedi
 			mov ebp, sebp
 			mov esp, sesp
 			jmp [hookMapChangeRetAddy]

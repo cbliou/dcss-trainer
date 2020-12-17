@@ -4,21 +4,29 @@
 // we need this in order to jmp [moduleBase + offset]
 // there's gotta be a better way to do this.
 static uintptr_t moduleBase							= (uintptr_t)GetModuleHandle(NULL);
+static bool needsMagicMap = true;
 
+// hooking addresses / function address
+static uintptr_t magicMappingAddy					= moduleBase + 0x635580;
 static uintptr_t hookMapChangeAddy					= 0x58B7DC;
 static uintptr_t disablexAddy						= 0xA53BB9;
 static uintptr_t disableyAddy						= 0xA53BC4;
 static uintptr_t instakillAddy						= 0x43FE3B;
+static uintptr_t calculateSpeedAddy					= 0x4A7896;
+static uintptr_t updateTickAddy						= 0x6D60E9; // used to apply magic map on new tick 
 static uintptr_t acqCheck1Addy						= moduleBase + 0x2619A0;
 static uintptr_t acqScreenAddy						= moduleBase + 0x5EAFF0;
 static uintptr_t acquirementAddy					= moduleBase + 0x21F30;
 
-static bool needsMagicMap							= true;
-static uintptr_t magicMappingAddy					= moduleBase + 0x635580;
+
+
+
+// return addresses for hooks
 static uintptr_t hookMapChangeRetAddy				= moduleBase + hookMapChangeAddy + 6;
 static uintptr_t disablexRetAddy					= moduleBase + disablexAddy + 8;
 static uintptr_t disableyRetAddy					= moduleBase + disableyAddy + 6;
 static uintptr_t instakillRetAddy					= moduleBase + instakillAddy + 7;
+static uintptr_t updateTickRetAddy					= moduleBase + updateTickAddy + 7;
 
 // in a function call
 static const uintptr_t godModeAddy					= 0x4A7FAE;
