@@ -34,6 +34,9 @@ namespace mem
 	*/
 	void InventoryPatch(uintptr_t* start, uintptr_t* bytes, int numBytes, uintptr_t offset);
 
+	/* change wand charges to max */
+	void WandChargePatch(uintptr_t* start, uintptr_t* bytes, int numBytes, uintptr_t offset);
+
 	/*
 	Patches a memory location with bytes representing nop
 	*/

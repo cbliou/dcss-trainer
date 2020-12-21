@@ -150,6 +150,12 @@ private: System::Windows::Forms::TabPage^ tabpage1;
 private: System::Windows::Forms::TabPage^ tabPage2;
 private: System::Windows::Forms::Panel^ panel4;
 private: System::Windows::Forms::CheckBox^ acqui;
+private: System::Windows::Forms::CheckBox^ maxcharge;
+private: System::Windows::Forms::TextBox^ piety;
+
+private: System::Windows::Forms::TextBox^ gold;
+
+
 
 
 
@@ -210,6 +216,8 @@ private: System::Windows::Forms::CheckBox^ acqui;
 			System::Windows::Forms::Label^ label5;
 			System::Windows::Forms::Label^ label4;
 			System::Windows::Forms::Label^ label6;
+			System::Windows::Forms::Label^ label9;
+			System::Windows::Forms::Label^ label10;
 			this->dexterity = (gcnew System::Windows::Forms::TextBox());
 			this->strength = (gcnew System::Windows::Forms::TextBox());
 			this->intelligence = (gcnew System::Windows::Forms::TextBox());
@@ -298,8 +306,11 @@ private: System::Windows::Forms::CheckBox^ acqui;
 			this->tabboxthing = (gcnew System::Windows::Forms::TabControl());
 			this->tabpage1 = (gcnew System::Windows::Forms::TabPage());
 			this->panel4 = (gcnew System::Windows::Forms::Panel());
+			this->maxcharge = (gcnew System::Windows::Forms::CheckBox());
 			this->acqui = (gcnew System::Windows::Forms::CheckBox());
 			this->tabPage2 = (gcnew System::Windows::Forms::TabPage());
+			this->gold = (gcnew System::Windows::Forms::TextBox());
+			this->piety = (gcnew System::Windows::Forms::TextBox());
 			label2 = (gcnew System::Windows::Forms::Label());
 			label1 = (gcnew System::Windows::Forms::Label());
 			label3 = (gcnew System::Windows::Forms::Label());
@@ -307,6 +318,8 @@ private: System::Windows::Forms::CheckBox^ acqui;
 			label5 = (gcnew System::Windows::Forms::Label());
 			label4 = (gcnew System::Windows::Forms::Label());
 			label6 = (gcnew System::Windows::Forms::Label());
+			label9 = (gcnew System::Windows::Forms::Label());
+			label10 = (gcnew System::Windows::Forms::Label());
 			this->panel2->SuspendLayout();
 			this->panel1->SuspendLayout();
 			this->panel3->SuspendLayout();
@@ -561,6 +574,10 @@ private: System::Windows::Forms::CheckBox^ acqui;
 			// panel1
 			// 
 			this->panel1->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->panel1->Controls->Add(this->piety);
+			this->panel1->Controls->Add(this->gold);
+			this->panel1->Controls->Add(label10);
+			this->panel1->Controls->Add(label9);
 			this->panel1->Controls->Add(this->armour);
 			this->panel1->Controls->Add(this->armor);
 			this->panel1->Controls->Add(this->stealth);
@@ -1293,6 +1310,7 @@ private: System::Windows::Forms::CheckBox^ acqui;
 			// panel4
 			// 
 			this->panel4->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->panel4->Controls->Add(this->maxcharge);
 			this->panel4->Controls->Add(this->acqui);
 			this->panel4->Controls->Add(this->maxitems);
 			this->panel4->Controls->Add(this->mmapping);
@@ -1302,16 +1320,28 @@ private: System::Windows::Forms::CheckBox^ acqui;
 			this->panel4->Size = System::Drawing::Size(165, 195);
 			this->panel4->TabIndex = 81;
 			// 
+			// maxcharge
+			// 
+			this->maxcharge->AutoSize = true;
+			this->maxcharge->Location = System::Drawing::Point(5, 82);
+			this->maxcharge->Name = L"maxcharge";
+			this->maxcharge->Size = System::Drawing::Size(157, 19);
+			this->maxcharge->TabIndex = 90;
+			this->maxcharge->Text = L"Maximum Wand Charges";
+			this->maxcharge->UseVisualStyleBackColor = true;
+			this->maxcharge->CheckedChanged += gcnew System::EventHandler(this, &MainForm::maxcharge_CheckedChanged);
+			// 
 			// acqui
 			// 
 			this->acqui->AutoSize = true;
-			this->acqui->Enabled = true;
-			this->acqui->Location = System::Drawing::Point(5, 82);
+			this->acqui->Enabled = false;
+			this->acqui->Location = System::Drawing::Point(5, 108);
 			this->acqui->Name = L"acqui";
 			this->acqui->Size = System::Drawing::Size(95, 19);
 			this->acqui->TabIndex = 89;
 			this->acqui->Text = L"Acquirement";
 			this->acqui->UseVisualStyleBackColor = true;
+			this->acqui->Visible = false;
 			this->acqui->CheckedChanged += gcnew System::EventHandler(this, &MainForm::acqui_CheckedChanged);
 			// 
 			// tabPage2
@@ -1325,6 +1355,44 @@ private: System::Windows::Forms::CheckBox^ acqui;
 			this->tabPage2->Size = System::Drawing::Size(536, 548);
 			this->tabPage2->TabIndex = 1;
 			this->tabPage2->Text = L"Stats";
+			// 
+			// label9
+			// 
+			label9->Location = System::Drawing::Point(365, 130);
+			label9->Name = L"label9";
+			label9->Size = System::Drawing::Size(68, 22);
+			label9->TabIndex = 85;
+			label9->Text = L"Gold";
+			label9->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
+			// 
+			// label10
+			// 
+			label10->Location = System::Drawing::Point(365, 160);
+			label10->Name = L"label10";
+			label10->Size = System::Drawing::Size(68, 22);
+			label10->TabIndex = 86;
+			label10->Text = L"Piety";
+			label10->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
+			// 
+			// gold
+			// 
+			this->gold->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->gold->Location = System::Drawing::Point(439, 130);
+			this->gold->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->gold->MaxLength = 9;
+			this->gold->Name = L"gold";
+			this->gold->Size = System::Drawing::Size(59, 22);
+			this->gold->TabIndex = 87;
+			// 
+			// piety
+			// 
+			this->piety->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->piety->Location = System::Drawing::Point(439, 160);
+			this->piety->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->piety->MaxLength = 3;
+			this->piety->Name = L"piety";
+			this->piety->Size = System::Drawing::Size(59, 22);
+			this->piety->TabIndex = 88;
 			// 
 			// MainForm
 			// 
@@ -1385,6 +1453,8 @@ private: System::Windows::Forms::CheckBox^ acqui;
 	private: System::Void maxitems_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 	private: System::Void mmapping_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 	private: System::Void acqui_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
+	private: System::Void maxcharge_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
+
 };
 
 };

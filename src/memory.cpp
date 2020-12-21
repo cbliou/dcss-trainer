@@ -31,6 +31,30 @@ void mem::PatchItemFlag(uintptr_t* start, const uintptr_t* flag) {
 	
 }
 
+// id 11 is misc evocables
+// lets do this soon!! it's kinda hard to track down tho
+// each evokeable type shares it's exp charge (like if u have two lightning rods, they both pool from the same exp)
+// maybe try looking in user struct
+
+/* change wand charges to max */
+void mem::WandChargePatch(uintptr_t* start, uintptr_t* bytes, int numBytes, uintptr_t offset) {
+
+	DWORD oldprotect;
+	// change the read/write permissions of the inventory location
+	VirtualProtect(start + inventoryAddrs::firstInventorySlot, 52 * inventoryAddrs::inventoryOffset, PAGE_EXECUTE_READWRITE, &oldprotect);
+	for (unsigned int i = 0; i <= 52; ++i) {
+
+		BYTE* itemID = (BYTE*)((uintptr_t)start + inventoryAddrs::firstInventorySlot + inventoryAddrs::itemTypeOffset + i * inventoryAddrs::inventoryOffset);
+		if (*itemID != 3) {
+			continue;
+		}
+
+		memcpy((uintptr_t*)((uintptr_t)start + offset + inventoryAddrs::firstInventorySlot + i * inventoryAddrs::inventoryOffset), bytes, numBytes);
+	}
+	VirtualProtect(start + inventoryAddrs::firstInventorySlot, 52 * inventoryAddrs::inventoryOffset, oldprotect, &oldprotect);
+
+}
+
 void mem::InventoryPatch(uintptr_t* start, uintptr_t* bytes, int numBytes, uintptr_t offset) {
 
 	DWORD oldprotect;
@@ -40,8 +64,8 @@ void mem::InventoryPatch(uintptr_t* start, uintptr_t* bytes, int numBytes, uintp
 		
 		// check if item ID is jewellery, armor, weapon, or the chunks of flesh (flesh was causing crashes)
 		BYTE* itemID = (BYTE*)((uintptr_t)start + inventoryAddrs::firstInventorySlot + inventoryAddrs::itemTypeOffset + i * inventoryAddrs::inventoryOffset);
-		// 0 weapon, 2 armor, 6 jewellery,
-		if (*itemID == 0 || *itemID == 2 || *itemID == 6) {
+		// 0 weapon, 2 armor, 6 jewellery, 3 wands
+		if (*itemID == 0 || *itemID == 2 || *itemID == 3 || *itemID == 6) {
 			continue;
 		}
 		// 4, 21 chunks of flesh
@@ -51,16 +75,16 @@ void mem::InventoryPatch(uintptr_t* start, uintptr_t* bytes, int numBytes, uintp
 		}
 
 		// check if the inventory slot has been filled yet
+		// by default, empty inventory slots have item id 0 and sub id 0
 		uintptr_t* memLoc = (uintptr_t*)((uintptr_t)start + inventoryAddrs::firstInventorySlot + offset + i * inventoryAddrs::inventoryOffset);
-		uintptr_t arr[2] = { 0, 0 };
+		short arr[2] = { 0, 0 };
 		memcpy(arr, memLoc, numBytes);
-		if (Convert::ToInt16(*arr) == 0) {
-			logger::WriteLinetoConsole("Location " + i + " failed");
+		if (Convert::ToInt16(arr[0] + arr[1] * 256) == 0) {
 			continue;
 		}
 
 		// if not, we good
-		memcpy(memLoc, bytes, numBytes);
+		memcpy((uintptr_t*)((uintptr_t) start + offset + inventoryAddrs::firstInventorySlot + i * inventoryAddrs::inventoryOffset), bytes, numBytes);
 	}
 	VirtualProtect(start + inventoryAddrs::firstInventorySlot, 52 * inventoryAddrs::inventoryOffset, oldprotect, &oldprotect);
 

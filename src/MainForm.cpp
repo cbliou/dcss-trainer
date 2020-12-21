@@ -1,4 +1,3 @@
-#pragma once
 #include <math.h>
 #include "stdafx.h"
 #include "MainForm.h"
@@ -14,14 +13,14 @@ using namespace dcsstrainer;
 using namespace System;
 
 // forward declarations
-//void attach_crawl();
 void set_stat(Windows::Forms::TextBox^ text, uintptr_t addy);
 void set_skill(Windows::Forms::TextBox^ param, uintptr_t addy);
+void set_gold(Windows::Forms::TextBox^ param, uintptr_t addy);
+void set_piety(Windows::Forms::TextBox^ param, uintptr_t addy);
 
 // globals
 static bool isAttached = false, autoIdentify = false, oneHP = false, freeze = false, sleep = false;
-static bool maxItems = false, magicMap = false;
-//uintptr_t moduleBase = NULL;
+static bool maxItems = false, magicMap = false, maxCharges = false;
 
 [STAThread]
 DWORD APIENTRY Main() {
@@ -34,7 +33,7 @@ DWORD APIENTRY Main() {
 
 }
 
-// needed to tell complier this is unmanaged code
+// needed to tell complier this is unmanaged code, otherwise your DLL will not inject.
 #pragma unmanaged
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpvReserved) {
 
@@ -58,28 +57,14 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpvReserved) {
 #pragma managed
 // every 200ms, do this
 void MainForm::GUITimer_Tick(System::Object^ sender, System::EventArgs^ e) {
-	// figure out how to just do this once lmfao
-	moduleBase = (uintptr_t)GetModuleHandle(NULL);
+
 	attached->Text = "Active!";
 	attached->ForeColor = System::Drawing::Color::DarkGreen;
-	/*
-	attach_crawl();
-
-	if (isAttached) {
-		attached->Text = "Attached to Crawl!";
-		attached->ForeColor = System::Drawing::Color::DarkGreen;
-	}
-	else {
-		attached->Text = "Game not running!";
-		attached->ForeColor = System::Drawing::Color::DarkRed;
-	}
-	*/
 
 	// each call requires two virtualprotect calls. can be sped up if we just called once for all hacks
 	if (autoIdentify) {
 		mem::PatchItemFlag((uintptr_t*)moduleBase, &itemFlags::identMask);
 	}
-	
 
 	if (oneHP) {
 		uintptr_t hp = 1;
@@ -106,48 +91,46 @@ void MainForm::GUITimer_Tick(System::Object^ sender, System::EventArgs^ e) {
 	}
 
 	if (maxItems) {
-		uintptr_t arr[1] = { 0xFF };
-		mem::InventoryPatch((uintptr_t*)moduleBase, arr, 1, inventoryAddrs::numItemsOffset);
+		// this is written in little endian format
+		char arr[2] = { 0x00, 0x7F };
+		mem::InventoryPatch((uintptr_t*)moduleBase, (uintptr_t*)arr, 2, inventoryAddrs::numItemsOffset);
 	}
-	/*
-	if (magicMap) {
 
-		//hook will deal with updating the need to magic map
-		if (needsMagicMap) {
-			Sleep(1000);
-			coord_def a = coord_def{ 20, 20 };
-			magic_mapping(1000, 500, false, false, false, a);
-			needsMagicMap = false;
-		}
-
+	if (maxCharges) {
+		char arr[2] = { 0x00, 0x7F };
+		mem::WandChargePatch((uintptr_t*)moduleBase, (uintptr_t*)arr, 2, inventoryAddrs::numChargeOffset);
+		logger::WriteLinetoConsole("Setting wand charges to a huge number.");
 	}
-	*/
+	 
+}
 
-	
-
+void MainForm::maxcharge_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	if (this->maxcharge->Checked) {
+		maxCharges = true;
+	}
+	else {
+		maxCharges = false;
+		logger::WriteLinetoConsole("Setting wand charges to a huge number.");
+	}
 }
 
 void MainForm::acqui_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
 	if (this->acqui->Checked) {
-		
 		// at 50, 32
 		// ok, the function calls, but the gui is fucked up
 		// gonna disable this for now until i can figure out the TIB discrepancies between this thread and crawl's
 		Sleep(2000);
 		acquirement();
-		
 	}
 }
 
 void MainForm::mmapping_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
 	if (this->mmapping->Checked) {
-		//magicMap = true;
 		hooks::Hook(moduleBase, hookMapChangeAddy, hooks::MapChange, 6);
 		hooks::Hook(moduleBase, updateTickAddy, hooks::ApplyMapChange, 7);
 		logger::WriteLinetoConsole("Activated auto-magic mapping.");
 	}
 	else {
-		// magicMap = false;
 		// crawl-tiles.exe+58B7DC - 8B 85 A4FEFFFF        - mov eax,[ebp-0000015C]
 		mem::Patch((uintptr_t*)(moduleBase + hookMapChangeAddy), (uintptr_t*)"\x8B\x85\xA4\xFE\xFF\xFF", 6);
 		// crawl - tiles.exe + 6D60E9 - C7 04 24  01000000 - mov[esp], 00000001 { 1 }
@@ -370,7 +353,6 @@ void set_skill(Windows::Forms::TextBox^ param, uintptr_t addy) {
 
 	// if empty
 	if (param->Text == "") {
-
 		set_empty_skill(param, addy);
 		return;
 	}
@@ -386,10 +368,10 @@ void set_skill(Windows::Forms::TextBox^ param, uintptr_t addy) {
 			}
 			// add remaining exp
 			short actualEXP = leveltoEXP.at((int)roundedLevel) + (rawLevel - roundedLevel) * (leveltoEXP.at(roundedLevel + 1) - leveltoEXP.at(roundedLevel));
-			mem::Patch((uintptr_t*)(moduleBase + addy), (uintptr_t*) &actualEXP, 2);//, process);
+			mem::Patch((uintptr_t*)(moduleBase + addy), (uintptr_t*) &actualEXP, 2);
 		}
 		else {
-			mem::Patch((uintptr_t*)(moduleBase + addy), (uintptr_t*) &leveltoEXP.at(27), 2);//, process);
+			mem::Patch((uintptr_t*)(moduleBase + addy), (uintptr_t*) &leveltoEXP.at(27), 2);
 		}
 	}
 	catch (Exception^) {
@@ -398,9 +380,56 @@ void set_skill(Windows::Forms::TextBox^ param, uintptr_t addy) {
 
 }
 
+void set_empty_gp(Windows::Forms::TextBox^ param, uintptr_t addy, unsigned int n) {
+	unsigned char * buffer = new unsigned char[n];
+	mem::Read((uintptr_t*)(moduleBase + addy), (uintptr_t*)buffer, n);
+	param->Text = Convert::ToString(*buffer);
+	delete[] buffer;
+}
 
+/* set gold value */
+void set_gold(Windows::Forms::TextBox^ param, uintptr_t addy) {
+
+	if (param->Text == "") {
+		set_empty_gp(param, addy, 4);
+		return;
+	}
+
+	try {
+		int gold = (int) Convert::ToDecimal(param->Text);
+		mem::Patch((uintptr_t*)(moduleBase + addy), (uintptr_t*)&gold, 4);
+	}
+	catch (Exception^) {
+		set_empty_gp(param, addy, 4);
+	}
+
+}
+
+/* set piety value */
+void set_piety(Windows::Forms::TextBox^ param, uintptr_t addy) {
+
+	if (param->Text == "") {
+		set_empty_gp(param, addy, 1);
+		return;
+	}
+
+	try {
+		unsigned char piety = (unsigned char)Convert::ToByte(param->Text);
+		mem::Patch((uintptr_t*)(moduleBase + addy), (uintptr_t*)&piety, 1);
+	}
+	catch (Exception^) {
+		set_empty_gp(param, addy, 1);
+	}
+
+}
 
 void MainForm::button1_Click(System::Object^ sender, System::EventArgs^ e) {
+
+	// apply gold
+	set_gold(this->gold, goldAddy);
+
+	// apply piety
+	set_piety(this->piety, pietyAddy);
 
 	// Apply stats
 	set_stat(this->intelligence, intAddy);
@@ -440,7 +469,7 @@ void MainForm::button1_Click(System::Object^ sender, System::EventArgs^ e) {
 	set_skill(this->evocations, evocationsAddy);
 	set_skill(this->stealth, stealthAddy);
 
-	logger::WriteLinetoConsole("Refreshed/Updated stat and skill values.");
+	logger::WriteLinetoConsole("Refreshed/Updated stat, gold, piety, and skill values.");
 
 }
 

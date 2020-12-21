@@ -1,5 +1,7 @@
 #include "process.h"
 
+/* This is from guidedhacking.com, check out their website for good tutorials. */
+
 DWORD GetProcessID(const wchar_t* name)
 {
 	DWORD procID = 0;

@@ -142,13 +142,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="dcsstrainer.cpp" />
-    <ClCompile Include="LoadLibraryR.c" />
     <ClCompile Include="process.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LoadLibraryR.h" />
     <ClInclude Include="process.h" />
-    <ClInclude Include="ReflectiveDLLInjection.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\src\src.vcxproj" />

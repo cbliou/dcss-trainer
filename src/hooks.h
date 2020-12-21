@@ -129,6 +129,7 @@ skip:		mov eax, seax
 
 	}
 
+	/* this function is depreciated, do not use*/
 	void __declspec(naked) hookMapChange(void) {
 
 		/*
