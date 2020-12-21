@@ -6,8 +6,17 @@ Various hacks for Dungeon Crawl Stone Soup version 0.25.0. You can find the game
 Download this project by cloning the repository:
 
 ```bash
-git clone https://github.com/cbliou/dcss-trainer.git
+git clone https://github.com/jacketweather/dcss-trainer.git
 ```
+
+## Build
+- Download MSVC and the following workloads:
+ - Desktop development with C++ (also check C++/CLI support as this project mixes C# and C++ code)
+ - .NET desktop development
+- Open the `.sln` file, you should be good to go.
+
+If not, let me know; I can try to help.
+
 
 ## Use
 This trainer only supports the `tiles` version of crawl. It only supports version 0.25.0; the trainer will most likely not work on other versions of crawl.
