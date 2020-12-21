@@ -7,7 +7,6 @@ HANDLE process = NULL, thread = NULL;
 wchar_t crawlName[30] = L"crawl-tiles.exe";
 wchar_t dllName[80] = L"src.dll";
 
-
 void inject_trainer() {
 
 	processID = GetProcessID((wchar_t*)crawlName);
