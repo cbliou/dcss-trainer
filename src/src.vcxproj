@@ -153,11 +153,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="hooks.cpp" />
-    <ClCompile Include="internalfuncs.cpp" />
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="memory.cpp" />
     <ClCompile Include="MainForm.cpp" />
-    <ClCompile Include="process.cpp" />
     <ClCompile Include="util.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -172,7 +170,6 @@
     </ClInclude>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="memory.h" />
-    <ClInclude Include="process.h" />
     <ClInclude Include="util.h" />
   </ItemGroup>
   <ItemGroup>
