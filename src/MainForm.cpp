@@ -21,7 +21,7 @@ void set_piety(Windows::Forms::TextBox^ param, uintptr_t addy);
 // globals
 static HMODULE hModule;
 static bool isAttached = false, autoIdentify = false, oneHP = false, freeze = false, sleep = false;
-static bool maxItems = false, magicMap = false, maxCharges = false;
+static bool maxItems = false, magicMap = false, maxCharges = false, allyMaxSpeed = false, convertToAlly = false;;
 
 static unsigned int maxMutVal = 3;
 static unsigned int medMutVal = 2;
@@ -33,11 +33,11 @@ DWORD APIENTRY Main() {
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
 	Application::Run(gcnew MainForm());
-	FreeLibraryAndExitThread(hModule, 0);
 	Application::Exit();
 	return 0;
 
 }
+
 
 // needed to tell complier this is unmanaged code, otherwise your DLL will not inject.
 #pragma unmanaged
@@ -61,11 +61,25 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpvReserved) {
 }
 
 #pragma managed
-// every 200ms, do this
+/* should optimize this but meh */
 void MainForm::GUITimer_Tick(System::Object^ sender, System::EventArgs^ e) {
 
 	attached->Text = "Active!";
 	attached->ForeColor = System::Drawing::Color::DarkGreen;
+
+	if (allyMaxSpeed) {
+		uintptr_t spd = 99;
+		mem::AllyPatch((uintptr_t*)moduleBase, &spd, 1, envAddrs::speedOffset);
+	}
+
+	if (convertToAlly) {
+		uintptr_t a = 4;
+		uintptr_t mask = 0x00;
+		mem::EntityPatch((uintptr_t*)moduleBase, &a, 1, envAddrs::allyOffset);
+		/* after we convert, we need to wake them up as a possible edge case*/
+		mem::AllyPatch((uintptr_t*)moduleBase, &statusMasks::nomask, 4, envAddrs::statusOffset);
+		mem::AllyPatch((uintptr_t*)moduleBase, &mask, 1, envAddrs::sleepOffset);
+	}
 
 	// each call requires two virtualprotect calls. can be sped up if we just called once for all hacks
 	if (autoIdentify) {
@@ -106,7 +120,40 @@ void MainForm::GUITimer_Tick(System::Object^ sender, System::EventArgs^ e) {
 		char arr[2] = { 0x00, 0x7F };
 		mem::WandChargePatch((uintptr_t*)moduleBase, (uintptr_t*)arr, 2, inventoryAddrs::numChargeOffset);
 	}
+
+
 	 
+}
+
+void MainForm::checkBox108_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	if (this->allymaxspd->Checked) {
+		allyMaxSpeed = true;
+		logger::WriteLinetoConsole("Setting ally speed to maximum.");
+	}
+	else {
+		allyMaxSpeed = false;
+	}
+}
+
+void MainForm::checkBox109_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	if (this->convertally->Checked) {
+		convertToAlly = true;
+		logger::WriteLinetoConsole("Converting all monsters to allies.");
+	}
+	else {
+		convertToAlly = false;
+	}
+}
+
+void MainForm::minmovspd_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	if (this->minmovspd->Checked) {
+		mem::Patch((uintptr_t*)(moduleBase + minMovementSpeedAddy), (uintptr_t*)"\xB8\x01\x00\x00\x00\x90\x90\x90", 8);
+		logger::WriteLinetoConsole("Movements now take 0.1 of a turn.");
+	}
+	else {
+		mem::Patch((uintptr_t*)(moduleBase + minMovementSpeedAddy), (uintptr_t*)"\xB8\x06\x00\x00\x00\x0F\x4D\xC3", 8);
+		logger::WriteLinetoConsole("Restoring movement speed to normal.");
+	}
 }
 
 void MainForm::maxcharge_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
@@ -1232,7 +1279,6 @@ void MainForm::button1_Click_1(System::Object^ sender, System::EventArgs^ e) {
 	mem::Patch((uintptr_t*)(moduleBase + mutAddrs::jellySensing), &minMutVal, 1);
 	mem::Patch((uintptr_t*)(moduleBase + mutAddrs::tendrils), &minMutVal, 1);
 	mem::Patch((uintptr_t*)(moduleBase + mutAddrs::augmentation), &maxMutVal, 1);
-	mem::Patch((uintptr_t*)(moduleBase + mutAddrs::tendrils), &medMutVal, 1);
 	mem::Patch((uintptr_t*)(moduleBase + mutAddrs::translucentSkin), &maxMutVal, 1);
 	mem::Patch((uintptr_t*)(moduleBase + mutAddrs::pseudopods), &minMutVal, 1);
 	mem::Patch((uintptr_t*)(moduleBase + mutAddrs::gelatinousBody), &maxMutVal, 1);
@@ -1570,7 +1616,7 @@ void MainForm::checkBox198_CheckedChanged(System::Object^ sender, System::EventA
 
 void MainForm::checkBox199_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
 	if (this->checkBox199->Checked)
-		mem::Patch((uintptr_t*)(moduleBase + mutAddrs::deformedBody), &maxMutVal, 1);
+		mem::Patch((uintptr_t*)(moduleBase + mutAddrs::deformedBody), &minMutVal, 1);
 	else
 		mem::Patch((uintptr_t*)(moduleBase + mutAddrs::deformedBody), &noMutVal, 1);
 }

@@ -295,6 +295,11 @@ private: System::Windows::Forms::CheckBox^ checkBox102;
 private: System::Windows::Forms::CheckBox^ checkBox103;
 private: System::Windows::Forms::Button^ button2;
 private: System::Windows::Forms::Button^ button1;
+private: System::Windows::Forms::CheckBox^ minmovspd;
+private: System::Windows::Forms::CheckBox^ allymaxspd;
+private: System::Windows::Forms::CheckBox^ convertally;
+
+
 
 
 
@@ -375,6 +380,7 @@ private: System::Windows::Forms::Button^ button1;
 			this->attachedtext = (gcnew System::Windows::Forms::Label());
 			this->applystats = (gcnew System::Windows::Forms::Button());
 			this->panel2 = (gcnew System::Windows::Forms::Panel());
+			this->minmovspd = (gcnew System::Windows::Forms::CheckBox());
 			this->maxitems = (gcnew System::Windows::Forms::CheckBox());
 			this->idinven = (gcnew System::Windows::Forms::CheckBox());
 			this->onehp = (gcnew System::Windows::Forms::CheckBox());
@@ -444,6 +450,8 @@ private: System::Windows::Forms::Button^ button1;
 			this->label58 = (gcnew System::Windows::Forms::Label());
 			this->maces = (gcnew System::Windows::Forms::TextBox());
 			this->panel3 = (gcnew System::Windows::Forms::Panel());
+			this->convertally = (gcnew System::Windows::Forms::CheckBox());
+			this->allymaxspd = (gcnew System::Windows::Forms::CheckBox());
 			this->permasleep = (gcnew System::Windows::Forms::CheckBox());
 			this->instakill = (gcnew System::Windows::Forms::CheckBox());
 			this->disablemovement = (gcnew System::Windows::Forms::CheckBox());
@@ -640,36 +648,36 @@ private: System::Windows::Forms::Button^ button1;
 			customstat->BackColor = System::Drawing::Color::Transparent;
 			customstat->Location = System::Drawing::Point(6, 4);
 			customstat->Name = L"customstat";
-			customstat->Size = System::Drawing::Size(75, 15);
+			customstat->Size = System::Drawing::Size(98, 15);
 			customstat->TabIndex = 1;
-			customstat->Text = L"Custom Stats";
+			customstat->Text = L"Custom Skill Stats";
 			// 
 			// label5
 			// 
 			label5->AutoSize = true;
-			label5->Location = System::Drawing::Point(6, 4);
+			label5->Location = System::Drawing::Point(10, 3);
 			label5->Name = L"label5";
-			label5->Size = System::Drawing::Size(74, 15);
+			label5->Size = System::Drawing::Size(40, 15);
 			label5->TabIndex = 1;
-			label5->Text = L"Player Hacks";
+			label5->Text = L"Player";
 			// 
 			// label4
 			// 
 			label4->AutoSize = true;
-			label4->Location = System::Drawing::Point(177, 3);
+			label4->Location = System::Drawing::Point(183, 3);
 			label4->Name = L"label4";
-			label4->Size = System::Drawing::Size(86, 15);
+			label4->Size = System::Drawing::Size(80, 15);
 			label4->TabIndex = 1;
-			label4->Text = L"Monster Hacks";
+			label4->Text = L"Monster / Ally";
 			// 
 			// label6
 			// 
 			label6->AutoSize = true;
-			label6->Location = System::Drawing::Point(354, 3);
+			label6->Location = System::Drawing::Point(356, 3);
 			label6->Name = L"label6";
-			label6->Size = System::Drawing::Size(82, 15);
+			label6->Size = System::Drawing::Size(108, 15);
 			label6->TabIndex = 1;
-			label6->Text = L"Miscellaneous";
+			label6->Text = L"Item / Environment";
 			// 
 			// label9
 			// 
@@ -745,17 +753,17 @@ private: System::Windows::Forms::Button^ button1;
 			// 
 			// ConsoleLog
 			// 
-			this->ConsoleLog->BackColor = System::Drawing::SystemColors::Control;
-			this->ConsoleLog->BorderStyle = System::Windows::Forms::BorderStyle::None;
+			this->ConsoleLog->BackColor = System::Drawing::Color::White;
+			this->ConsoleLog->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->ConsoleLog->Enabled = false;
 			this->ConsoleLog->ForeColor = System::Drawing::SystemColors::ControlText;
 			this->ConsoleLog->FormattingEnabled = true;
 			this->ConsoleLog->ItemHeight = 15;
-			this->ConsoleLog->Location = System::Drawing::Point(3, 616);
+			this->ConsoleLog->Location = System::Drawing::Point(13, 462);
 			this->ConsoleLog->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->ConsoleLog->Name = L"ConsoleLog";
 			this->ConsoleLog->SelectionMode = System::Windows::Forms::SelectionMode::None;
-			this->ConsoleLog->Size = System::Drawing::Size(464, 15);
+			this->ConsoleLog->Size = System::Drawing::Size(510, 62);
 			this->ConsoleLog->TabIndex = 1;
 			// 
 			// godmode
@@ -804,13 +812,13 @@ private: System::Windows::Forms::Button^ button1;
 			// GUITimer
 			// 
 			this->GUITimer->Enabled = true;
-			this->GUITimer->Interval = 200;
+			this->GUITimer->Interval = 250;
 			this->GUITimer->Tick += gcnew System::EventHandler(this, &MainForm::GUITimer_Tick);
 			// 
 			// attached
 			// 
 			this->attached->AutoSize = true;
-			this->attached->Location = System::Drawing::Point(469, 616);
+			this->attached->Location = System::Drawing::Point(509, 616);
 			this->attached->Name = L"attached";
 			this->attached->Size = System::Drawing::Size(0, 15);
 			this->attached->TabIndex = 1;
@@ -819,7 +827,7 @@ private: System::Windows::Forms::Button^ button1;
 			// 
 			this->attachedtext->AutoSize = true;
 			this->attachedtext->ForeColor = System::Drawing::SystemColors::ControlText;
-			this->attachedtext->Location = System::Drawing::Point(427, 616);
+			this->attachedtext->Location = System::Drawing::Point(467, 616);
 			this->attachedtext->Name = L"attachedtext";
 			this->attachedtext->Size = System::Drawing::Size(44, 15);
 			this->attachedtext->TabIndex = 1;
@@ -831,20 +839,34 @@ private: System::Windows::Forms::Button^ button1;
 			this->applystats->Name = L"applystats";
 			this->applystats->Size = System::Drawing::Size(127, 26);
 			this->applystats->TabIndex = 37;
-			this->applystats->Text = L"Refresh + Apply Stats";
+			this->applystats->Text = L"Refresh + Apply";
 			this->applystats->UseVisualStyleBackColor = true;
 			this->applystats->Click += gcnew System::EventHandler(this, &MainForm::button1_Click);
 			// 
 			// panel2
 			// 
 			this->panel2->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->panel2->Controls->Add(this->minmovspd);
 			this->panel2->Controls->Add(this->nohunger);
 			this->panel2->Controls->Add(this->godmode);
 			this->panel2->Controls->Add(this->infinitemana);
-			this->panel2->Location = System::Drawing::Point(9, 21);
+			this->panel2->Location = System::Drawing::Point(13, 21);
 			this->panel2->Name = L"panel2";
-			this->panel2->Size = System::Drawing::Size(165, 195);
+			this->panel2->Size = System::Drawing::Size(164, 195);
 			this->panel2->TabIndex = 1;
+			// 
+			// minmovspd
+			// 
+			this->minmovspd->AutoSize = true;
+			this->minmovspd->Location = System::Drawing::Point(5, 82);
+			this->minmovspd->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->minmovspd->Name = L"minmovspd";
+			this->minmovspd->RightToLeft = System::Windows::Forms::RightToLeft::No;
+			this->minmovspd->Size = System::Drawing::Size(127, 19);
+			this->minmovspd->TabIndex = 4;
+			this->minmovspd->Text = L"0.1 AUT movement";
+			this->minmovspd->UseVisualStyleBackColor = true;
+			this->minmovspd->CheckedChanged += gcnew System::EventHandler(this, &MainForm::minmovspd_CheckedChanged);
 			// 
 			// maxitems
 			// 
@@ -1541,15 +1563,39 @@ private: System::Windows::Forms::Button^ button1;
 			// panel3
 			// 
 			this->panel3->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->panel3->Controls->Add(this->convertally);
+			this->panel3->Controls->Add(this->allymaxspd);
 			this->panel3->Controls->Add(this->permasleep);
 			this->panel3->Controls->Add(this->instakill);
 			this->panel3->Controls->Add(this->disablemovement);
 			this->panel3->Controls->Add(this->mfreeze);
 			this->panel3->Controls->Add(this->onehp);
-			this->panel3->Location = System::Drawing::Point(180, 21);
+			this->panel3->Location = System::Drawing::Point(186, 21);
 			this->panel3->Name = L"panel3";
-			this->panel3->Size = System::Drawing::Size(165, 195);
+			this->panel3->Size = System::Drawing::Size(164, 195);
 			this->panel3->TabIndex = 1;
+			// 
+			// convertally
+			// 
+			this->convertally->AutoSize = true;
+			this->convertally->Location = System::Drawing::Point(5, 160);
+			this->convertally->Name = L"convertally";
+			this->convertally->Size = System::Drawing::Size(120, 19);
+			this->convertally->TabIndex = 7;
+			this->convertally->Text = L"Convert All to Ally";
+			this->convertally->UseVisualStyleBackColor = true;
+			this->convertally->CheckedChanged += gcnew System::EventHandler(this, &MainForm::checkBox109_CheckedChanged);
+			// 
+			// allymaxspd
+			// 
+			this->allymaxspd->AutoSize = true;
+			this->allymaxspd->Location = System::Drawing::Point(5, 134);
+			this->allymaxspd->Name = L"allymaxspd";
+			this->allymaxspd->Size = System::Drawing::Size(105, 19);
+			this->allymaxspd->TabIndex = 6;
+			this->allymaxspd->Text = L"Ally Max Speed";
+			this->allymaxspd->UseVisualStyleBackColor = true;
+			this->allymaxspd->CheckedChanged += gcnew System::EventHandler(this, &MainForm::checkBox108_CheckedChanged);
 			// 
 			// permasleep
 			// 
@@ -1627,6 +1673,7 @@ private: System::Windows::Forms::Button^ button1;
 			this->tabpage1->Controls->Add(label6);
 			this->tabpage1->Controls->Add(this->panel4);
 			this->tabpage1->Controls->Add(label5);
+			this->tabpage1->Controls->Add(this->ConsoleLog);
 			this->tabpage1->Controls->Add(this->panel2);
 			this->tabpage1->Controls->Add(this->panel3);
 			this->tabpage1->Controls->Add(label4);
@@ -1644,9 +1691,9 @@ private: System::Windows::Forms::Button^ button1;
 			this->panel4->Controls->Add(this->maxitems);
 			this->panel4->Controls->Add(this->mmapping);
 			this->panel4->Controls->Add(this->idinven);
-			this->panel4->Location = System::Drawing::Point(353, 21);
+			this->panel4->Location = System::Drawing::Point(359, 21);
 			this->panel4->Name = L"panel4";
-			this->panel4->Size = System::Drawing::Size(165, 195);
+			this->panel4->Size = System::Drawing::Size(164, 195);
 			this->panel4->TabIndex = 1;
 			// 
 			// maxcharge
@@ -1668,6 +1715,7 @@ private: System::Windows::Forms::Button^ button1;
 			this->acqui->Name = L"acqui";
 			this->acqui->Size = System::Drawing::Size(95, 19);
 			this->acqui->TabIndex = 5;
+			this->acqui->TabStop = false;
 			this->acqui->Text = L"Acquirement";
 			this->acqui->UseVisualStyleBackColor = true;
 			this->acqui->Visible = false;
@@ -1683,7 +1731,7 @@ private: System::Windows::Forms::Button^ button1;
 			this->tabPage2->Name = L"tabPage2";
 			this->tabPage2->Size = System::Drawing::Size(536, 548);
 			this->tabPage2->TabIndex = 1;
-			this->tabPage2->Text = L"Stats";
+			this->tabPage2->Text = L"Skills / Various";
 			// 
 			// Mutations
 			// 
@@ -3362,7 +3410,6 @@ private: System::Windows::Forms::Button^ button1;
 			this->Controls->Add(this->attached);
 			this->Controls->Add(this->tabboxthing);
 			this->Controls->Add(this->attachedtext);
-			this->Controls->Add(this->ConsoleLog);
 			this->Font = (gcnew System::Drawing::Font(L"Lato", 8.999999F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->ForeColor = System::Drawing::SystemColors::Desktop;
@@ -3545,6 +3592,9 @@ private: System::Void checkBox198_CheckedChanged(System::Object^ sender, System:
 private: System::Void checkBox199_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 private: System::Void checkBox30_CheckedChanged_1(System::Object^ sender, System::EventArgs^ e);
 private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e);
+private: System::Void minmovspd_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
+private: System::Void checkBox108_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
+private: System::Void checkBox109_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 };
 
 };

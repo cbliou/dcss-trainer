@@ -23,11 +23,14 @@ namespace mem
 	void PatchItemFlag(uintptr_t* start, const uintptr_t* flag);
 
 	/*
-	Patches 4 bytes given an address to the first entity struct in the entity vector.
+	Patches bytes given an address to the first entity struct in the entity vector.
 	start : pointer to the memory location
 	process : handle to the process you are patching
 	*/
 	void EntityPatch(uintptr_t* start, const uintptr_t* bytes, int numBytes, uintptr_t offset);
+	
+	/* patches ally only*/
+	void AllyPatch(uintptr_t* start, const uintptr_t* bytes, int numBytes, uintptr_t offset);
 
 	/*
 	Patches a memory location in the inventory. Really should have several overrides

@@ -68,3 +68,15 @@ given an empty "enemy" in the environment, you can force an enemy to spawn by se
 
 address crawl-tiles.exe + BE1C20 stores a bunch of item dealing offsets:
 for example, scroll is crawl-tiles.exe + 5E2E55 + BE1C20
+
+### Possible incoming features
++ acquirement on command; opengl calls are failing tho
++ turn trainer on and off
++ Tile-based kill aura
++ Click to blink? (seems like a good fcn hook lesson)
++ No negative status effects
++ Remove negative mutations
++ Unlock all spells
++ uncurse/curse all items (for Ashenzari)
++ Account for race aptitudes in skill levels
++ See if you can hook Shaft Self

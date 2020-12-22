@@ -90,14 +90,35 @@ void mem::InventoryPatch(uintptr_t* start, uintptr_t* bytes, int numBytes, uintp
 
 }
 
+/* patch enemy */
 void mem::EntityPatch(uintptr_t* start, const uintptr_t* bytes, int numBytes, uintptr_t offset) {
 
 	DWORD oldprotect;
-
 	// change the read/write permissions of the entity location
 	VirtualProtect(start + envAddrs::firstEntityAddr, 701 * envAddrs::entityOffset, PAGE_EXECUTE_READWRITE, &oldprotect);
-	// loop through entity list, set hp to 1
 	for (unsigned int i = 0; i <= 701; ++i) {
+		// check if the entity is an ally or a neutral. if so, skip applying
+		uintptr_t* ally = (uintptr_t*)((uintptr_t)start + envAddrs::firstEntityAddr + i * envAddrs::entityOffset + envAddrs::allyOffset);
+		if (*ally > 0) {
+			continue;
+		}
+
+		memcpy(start + (envAddrs::firstEntityAddr + offset + i * envAddrs::entityOffset) / sizeof(offset), bytes, numBytes);
+	}
+	VirtualProtect(start + envAddrs::firstEntityAddr, 701 * envAddrs::entityOffset, oldprotect, &oldprotect);
+}
+
+/* patch ally */
+void mem::AllyPatch(uintptr_t* start, const uintptr_t* bytes, int numBytes, uintptr_t offset) {
+
+	DWORD oldprotect;
+	// change the read/write permissions of the entity location
+	VirtualProtect(start + envAddrs::firstEntityAddr, 701 * envAddrs::entityOffset, PAGE_EXECUTE_READWRITE, &oldprotect);
+	for (unsigned int i = 0; i <= 701; ++i) {
+		uintptr_t* ally = (uintptr_t*)((uintptr_t)start + envAddrs::firstEntityAddr + i * envAddrs::entityOffset + envAddrs::allyOffset);
+		if (*ally == 0) {
+			continue;
+		}
 		memcpy(start + (envAddrs::firstEntityAddr + offset + i * envAddrs::entityOffset) / sizeof(offset), bytes, numBytes);
 	}
 
@@ -105,25 +126,18 @@ void mem::EntityPatch(uintptr_t* start, const uintptr_t* bytes, int numBytes, ui
 
 }
 
-
 void mem::Patch(uintptr_t* dst, uintptr_t* src, unsigned int size){
 	DWORD oldprotect;
-	// change the read/write permissions of the memory location
 	VirtualProtect(dst, size, PAGE_EXECUTE_READWRITE, &oldprotect);
-	// patch the bytes
 	memcpy(dst, src, size);
-	// change the permissions back
 	VirtualProtect(dst, size, oldprotect, &oldprotect);
 }
 
 void mem::Read(uintptr_t* dst, uintptr_t* arr, unsigned int size) {
 
 	DWORD oldprotect;
-	// change the read/write permissions of the memory location
 	VirtualProtect(dst, size, PAGE_EXECUTE_READWRITE, &oldprotect);
-	// read bytes
 	memcpy(arr, dst, size);
-	// change the permissions back
 	VirtualProtect(dst, size, oldprotect, &oldprotect);
 }
 

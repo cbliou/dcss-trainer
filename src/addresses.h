@@ -28,6 +28,7 @@ static uintptr_t updateTickRetAddy							= moduleBase + updateTickAddy + 7;
 static const uintptr_t godModeAddy							= 0x4A7FAE;
 static const uintptr_t infiniteManaAddy						= 0x4A83B9;
 static const uintptr_t noHungerAddy							= 0x198008;
+static const uintptr_t minMovementSpeedAddy					= 0x4AB525;
 
 // player 
 static const uintptr_t playerAddy							= 0xE7BD24;
@@ -91,7 +92,7 @@ struct inventoryAddrs {
 	static const uintptr_t inventoryOffset					= 0x5C;
 	static const uintptr_t itemTypeOffset					= 0x40;
 	static const uintptr_t subItemTypeOffset				= 0x41;
-	static const short numChargeOffset						= 0x42;
+	static const uintptr_t numChargeOffset					= 0x42;
 	static const uintptr_t numItemsOffset					= 0x4E;
 	static const uintptr_t idStatusFlagOffset				= 0x50;
 	static const uintptr_t curseStatusFlagOffset			= 0x51;
@@ -109,6 +110,7 @@ struct envAddrs {
 	static const uintptr_t firstEntityAddr					= 0xEAE108;
 	static const uintptr_t hpOffset							= 0x54;  // weird method, 1000 is dead
 	static const uintptr_t speedOffset						= 0x5C;
+	static const uintptr_t allyOffset						= 0xB0;
 	static const uintptr_t entityOffset						= 0x138;
 	static const uintptr_t statusOffset						= 0xE0;
 	static const uintptr_t sleepOffset						= 0xDC;

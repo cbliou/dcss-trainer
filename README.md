@@ -30,20 +30,29 @@ If not, let me know; I can try to help.
 + Godmode: Sets all incoming damage to your player to 0. Includes magic/poison damage. 
 + Infinite mana: Does not use mana when casting spells.
 + No Hunger: Your hunger does not decrease.
++ 0.1 AUT movement: Be able to move around at 0.1 AUT's. Doesn't apply in combat.
 + Set Mutation: You can set any mutation you want (including old version ones).
+    - **Warning**: Don't remove mutations that your species come with, otherwise the game will crash.
 
-#### Monster
-+ One HP: Sets all monster HP to one.
-+ Monster freeze: Freeze all monsters in place; they will not attack you.
-+ Disable movement: Disables monster movement. However, they will still attack. Enemies will physical attacks only will attack themselves. Enemies with ranged and magic attacks can attack you/summon monsters/etc.
+#### Monster / Ally
+
+All monster hacks will automatically ignore your allies (one hp, freeze, and disable movement).
 + Instakill: all attacks will instantly kill any monster. Works for ranged/magic/physical.
++ Freeze: Freeze all monsters in place; they will not attack you.
++ Disable movement: Disables monster movement. However, they can still attack. Enemies will physical attacks only will attack themselves. Enemies with ranged and magic attacks can attack you/summon monsters/etc.
+    - Note: You should probably use freeze instead if you have allies. Your allies will end up killing themselves (might add an ally ignore later)
++ One HP: Sets all monster HP to one.
++ Ally Max Speed: Set your allies' speed to 99.
++ Convert All to Ally: Every enemy on the level will become your ally, including uniques.
 
 #### Misc
++ Auto-Magic Map: will magic map your level after one tick has passed after you enter a new level.
 + Auto-identify items: Items in your inventory and environment will be automatically identified. Currently does not include shop items.
-+ Maximum items: Sets all useable items to 256.
-+ Auto-Magic Map: will magic map your level one second after you enter a new level. Will miss levels that take more than one second to generate.
++ Maximum items: Sets all useable items to 35212 (close to the max).
++ Maximum wand charges: Sets all wand uses to 35212.
 
-### Custom stats
+
+### Stats
 
 All missing/invalid values are set to your current values.
 
@@ -55,14 +64,5 @@ All missing/invalid values are set to your current values.
 ## Credits
 + [GuidedHacking](https://guidedhacking.com/) for the great tutorials. Check them out if you wish to hack games.
 
-### Possible incoming features
-+ acquirement on command; opengl calls are failing tho
-+ turn trainer on and off
-+ Tile-based kill aura
-+ Click to blink? (seems like a good fcn hook lesson)
-+ No negative status effects
-+ Remove negative mutations
-+ Unlock all spells
-+ uncurse/curse all items (for Ashenzari)
-+ Account for race aptitudes in skill levels
-+ See if you can hook Shaft Self
+## Bugs / Todo
++ If you close the trainer, you need to restart the game before reinjecting. Need to figure out how to properly eject dll.
