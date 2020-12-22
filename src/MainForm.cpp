@@ -35,7 +35,6 @@ DWORD APIENTRY Main() {
 	Application::Run(gcnew MainForm());
 	Application::Exit();
 	return 0;
-
 }
 
 
@@ -76,7 +75,7 @@ void MainForm::GUITimer_Tick(System::Object^ sender, System::EventArgs^ e) {
 		uintptr_t a = 4;
 		uintptr_t mask = 0x00;
 		mem::EntityPatch((uintptr_t*)moduleBase, &a, 1, envAddrs::allyOffset);
-		/* after we convert, we need to wake them up as a possible edge case*/
+		/* after we convert, we need to wake them up as a possible edge case */
 		mem::AllyPatch((uintptr_t*)moduleBase, &statusMasks::nomask, 4, envAddrs::statusOffset);
 		mem::AllyPatch((uintptr_t*)moduleBase, &mask, 1, envAddrs::sleepOffset);
 	}
@@ -1267,7 +1266,6 @@ void MainForm::button1_Click_1(System::Object^ sender, System::EventArgs^ e) {
 	mem::Patch((uintptr_t*)(moduleBase + mutAddrs::magicRegen), &minMutVal, 1);
 	mem::Patch((uintptr_t*)(moduleBase + mutAddrs::strongLegs), &medMutVal, 1);
 	mem::Patch((uintptr_t*)(moduleBase + mutAddrs::freezingCloudImmunity), &minMutVal, 1);
-	//mem::Patch((uintptr_t*)(moduleBase + mutAddrs::exoskeleton), &minMutVal, 1);
 	mem::Patch((uintptr_t*)(moduleBase + mutAddrs::rTrample), &minMutVal, 1);
 	mem::Patch((uintptr_t*)(moduleBase + mutAddrs::magicShield), &minMutVal, 1);
 	mem::Patch((uintptr_t*)(moduleBase + mutAddrs::constrict), &minMutVal, 1);
@@ -1302,8 +1300,6 @@ void MainForm::button1_Click_1(System::Object^ sender, System::EventArgs^ e) {
 	mem::Patch((uintptr_t*)(moduleBase + mutAddrs::rC), &maxMutVal, 1);
 	mem::Patch((uintptr_t*)(moduleBase + mutAddrs::clever), &maxMutVal, 1);
 	mem::Patch((uintptr_t*)(moduleBase + mutAddrs::clarity), &minMutVal, 1);
-	//mem::Patch((uintptr_t*)(moduleBase + mutAddrs::breathePoison), &minMutVal, 1);
-	//mem::Patch((uintptr_t*)(moduleBase + mutAddrs::breatheFlames), &maxMutVal, 1);
 	mem::Patch((uintptr_t*)(moduleBase + mutAddrs::blink), &minMutVal, 1);
 	mem::Patch((uintptr_t*)(moduleBase + mutAddrs::agile), &maxMutVal, 1);
 	mem::Patch((uintptr_t*)(moduleBase + mutAddrs::seeInv), &minMutVal, 1);
@@ -1328,7 +1324,6 @@ void MainForm::button1_Click_1(System::Object^ sender, System::EventArgs^ e) {
 	mem::Patch((uintptr_t*)(moduleBase + mutAddrs::beak), &minMutVal, 1);
 	mem::Patch((uintptr_t*)(moduleBase + mutAddrs::wings), &minMutVal, 1);
 	mem::Patch((uintptr_t*)(moduleBase + mutAddrs::antennae), &maxMutVal, 1);
-	//mem::Patch((uintptr_t*)(moduleBase + mutAddrs::herbivore), &minMutVal, 1);
 	mem::Patch((uintptr_t*)(moduleBase + mutAddrs::flexibleWeak), &maxMutVal, 1);
 	mem::Patch((uintptr_t*)(moduleBase + mutAddrs::mpPoweredWand), &noMutVal, 1);
 
@@ -1367,7 +1362,6 @@ void MainForm::button1_Click_1(System::Object^ sender, System::EventArgs^ e) {
 	this->checkBox90->Checked  = true;
 	this->checkBox91->Checked  = true;
 	this->checkBox92->Checked  = true;
-	//this->checkBox93->Checked  = true;
 	this->checkBox94->Checked  = true;
 	this->checkBox95->Checked  = true;
 	this->checkBox96->Checked  = true;
@@ -1405,13 +1399,10 @@ void MainForm::button1_Click_1(System::Object^ sender, System::EventArgs^ e) {
 	this->checkBox21->Checked  = true;
 	this->checkBox22->Checked  = true;
 	this->checkBox23->Checked  = true;
-	//this->checkBox24->Checked  = true;
-	//this->checkBox25->Checked  = true;
 	this->checkBox26->Checked  = true;
 	this->checkBox27->Checked  = true;
 	this->checkBox28->Checked  = true;
 	this->checkBox29->Checked  = true;
-	//this->checkBox30->Checked  = true;
 	this->checkBox17->Checked  = true;
 	this->checkBox18->Checked  = true;
 	this->checkBox19->Checked  = true;
@@ -1432,9 +1423,7 @@ void MainForm::button1_Click_1(System::Object^ sender, System::EventArgs^ e) {
 	this->checkBox4->Checked   = true;
 	this->checkBox2->Checked   = true;
 	this->checkBox1->Checked   = true;
-	//this->checkBox35->Checked  = true;
 	this->checkBox104->Checked = true;
-	// this->checkBox32->Checked  = true;
 	logger::WriteLinetoConsole("Activated all good mutations.");
 
 }

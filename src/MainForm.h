@@ -3033,9 +3033,9 @@ private: System::Windows::Forms::CheckBox^ convertally;
 			this->checkBox40->Font = (gcnew System::Drawing::Font(L"Lato", 8));
 			this->checkBox40->Location = System::Drawing::Point(5, 223);
 			this->checkBox40->Name = L"checkBox40";
-			this->checkBox40->Size = System::Drawing::Size(81, 17);
+			this->checkBox40->Size = System::Drawing::Size(44, 17);
 			this->checkBox40->TabIndex = 1;
-			this->checkBox40->Text = L"Resist Cold";
+			this->checkBox40->Text = L"rC+";
 			this->checkBox40->UseVisualStyleBackColor = true;
 			this->checkBox40->CheckedChanged += gcnew System::EventHandler(this, &MainForm::checkBox40_CheckedChanged);
 			// 
@@ -3570,7 +3570,6 @@ private: System::Void checkBox177_CheckedChanged(System::Object^ sender, System:
 private: System::Void checkBox105_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 private: System::Void checkBox106_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 private: System::Void checkBox107_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
-//private: System::Void checkBox30_CheckedChanged_1(System::Object^ sender, System::EventArgs^ e);
 private: System::Void checkBox101_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 private: System::Void checkBox102_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 private: System::Void checkBox103_CheckedChanged(System::Object^ sender, System::EventArgs^ e);

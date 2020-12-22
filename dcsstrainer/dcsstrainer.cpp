@@ -2,15 +2,16 @@
 #include <stdio.h>
 #include <tlhelp32.h>
 
-DWORD processID = NULL;
+DWORD processID = NULL, processID2 = NULL;
 HANDLE process = NULL, thread = NULL;
 wchar_t crawlName[30] = L"crawl-tiles.exe";
+wchar_t crawlName2[30] = L"crawl.exe";
 wchar_t dllName[80] = L"src.dll";
 
 void inject_trainer() {
 
 	processID = GetProcessID((wchar_t*)crawlName);
-	
+
 	// if successful
 	if (processID) {
 

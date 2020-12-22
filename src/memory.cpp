@@ -32,7 +32,7 @@ void mem::PatchItemFlag(uintptr_t* start, const uintptr_t* flag) {
 }
 
 // id 11 is misc evocables
-// lets do this soon!! it's kinda hard to track down tho
+// lets do misc evocables soon!! it's kinda hard to track down tho
 // each evokeable type shares it's exp charge (like if u have two lightning rods, they both pool from the same exp)
 // maybe try looking in user struct
 

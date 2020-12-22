@@ -30,8 +30,6 @@ namespace hooks {
 		uintptr_t relativeAddress = (uintptr_t)jumpAddress - hookAddress - moduleBase - 5;
 		// you need to increment one byte, dereference then add to just add one byte
 		*(uintptr_t*)(moduleBase + hookAddress + 1) = (uintptr_t)relativeAddress;
-		// this won't work unless u have a buffer
-		//memcpy((uintptr_t*) (moduleBase + hookAddress + 1), jumpAddress, 4);
 		// then however many bytes are left, write nops
 		memset((uintptr_t*)(moduleBase + hookAddress + 5), 0x90, size - 5);
 		VirtualProtect((LPVOID*)(moduleBase + hookAddress), size, oldprotect, &oldprotect);
@@ -91,8 +89,6 @@ namespace hooks {
 		- restore all registers
 		jump
 		*/
-		
-
 		__asm {
 			mov seax, eax
 			mov sebx, ebx
@@ -103,9 +99,9 @@ namespace hooks {
 			mov sebp, ebp
 			mov sesp, esp
 			mov eax, dword ptr needsMagicMap
-			test al, al							// if needsmagicmap == true:
+			test al, al										// if needsmagicmap == true:
 			mov [needsMagicMap], 0x0
-			je skip				// take branch if you don't need to map, in which zf = 1
+			je skip											// take branch if you don't need to map, in which zf = 1
 			mov dword ptr [esp + 0x14],  0x0000001A			// in bounds
 			mov dword ptr [esp + 0x18], 0x0000001A
 			mov dword ptr [esp + 0x10], 0x00000000
@@ -129,7 +125,7 @@ skip:		mov eax, seax
 
 	}
 
-	/* this function is depreciated, do not use*/
+	/* this function is depreciated, do not use */
 	void __declspec(naked) hookMapChange(void) {
 
 		/*
