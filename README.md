@@ -1,6 +1,11 @@
 # dcss-trainer
 
-Various hacks for Dungeon Crawl Stone Soup version 0.25.0, an amazing roguelike game. You can find the game [here](https://crawl.develz.org/download.htm) (navigate to past releases -> 0.25).
+Various hacks for Dungeon Crawl Stone Soup version 0.25.0, an amazing roguelike game. 
+
+
+<p align="center">
+<img src="https://i.imgur.com/KwhqySr.gif">
+</p>
 
 ## Download and Use
 Download this project by cloning the repository:
@@ -9,12 +14,15 @@ Download this project by cloning the repository:
 git clone https://github.com/jacketweather/dcss-trainer.git
 ```
 
-
 Requirements: 
-+ This trainer only supports the `tiles` version of crawl. Not the downloaded `crawl.exe` version; the installed `crawl-tiles.exe` version.
+
++ This trainer only supports the installed `tiles` version of crawl. Not the standalone `crawl.exe` version; the installed `crawl-tiles.exe` version.
+    - You can find the game [here](https://crawl.develz.org/download.htm) (navigate to `past releases` -> `0.25` -> `win32-installer`).
 + It only supports version 0.25.0; the trainer does not work on other versions of crawl.
 
-Use: Run the executable `dcsstrainer.exe`. It will attempt to inject the `src.dll`, which is the actual trainer itself. If successful, the trainer will appear and the console will close.
+Use: 
+
+Run the executable `dcsstrainer.exe`. It will attempt to inject the `src.dll`, which is the actual trainer itself. If successful, the trainer will appear and the console will close.
 You can also use any DLL injector to inject `src.dll.`
 
 ## Build
@@ -33,7 +41,7 @@ If not, let me know; I can try to help.
 + Godmode: Sets all incoming damage to your player to 0. Includes magic/poison damage. 
 + Infinite mana: Does not use mana when casting spells.
 + No Hunger: Your hunger does not decrease.
-+ 0.1 AUT movement: Be able to move around at 0.1 AUT's. Doesn't apply in combat.
++ 0.1 AUT movement: Be able to move around at 0.1 AUT's. Only applies to movement speed.
 + Set Mutation: You can set any mutation you want (including old version ones).
     - **Warning**: Don't remove mutations that your species come with, otherwise the game will crash.
 
@@ -55,7 +63,6 @@ One HP and Freeze will not apply to your allies.
 + Maximum items: Sets all useable items to 35212 (close to the max).
 + Maximum wand charges: Sets all wand uses to 35212.
 
-
 ### Stats
 
 All missing/invalid values are set to your current values.
@@ -67,6 +74,7 @@ All missing/invalid values are set to your current values.
 
 ## Credits
 + [GuidedHacking](https://guidedhacking.com/) for the great tutorials. Check them out if you wish to hack games.
++ [Cheat Engine](https://github.com/cheat-engine/cheat-engine/) for reversing the game functions / memory.
 + The Crawl team for making a great game.
 
 ## Bugs / Todo

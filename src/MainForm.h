@@ -368,6 +368,7 @@ private: System::Windows::Forms::CheckBox^ convertally;
 			System::Windows::Forms::Label^ label10;
 			System::Windows::Forms::Label^ label7;
 			System::Windows::Forms::Label^ label8;
+			System::Windows::Forms::Label^ label11;
 			this->dexterity = (gcnew System::Windows::Forms::TextBox());
 			this->strength = (gcnew System::Windows::Forms::TextBox());
 			this->intelligence = (gcnew System::Windows::Forms::TextBox());
@@ -603,6 +604,7 @@ private: System::Windows::Forms::CheckBox^ convertally;
 			label10 = (gcnew System::Windows::Forms::Label());
 			label7 = (gcnew System::Windows::Forms::Label());
 			label8 = (gcnew System::Windows::Forms::Label());
+			label11 = (gcnew System::Windows::Forms::Label());
 			this->panel2->SuspendLayout();
 			this->panel1->SuspendLayout();
 			this->panel3->SuspendLayout();
@@ -818,7 +820,7 @@ private: System::Windows::Forms::CheckBox^ convertally;
 			// attached
 			// 
 			this->attached->AutoSize = true;
-			this->attached->Location = System::Drawing::Point(509, 616);
+			this->attached->Location = System::Drawing::Point(511, 616);
 			this->attached->Name = L"attached";
 			this->attached->Size = System::Drawing::Size(0, 15);
 			this->attached->TabIndex = 1;
@@ -827,7 +829,7 @@ private: System::Windows::Forms::CheckBox^ convertally;
 			// 
 			this->attachedtext->AutoSize = true;
 			this->attachedtext->ForeColor = System::Drawing::SystemColors::ControlText;
-			this->attachedtext->Location = System::Drawing::Point(467, 616);
+			this->attachedtext->Location = System::Drawing::Point(469, 616);
 			this->attachedtext->Name = L"attachedtext";
 			this->attachedtext->Size = System::Drawing::Size(44, 15);
 			this->attachedtext->TabIndex = 1;
@@ -1670,6 +1672,7 @@ private: System::Windows::Forms::CheckBox^ convertally;
 			// tabpage1
 			// 
 			this->tabpage1->BackColor = System::Drawing::SystemColors::Control;
+			this->tabpage1->Controls->Add(label11);
 			this->tabpage1->Controls->Add(label6);
 			this->tabpage1->Controls->Add(this->panel4);
 			this->tabpage1->Controls->Add(label5);
@@ -3401,6 +3404,15 @@ private: System::Windows::Forms::CheckBox^ convertally;
 			this->checkBox1->UseVisualStyleBackColor = true;
 			this->checkBox1->CheckedChanged += gcnew System::EventHandler(this, &MainForm::checkBox1_CheckedChanged_1);
 			// 
+			// label11
+			// 
+			label11->AutoSize = true;
+			label11->Location = System::Drawing::Point(10, 445);
+			label11->Name = L"label11";
+			label11->Size = System::Drawing::Size(26, 15);
+			label11->TabIndex = 2;
+			label11->Text = L"Log";
+			// 
 			// MainForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(7, 15);
@@ -3417,7 +3429,7 @@ private: System::Windows::Forms::CheckBox^ convertally;
 			this->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->MaximizeBox = false;
 			this->Name = L"MainForm";
-			this->Text = L"DCSS v25.0 Trainer";
+			this->Text = L"DCSS v25.0 Trainer - made by jacketweather";
 			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &MainForm::MainForm_FormClosed);
 			this->Load += gcnew System::EventHandler(this, &MainForm::MainForm_Load);
 			this->panel2->ResumeLayout(false);
