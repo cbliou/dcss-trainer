@@ -719,6 +719,15 @@ private: System::Windows::Forms::CheckBox^ convertally;
 			label8->TabIndex = 1;
 			label8->Text = L"Bad Mutations";
 			// 
+			// label11
+			// 
+			label11->AutoSize = true;
+			label11->Location = System::Drawing::Point(10, 445);
+			label11->Name = L"label11";
+			label11->Size = System::Drawing::Size(26, 15);
+			label11->TabIndex = 2;
+			label11->Text = L"Log";
+			// 
 			// dexterity
 			// 
 			this->dexterity->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
@@ -3404,15 +3413,6 @@ private: System::Windows::Forms::CheckBox^ convertally;
 			this->checkBox1->UseVisualStyleBackColor = true;
 			this->checkBox1->CheckedChanged += gcnew System::EventHandler(this, &MainForm::checkBox1_CheckedChanged_1);
 			// 
-			// label11
-			// 
-			label11->AutoSize = true;
-			label11->Location = System::Drawing::Point(10, 445);
-			label11->Name = L"label11";
-			label11->Size = System::Drawing::Size(26, 15);
-			label11->TabIndex = 2;
-			label11->Text = L"Log";
-			// 
 			// MainForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(7, 15);
@@ -3424,7 +3424,7 @@ private: System::Windows::Forms::CheckBox^ convertally;
 			this->Controls->Add(this->attachedtext);
 			this->Font = (gcnew System::Drawing::Font(L"Lato", 8.999999F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->ForeColor = System::Drawing::SystemColors::Desktop;
+			this->ForeColor = System::Drawing::SystemColors::ActiveCaptionText;
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
 			this->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->MaximizeBox = false;

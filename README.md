@@ -11,7 +11,7 @@ Various hacks for Dungeon Crawl Stone Soup version 0.25.0, an amazing roguelike 
 Download this project by cloning the repository:
 
 ```bash
-git clone https://github.com/jacketweather/dcss-trainer.git
+git clone https://github.com/swrlly/dcss-trainer.git
 ```
 
 Requirements: 
