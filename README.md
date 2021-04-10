@@ -2,8 +2,9 @@
 
 Various hacks for Dungeon Crawl Stone Soup version 0.25.0, an amazing roguelike game. 
 
-
-![](dcsstrainer.png)
+<p align="center">
+<img src="dcsstrainer.png" />
+</p>
 
 ## Download and Use
 Download this project by cloning the repository:
